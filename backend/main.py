@@ -1,35 +1,29 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from . import models, schemas
 
-app = FastAPI()
-#models.Base.metadata.create_all(bind=engine)
+from .database import engine
+from . import models
 
-#리액트랑 연결
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=['http://localhost:3000'],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
+from .routers import (
+    members,
+    restriction_categories,
+    restriction_items,
+    member_restrictions,
+    reviews,
+    communities,
 )
 
-@app.get('/api/hello')
-def check_handler():
-    return {'name':'jisu'}
+app = FastAPI(title="Backend API")
 
+# 개발 단계에서는 유지 추천 (이미 DB에 테이블 있으면 없어도 됨)
+# models.Base.metadata.create_all(bind=engine)
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.include_router(members.router)
+app.include_router(restriction_categories.router)
+app.include_router(restriction_items.router)
+app.include_router(member_restrictions.router)
+app.include_router(reviews.router)
+app.include_router(communities.router)
