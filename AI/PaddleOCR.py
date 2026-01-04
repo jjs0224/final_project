@@ -1,90 +1,146 @@
 from pathlib import Path
 import os
 import re
+import json
+from typing import Any, Optional
+
 from paddleocr import PaddleOCR
 
-def extract_texts_from_ocr(res) -> list[str]:#OCR로 변환된 text 추출
-    """
-    PaddleOCR 결과 객체(res)에서
-    텍스트만 리스트 형태로 안전하게 추출
-    """
-    texts = []
+# -----------------------------
+# 1) Text normalization
+# -----------------------------
+import re
 
-    if hasattr(res, "texts"):
-        texts = res.texts
-
-    elif hasattr(res, "results"):
-        # 일부 버전 호환
-        for line in res.results:
-            if len(line) >= 2:
-                texts.append(line[1][0])
-
-    return texts
-
-def normalize_ocr_text(texts: list[str]) -> str:# 추출된 text 다듬기
+def normalize_ocr_text(texts: list[str]) -> str:
     """
-    OCR 텍스트 리스트를
-    하나의 정제된 문자열로 변환
+    OCR 텍스트 리스트에서
+    오직 '한글 + 공백'만 남기고 정제
     """
-    cleaned = []
+    cleaned: list[str] = []
 
     for t in texts:
-        t = t.strip()                     # 앞뒤 공백 제거
-        t = re.sub(r"\s+", " ", t)        # 중복 공백 제거
-        t = t.replace("·", " ")           # 메뉴판 특수문자 제거
-        cleaned.append(t)
+        if not isinstance(t, str):
+            continue
+
+        t = t.strip()
+
+        # 1) 한글과 공백만 남기고 전부 제거
+        t = re.sub(r"[^가-힣\s]", "", t)
+
+        # 2) 중복 공백 제거
+        t = re.sub(r"\s+", " ", t)
+
+        t = t.strip()
+        if t:
+            cleaned.append(t)
 
     return "\n".join(cleaned)
 
-BASE_DIR = Path(__file__).resolve().parent # 현재 파일의 상위폴더 즉 AI 폴더의 절대위치
-image_path = (BASE_DIR / "Upload_Images" / "image_1.jpg").resolve()   # 지금 당신 로그에 맞춤
+# -----------------------------
+# 2) JSON에서 텍스트를 재귀적으로 수집
+#    (PaddleOCR 버전/스키마 차이를 최대한 흡수)
+# -----------------------------
+TEXT_KEYS = {
+    "text", "texts",
+    "rec_text", "rec_texts",
+    "transcription", "transcriptions",
+    "ocr_text", "ocr_texts",
+}
+
+def collect_texts_from_json(obj: Any) -> list[str]:
+    """
+    JSON(dict/list/primitive)을 재귀 순회하며 텍스트로 보이는 값들을 수집
+    """
+    out: list[str] = []
+
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            # 키가 text 계열이면 우선 수집
+            if isinstance(k, str) and k.lower() in TEXT_KEYS:
+                if isinstance(v, str):
+                    out.append(v)
+                elif isinstance(v, list):
+                    out.extend([x for x in v if isinstance(x, str)])
+
+            # 계속 재귀 탐색
+            out.extend(collect_texts_from_json(v))
+
+    elif isinstance(obj, list):
+        for item in obj:
+            out.extend(collect_texts_from_json(item))
+
+    return out
+
+def get_latest_json(out_dir: Path) -> Optional[Path]:
+    """
+    out_dir 내에서 가장 최근 수정된 json 파일 경로 반환
+    """
+    json_files = list(out_dir.glob("*.json"))
+    if not json_files:
+        return None
+    return max(json_files, key=lambda p: p.stat().st_mtime)
+
+# -----------------------------
+# 3) Main
+# -----------------------------
+BASE_DIR = Path(__file__).resolve().parent
+image_path = (BASE_DIR / "Upload_Images" / "image_1.jpg").resolve()
 
 print("CWD:", os.getcwd())
 print("SCRIPT:", BASE_DIR)
 print("IMAGE:", image_path)
 print("EXISTS:", image_path.exists())
 
+# 결과 저장 폴더
+out_dir = BASE_DIR / "ocr_output"
+out_dir.mkdir(exist_ok=True)
+
 ocr = PaddleOCR(
     lang="korean",
-    use_textline_orientation=True,     # ✅ use_angle_cls 대신
+    use_textline_orientation=True,
 )
 
 print("\n=== PREDICT START ===")
-results = ocr.predict(str(image_path))   # ✅ 최신 권장 API
+results = ocr.predict(str(image_path))  # 최신 권장 API (iterable/generator 가능)
 
 got_any = False
-texts = []
-# ✅ predict()가 generator/iterable이면 반드시 순회해야 출력이 나옵니다.
+texts: list[str] = []
+
 for i, res in enumerate(results, start=1):
     got_any = True
     print(f"\n--- RESULT #{i} ---")
 
-    # 1) 가장 확실: res.print() (문서/이슈에서 많이 쓰는 방식)
+    # (선택) 콘솔 출력
     if hasattr(res, "print"):
         res.print()
 
-    # 2) JSON으로 저장/확인
+    # JSON 저장 → 저장된 JSON에서 텍스트 추출(핵심 해결방안)
     if hasattr(res, "save_to_json"):
-        out_dir = BASE_DIR / "ocr_output"
-        out_dir.mkdir(exist_ok=True)
-        res.save_to_json(str(out_dir))   # ocr_output 폴더에 json 저장
-        print("Saved JSON to:", out_dir)
+        # save_to_json이 내부적으로 파일명을 결정하므로, 저장 후 최신 파일을 잡는다.
+        res.save_to_json(str(out_dir))
+        latest = get_latest_json(out_dir)
 
-    # 3) 시각화 이미지 저장(박스 그려진 결과)
+        if latest is None:
+            print("WARN: JSON 파일을 찾지 못했습니다.")
+        else:
+            try:
+                data = json.loads(latest.read_text(encoding="utf-8"))
+                extracted = collect_texts_from_json(data)
+                texts.extend(extracted)
+                print("Saved JSON:", latest.name, "| extracted_texts:", len(extracted))
+            except Exception as e:
+                print("WARN: JSON 파싱/추출 실패:", e)
+
+    # (선택) 시각화 이미지 저장
     if hasattr(res, "save_to_img"):
-        out_dir = BASE_DIR / "ocr_output"
-        out_dir.mkdir(exist_ok=True)
         res.save_to_img(str(out_dir))
         print("Saved IMG to:", out_dir)
-
-    text = extract_texts_from_ocr(res)
-    texts = texts.append(text)
-norm_texts = normalize_ocr_text(texts)
-print(norm_texts)
 
 print("\n=== PREDICT END ===")
 if not got_any:
     print("결과 객체가 하나도 생성되지 않았습니다. (pipeline 출력이 비어 있음)")
-
-
-
+else:
+    print("texts_count:", len(texts))
+    final_text = normalize_ocr_text(texts)
+    print("\n=== NORMALIZED TEXT ===")
+    print(final_text if final_text else "(빈 결과: 텍스트가 추출되지 않았습니다.)")
