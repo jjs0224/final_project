@@ -1,11 +1,11 @@
 # backend/routers/members.py
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
 from ..database import get_db
 from .. import models, schemas
-from ..auth import hash_password
+from ..auth import hash_password, get_current_member
 
 
 router = APIRouter(prefix="/members", tags=["members"])
@@ -45,7 +45,19 @@ def list_members(db: Session = Depends(get_db)):
 
 
 @router.patch("/{member_id}", response_model=schemas.MemberRead)
-def update_member(member_id: int, payload: schemas.MemberUpdate, db: Session = Depends(get_db)):
+def update_member(
+    member_id: int,
+    payload: schemas.MemberUpdate,
+    db: Session = Depends(get_db),
+    current: models.Member = Depends(get_current_member),  # ✅ 인증(로그인) 필수
+):
+    # ✅ 본인만 수정 가능
+    if current.member_id != member_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You can only update your own account",
+        )
+
     m = db.query(models.Member).filter(models.Member.member_id == member_id).first()
     if not m:
         raise HTTPException(status_code=404, detail="Member not found")
