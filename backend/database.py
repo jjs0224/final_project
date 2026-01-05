@@ -20,6 +20,11 @@ DATABASE_URL = os.getenv(
 engine = create_engine(
     DATABASE_URL,
     pool_pre_ping=True,   # MySQL 연결 끊김 방지에 도움
+    connect_args={
+        "charset": "utf8mb4",
+        "use_unicode": True,
+        "init_command": "SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci",
+    },
 )
 
 SessionLocal = sessionmaker(

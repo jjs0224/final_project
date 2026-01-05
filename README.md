@@ -1,161 +1,142 @@
-# Local MySQL (Docker Compose) + Schema/Seed 자동 초기화
+# Backend API + MySQL (Docker Compose)
 
-이 저장소는 `docker-compose.yml`로 **MySQL 컨테이너를 띄우고**, `db/schema.sql` 및 `db/seed.sql`을 **최초 1회 자동 실행**하도록 구성되어 있습니다.
-
-## 1) 요구사항
-- Docker Desktop 설치 (Windows/Mac) 또는 Docker Engine (Linux)
-- `docker compose` 명령 사용 가능
-
-## 2) 원클릭 실행
-프로젝트 루트(= `docker-compose.yml`이 있는 위치)에서 아래 한 줄만 실행하세요.
-
-```bash
-docker compose up -d
-```
-
-컨테이너 상태 확인:
-```bash
-docker ps
-```
-
-로그 확인:
-```bash
-docker logs -f app_mysql
-```
-
-> 처음 실행 시 `mysql_data` 볼륨이 비어 있으므로,
-> `./db`의 `schema.sql`, `seed.sql`이 자동으로 실행됩니다.
-
-## 3) 접속 정보
-- Host: `127.0.0.1`
-- Port: `3306`
-- Database: `app_db`
-- Root:
-  - user: `root`
-  - password: `rootpassword`
-- App user:
-  - user: `app_user`
-  - password: `app_password`
-
-예) MySQL CLI로 접속:
-```bash
-mysql -h 127.0.0.1 -P 3306 -u app_user -papp_password app_db
-```
-
-## 4) 초기화(주의)
-`schema.sql/seed.sql`은 **MySQL 데이터 디렉토리가 비어 있을 때만(= 최초 1회)** 실행됩니다.
-
-스키마/시드를 다시 적용하려면 아래처럼 볼륨을 삭제하고 재시작하세요.
-
-```bash
-docker compose down -v
-docker compose up -d
-```
-
-## 5) 파일 설명
-- `db/schema.sql` : 테이블/제약조건(FK/INDEX/UNIQUE) 포함 스키마
-- `db/seed.sql`   : 초기 데이터(예시). 필요에 따라 수정/확장
-
-## 6) 자주 겪는 이슈
-### A) 포트 충돌(3306)
-이미 로컬에 MySQL이 3306을 사용 중이면 충돌이 납니다. 이 경우 `docker-compose.yml`에서 포트를 변경하세요.
-
-예:
-```yaml
-ports:
-  - "3307:3306"
-```
-그럼 접속도 3307로 합니다.
-
-### B) seed 수정했는데 반영이 안 됨
-볼륨에 데이터가 남아 있으면 init 스크립트가 다시 실행되지 않습니다.
-`docker compose down -v`로 볼륨 삭제 후 재실행하세요.
+이 저장소는 Docker Compose로 **MySQL(DB)** 과 **FastAPI(API)** 를 함께 실행하도록 구성되어 있습니다.  
+최초 실행 시 DB 컨테이너가 `backend/db` 아래의 초기화 스크립트(`schema.sql`, `seed.sql`)를 자동 실행합니다. fileciteturn1file0L14-L18
 
 ---
 
-## 7) FastAPI(로컬)에서 Compose MySQL에 연결하기
+## 1) 요구사항
 
-### 7.1 Python 패키지 설치
-FastAPI + SQLAlchemy + MySQL 드라이버 + dotenv 로더를 설치합니다.
+- Docker Desktop (Windows/Mac) 또는 Docker Engine (Linux)
+- `docker compose` 사용 가능
 
+---
+
+## 2) 빠른 시작 (팀원용: clone 후 1분 실행)
+
+### 2.1 환경변수 파일 준비
+
+`.env`는 커밋하지 않는 것이 안전합니다(`.gitignore`에 포함 권장).  
+대신 예시 파일을 복사해 사용하세요.
+
+- macOS / Linux
 ```bash
-pip install fastapi uvicorn sqlalchemy pymysql python-dotenv
+cp env.example .env
 ```
 
-> 이미 설치되어 있다면 생략 가능합니다.
-
-### 7.2 .env 생성
-프로젝트 루트에 `.env.example`이 있으니, 이를 복사해 `.env`를 만듭니다.
-
-- mac/linux
-```bash
-cp .env.example .env
-```
-
-- windows(cmd)
+- Windows (CMD)
 ```bat
-copy .env.example .env
+copy env.example .env
 ```
 
-`.env`의 값은 docker-compose.yml의 설정과 일치하도록 기본으로 채워져 있습니다:
-- DB_USER=app_user
-- DB_PASSWORD=app_password
-- DB_NAME=app_db
+> Compose는 `env_file: - .env`를 사용합니다. fileciteturn1file0L32-L36  
+> 예시로는 `DB_HOST=mysql`, `DB_PORT=3306`, `DB_NAME=app_db`, `DB_USER=app_user`, `DB_PASSWORD=app_password` 형태입니다. fileciteturn2file2L5-L10
 
-### 7.3 backend/database.py 수정(환경변수 기반 DATABASE_URL)
-아래처럼 `DATABASE_URL`을 하드코딩하지 말고 `.env`를 읽어 구성하세요.
+### 2.2 실행
 
-```python
-# backend/database.py
-import os
-from pathlib import Path
-from dotenv import load_dotenv
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+프로젝트 루트(= `docker-compose.yml` 위치)에서:
 
-# 프로젝트 루트의 .env 로드 (backend/ 아래에서 실행해도 동작)
-ROOT_DIR = Path(__file__).resolve().parents[1]
-load_dotenv(ROOT_DIR / ".env")
-
-DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
-DB_PORT = os.getenv("DB_PORT", "3306")
-DB_NAME = os.getenv("DB_NAME", "app_db")
-DB_USER = os.getenv("DB_USER", "app_user")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "app_password")
-
-# 단일 문자열을 쓰고 싶으면 .env에 DATABASE_URL을 직접 설정해도 됩니다.
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?charset=utf8mb4",
-)
-
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-Base = declarative_base()
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-```
-
-### 7.4 실행 순서(완전 재현)
-1) MySQL 컨테이너 실행(스키마/시드 최초 1회 자동 적용)
 ```bash
-docker compose up -d
+docker compose up --build
 ```
 
-2) FastAPI 실행
+### 2.3 접속/확인
+
+- Health Check: http://localhost:8000/health fileciteturn4file7L20-L22
+- Swagger UI: http://localhost:8000/docs
+- OpenAPI JSON: http://localhost:8000/openapi.json
+
+---
+
+## 3) 구성 요약
+
+### 3.1 컨테이너 2개가 정상입니다
+
+- `mysql` (MySQL 8) : `3306:3306` fileciteturn4file1L2-L13
+- `api` (FastAPI/Uvicorn) : `8000:8000` fileciteturn4file1L25-L46
+
+### 3.2 DB 초기화 스크립트
+
+MySQL 공식 이미지 동작 방식에 따라, **DB 볼륨이 비어 있는 “최초 1회”만** 아래 경로의 SQL이 자동 실행됩니다.
+
+- 호스트 경로: `./backend/db`
+- 컨테이너 경로: `/docker-entrypoint-initdb.d` fileciteturn1file0L14-L18
+
+> 만약 SQL 파일을 루트의 `./db`로 옮길 경우, compose의 마운트 경로도 함께 수정해야 합니다. fileciteturn1file0L16-L18
+
+---
+
+## 4) 자주 쓰는 명령어
+
+### 4.1 상태 확인
+```bash
+docker compose ps
+```
+
+### 4.2 로그 확인
+```bash
+docker compose logs -f mysql
+docker compose logs -f api
+```
+
+### 4.3 종료
+```bash
+docker compose down
+```
+
+### 4.4 DB까지 완전 초기화(주의: 데이터 삭제)
+초기화 SQL을 다시 적용하고 싶을 때:
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+---
+
+## 5) 로컬 개발 모드 (선택)
+
+DB는 Docker로 유지하고, API는 로컬에서 `--reload`로 개발하고 싶은 경우:
+
+1) DB만 실행
+```bash
+docker compose up -d mysql
+```
+
+2) 로컬 파이썬 환경 준비
+```bash
+pip install -r backend/requirements.txt
+```
+
+3) `.env` 준비(위 2.1 참고) 후 로컬 실행
 ```bash
 uvicorn backend.main:app --reload
 ```
 
-3) 확인
-- Swagger: http://127.0.0.1:8000/docs
-- DB 연결 확인: MySQL에 member/restriction_category 등 테이블이 생성되어 있어야 합니다.
+`backend/database.py`는 `.env`를 로드해 `DB_HOST/PORT/NAME/USER/PASSWORD` 조합으로 `DATABASE_URL`을 구성합니다. fileciteturn1file2L7-L19
 
-### 7.5 흔한 실수
-- **.env를 커밋하지 마세요**: 비밀번호가 들어갈 수 있으므로 `.gitignore`에 포함했습니다.
-- **포트 충돌**: 로컬 MySQL이 3306을 사용 중이면 compose 포트를 바꾸고 `.env`의 DB_PORT도 맞춰야 합니다.
+---
+
+## 6) 트러블슈팅
+
+### 6.1 MySQL 8 인증 에러: cryptography 필요
+MySQL 8의 기본 인증 방식(caching_sha2_password)로 접속 시, PyMySQL은 `cryptography`가 필요합니다.  
+현재 `requirements.txt`에 포함되어 있어야 정상 동작합니다. fileciteturn1file1L1-L7
+
+### 6.2 “Swagger는 뜨는데 일부 API 호출만 500”
+대부분 DB 연결/스키마 문제입니다.
+
+- `docker compose logs -f api`로 에러 스택 확인
+- `docker compose logs -f mysql`로 MySQL 초기화/테이블 생성 여부 확인
+- 스키마를 바꿨는데 반영이 안 되면 `docker compose down -v`로 볼륨 초기화 필요(4.4)
+
+### 6.3 포트 충돌
+- 로컬에서 이미 3306 또는 8000을 사용 중이면 충돌합니다.
+- `docker-compose.yml`의 `ports:`를 변경하고, 필요 시 `.env`의 `DB_PORT`도 맞추세요.
+
+---
+
+## 7) 보안/커밋 가이드
+
+- `.env`는 커밋하지 마세요(비밀 정보 포함 가능).
+- 대신 `env.example`을 커밋해 팀원이 복사해 쓰도록 합니다.
