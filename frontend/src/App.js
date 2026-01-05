@@ -1,25 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import {Route, Routes} from "react-router-dom"; 
+import Homepage from "./pages/HomePage.jsx";
+import CommunityPage from "./pages/CommunityPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import ReviewPage from "./pages/ReviewPage.jsx";
+import ReviewWritePage from "./pages/ReviewWritePage.jsx";
+import SignupPage from "./pages/SignupPage.jsx"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Routes>
+      <Route path="/" element={<Homepage />} />
+      <Route path="/community" element={<CommunityPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/review" element={<ReviewPage />} />
+      <Route path="/review/new" element={<ReviewWritePage />} />
+      <Route path="/signup" element={<SignupPage />} />
+    </Routes>
+  )
+};
 
 export default App;
