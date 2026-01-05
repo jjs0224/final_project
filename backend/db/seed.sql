@@ -1,8 +1,12 @@
--- db/seed.sql
+-- backend/db/seed.sql
 -- 초기 데이터(샘플). 필요에 맞게 수정/확장하세요.
 -- idempotent하게 동작하도록 UNIQUE KEY 기반 ON DUPLICATE KEY UPDATE 사용
 
-USE final_project;
+-- (중요) 세션 문자셋/콜레이션을 확실히 고정
+SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+
+-- (중요) docker-compose.yml의 MYSQL_DATABASE(app_db)와 반드시 일치
+USE app_db;
 
 -- 카테고리(예시)
 INSERT INTO restriction_category (category_label, category_code)
