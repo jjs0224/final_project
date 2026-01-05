@@ -2,11 +2,11 @@
 -- MySQL 8.x 기준 스키마 (ERD 기반)
 -- docker-compose.yml 의 MYSQL_DATABASE 값(app_db)과 일치하도록 작성
 
-CREATE DATABASE IF NOT EXISTS final_project
+CREATE DATABASE IF NOT EXISTS app_db
   DEFAULT CHARACTER SET utf8mb4
   DEFAULT COLLATE utf8mb4_0900_ai_ci;
 
-USE final_project;
+USE app_db;
 
 -- 1) member
 CREATE TABLE IF NOT EXISTS member (
