@@ -32,10 +32,10 @@ CREATE TABLE IF NOT EXISTS restriction_category (
 -- 3) restriction_items
 CREATE TABLE IF NOT EXISTS restriction_items (
   item_id          INT AUTO_INCREMENT PRIMARY KEY,
-  item_label       VARCHAR(100) NOT NULL,
-  item_code        VARCHAR(100) NOT NULL,
+  item_label_ko       VARCHAR(100) NOT NULL,
+  item_label_en        VARCHAR(100) NOT NULL,
   category_id      INT NOT NULL,
-  UNIQUE KEY uq_item_code (item_code),
+  UNIQUE KEY uq_item_label_en (item_label_en),
   KEY idx_items_category_id (category_id),
   CONSTRAINT fk_items_category
     FOREIGN KEY (category_id)
