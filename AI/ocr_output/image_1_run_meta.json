@@ -1,11 +1,72 @@
 {
-  "input_image": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\Upload_Images\\image_1.jpg",
-  "json_path": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_res.json",
+  "input_image_original": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\Upload_Images\\image_1.jpg",
+  "input_image_for_ocr": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_rectified.jpg",
+  "json_path": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_rectified_res.json",
   "out_dir": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output",
   "paddleocr_config": {
     "use_doc_unwarping": false,
     "use_textline_orientation": true,
     "det_limit_type": "max",
     "det_limit_side_len": 4000
+  },
+  "rectify": {
+    "enabled": true,
+    "status": "ok",
+    "method": "opencv_contour_perspective",
+    "scale_used_for_detection": 1.0,
+    "quad_orig_xy": [
+      [
+        32.0,
+        56.0
+      ],
+      [
+        34.0,
+        402.0
+      ],
+      [
+        479.0,
+        401.0
+      ],
+      [
+        478.0,
+        56.0
+      ]
+    ],
+    "H": [
+      [
+        0.9943033773457608,
+        -0.005747418366160443,
+        -31.495852646559364
+      ],
+      [
+        1.3466379484493027e-16,
+        0.994316292892651,
+        -55.68171240198846
+      ],
+      [
+        -6.491003263015857e-06,
+        -6.420240759013187e-06,
+        1.0
+      ]
+    ],
+    "H_inv": [
+      [
+        1.0053676667437073,
+        0.00601792039378875,
+        32.0
+      ],
+      [
+        0.0003655787469003896,
+        1.0055094100097666,
+        56.0
+      ],
+      [
+        6.528191908935529e-06,
+        6.4946748386290425e-06,
+        1.0
+      ]
+    ],
+    "rectified_image": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_rectified.jpg",
+    "orig_image": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\Upload_Images\\image_1.jpg"
   }
 }
