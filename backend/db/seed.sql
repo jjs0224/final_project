@@ -9,16 +9,16 @@ SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE app_db;
 
 -- 카테고리(예시)
-INSERT INTO restriction_category (category_label, category_code)
+INSERT INTO restriction_category (category_label_ko, category_label_en)
 VALUES
   ('알레르겐', 'ALLERGEN'),
   ('식이제한', 'DIET')
 ON DUPLICATE KEY UPDATE
-  category_label = VALUES(category_label);
+  category_label_ko = VALUES(category_label_ko);
 
 -- category_id 조회를 위해 변수로 담기
-SET @CAT_ALLERGEN := (SELECT category_id FROM restriction_category WHERE category_code='ALLERGEN' LIMIT 1);
-SET @CAT_DIET     := (SELECT category_id FROM restriction_category WHERE category_code='DIET' LIMIT 1);
+SET @CAT_ALLERGEN := (SELECT category_id FROM restriction_category WHERE category_label_en='ALLERGEN' LIMIT 1);
+SET @CAT_DIET     := (SELECT category_id FROM restriction_category WHERE category_label_en='DIET' LIMIT 1);
 
 -- 알레르겐 아이템(예시: EU14 일부 + 흔한 항목)
 INSERT INTO restriction_items (item_label_ko, item_label_en, category_id)
