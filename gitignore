@@ -4,3 +4,8 @@ __pycache__/
 .venv/
 venv/
 .env.*
+# RAG index artifacts (generated)
+AI/rag_index/
+AI/**/rag_index/
+*.npy
+*.index
