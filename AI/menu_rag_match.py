@@ -19,11 +19,12 @@ _re_num = re.compile(r"\d")
 _re_keep_kor_space = re.compile(r"[^가-힣\s]")
 _re_multi_space = re.compile(r"\s+")
 
-def normalize_menu_text(text: str) -> str:
+def normalize_menu_text(text: str, remove_space: bool = True) -> str:
     """
     1) 영어 제거
     2) 숫자 제거
     3) 한글/공백 중심 유지 + 공백 정리
+    4) (옵션) 띄어쓰기 제거
     """
     if not text:
         return ""
@@ -32,6 +33,8 @@ def normalize_menu_text(text: str) -> str:
     t = _re_num.sub("", t)
     t = _re_keep_kor_space.sub(" ", t)
     t = _re_multi_space.sub(" ", t).strip()
+    if remove_space:
+        t = t.replace(" ", "")
     return t
 
 def is_menu_candidate(norm_text: str) -> bool:
@@ -129,7 +132,8 @@ class MenuRAGMatcher:
             menu = str(row.get("menu", "")).strip()
             if not menu:
                 continue
-            norm = normalize_menu_text(menu)
+            # ✅ 사전 쪽도 동일 정책: 공백 제거된 정규화로 인덱싱
+            norm = normalize_menu_text(menu, remove_space=True)
             if not norm:
                 continue
 
@@ -391,18 +395,23 @@ def main():
 
     items_out: List[Dict[str, Any]] = []
     for i, raw in enumerate(rec_texts):
-        norm = normalize_menu_text(raw)
-        if len(norm.replace(" ", "")) < args.min_len:
+        # ✅ OCR 전처리도 동일 정책: 공백 제거된 정규화 텍스트를 사용/저장
+        norm = normalize_menu_text(raw, remove_space=True)
+        if len(norm) < args.min_len:
             continue
         if not is_menu_candidate(norm):
             continue
 
         m = matcher.match(norm, threshold=args.threshold, top_k=args.top_k)
+        final_text = m["final_text"]
+        # ✅ 매칭 이후 결과값도 공백 제거 버전 제공 (저장/키로 사용하기 좋음)
+        final_text_compact = normalize_menu_text(final_text, remove_space=True) if final_text else ""
         items_out.append({
             "idx": i,
             "raw_text": raw,
             "normalized_text": norm,
             "final_text": m["final_text"],     # ✅ 최종 메뉴명
+            "final_text_compact": final_text_compact,  # ✅ 공백 제거 버전
             "ingredient": m["ingredient"],     # ✅ 재료 리스트
             "match_score": m["match_score"],
             "match_type": m["match_type"],
@@ -432,9 +441,10 @@ if __name__ == "__main__":
 
 '''
 초기 빌딩 코드
+
 python menu_rag_match.py ^
   --mode build ^
-  --dict korean_food_recipes.json ^
+  --dict menuName_ingredients.json ^
   --index_dir rag_index ^
   --model sentence-transformers/paraphrase-multilingual-mpnet-base-v2
   
