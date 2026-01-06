@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS member (
 -- 2) restriction_category
 CREATE TABLE IF NOT EXISTS restriction_category (
   category_id      INT AUTO_INCREMENT PRIMARY KEY,
-  category_label   VARCHAR(50) NOT NULL,
-  category_code    VARCHAR(50) NOT NULL,
-  UNIQUE KEY uq_category_code (category_code)
+  category_label_ko   VARCHAR(50) NOT NULL,
+  category_label_en    VARCHAR(50) NOT NULL,
+  UNIQUE KEY uq_category_label_en (category_label_en)
 ) ENGINE=InnoDB;
 
 -- 3) restriction_items

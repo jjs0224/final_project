@@ -30,8 +30,8 @@ class RestrictionCategory(Base):
     __tablename__ = "restriction_category"
 
     category_id = Column(Integer, primary_key=True, autoincrement=True)
-    category_label = Column(String(50), nullable=False)
-    category_code = Column(String(50), nullable=False, unique=True)
+    category_label_ko = Column(String(50), nullable=False)
+    category_label_en = Column(String(50), nullable=False, unique=True)
 
     items = relationship("RestrictionItems", back_populates="category", cascade="all, delete-orphan")
 
