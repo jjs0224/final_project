@@ -17,7 +17,7 @@ def create_category(payload: schemas.RestrictionCategoryCreate, db: Session = De
         return c
     except IntegrityError:
         db.rollback()
-        raise HTTPException(status_code=409, detail="Category code already exists")
+        raise HTTPException(status_code=409, detail="Category label_en already exists")
 
 @router.get("", response_model=list[schemas.RestrictionCategoryRead])
 def list_categories(db: Session = Depends(get_db)):
@@ -49,4 +49,4 @@ def update_category(category_id: int, payload: schemas.RestrictionCategoryUpdate
         return c
     except IntegrityError:
         db.rollback()
-        raise HTTPException(status_code=409, detail="Category code already exists")
+        raise HTTPException(status_code=409, detail="Category label_en already exists")

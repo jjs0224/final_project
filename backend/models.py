@@ -30,8 +30,8 @@ class RestrictionCategory(Base):
     __tablename__ = "restriction_category"
 
     category_id = Column(Integer, primary_key=True, autoincrement=True)
-    category_label = Column(String(50), nullable=False)
-    category_code = Column(String(50), nullable=False, unique=True)
+    category_label_ko = Column(String(50), nullable=False)
+    category_label_en = Column(String(50), nullable=False, unique=True)
 
     items = relationship("RestrictionItems", back_populates="category", cascade="all, delete-orphan")
 
@@ -40,8 +40,8 @@ class RestrictionItems(Base):
     __tablename__ = "restriction_items"
 
     item_id = Column(Integer, primary_key=True, autoincrement=True)
-    item_label = Column(String(100), nullable=False)
-    item_code = Column(String(100), nullable=False, unique=True)
+    item_label_ko = Column(String(100), nullable=False)
+    item_label_en = Column(String(100), nullable=False, unique=True)
     category_id = Column(Integer, ForeignKey("restriction_category.category_id", ondelete="RESTRICT", onupdate="CASCADE"), nullable=False)
 
     category = relationship("RestrictionCategory", back_populates="items")
