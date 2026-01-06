@@ -1,0 +1,224 @@
+{
+  "meta": {
+    "input_image": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\Upload_Images\\image_1.jpg",
+    "json_path": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_res.json",
+    "out_dir": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output",
+    "paddleocr_config": {
+      "use_doc_unwarping": false,
+      "use_textline_orientation": true,
+      "det_limit_type": "max",
+      "det_limit_side_len": 4000
+    }
+  },
+  "ocr_json_path": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_res.json",
+  "index_dir": "rag_index",
+  "model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+  "threshold": 0.9,
+  "top_k": 10,
+  "items": [
+    {
+      "idx": 0,
+      "raw_text": "한식마당",
+      "normalized_text": "한식마당",
+      "final_text": "한식마당",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        165,
+        36,
+        260,
+        67
+      ]
+    },
+    {
+      "idx": 7,
+      "raw_text": "오징어백반",
+      "normalized_text": "오징어백반",
+      "final_text": "오징어백반",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        277,
+        72,
+        338,
+        92
+      ]
+    },
+    {
+      "idx": 11,
+      "raw_text": "제육백반",
+      "normalized_text": "제육백반",
+      "final_text": "제육백반",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        278,
+        96,
+        326,
+        112
+      ]
+    },
+    {
+      "idx": 13,
+      "raw_text": "동태찌개",
+      "normalized_text": "동태찌개",
+      "final_text": "동태찌개",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        30,
+        120,
+        77,
+        136
+      ]
+    },
+    {
+      "idx": 15,
+      "raw_text": "낙지백반",
+      "normalized_text": "낙지백반",
+      "final_text": "낙지백반",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        278,
+        120,
+        326,
+        136
+      ]
+    },
+    {
+      "idx": 17,
+      "raw_text": "순두부찌개",
+      "normalized_text": "순두부찌개",
+      "final_text": "순두부찌개",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        30,
+        144,
+        88,
+        159
+      ]
+    },
+    {
+      "idx": 19,
+      "raw_text": "우렇쌈밥",
+      "normalized_text": "우렇쌈밥",
+      "final_text": "우렇쌈밥",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        279,
+        143,
+        326,
+        159
+      ]
+    },
+    {
+      "idx": 21,
+      "raw_text": "고추장찌개",
+      "normalized_text": "고추장찌개",
+      "final_text": "고추장찌개",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        30,
+        166,
+        88,
+        181
+      ]
+    },
+    {
+      "idx": 23,
+      "raw_text": "청국장",
+      "normalized_text": "청국장",
+      "final_text": "청국장",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        28,
+        187,
+        67,
+        206
+      ]
+    },
+    {
+      "idx": 25,
+      "raw_text": "소 주 4,000청 하 4,000",
+      "normalized_text": "소 주 청 하",
+      "final_text": "소 주 청 하",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        279,
+        185,
+        398,
+        196
+      ]
+    },
+    {
+      "idx": 26,
+      "raw_text": "주4,000복분재0,000",
+      "normalized_text": "주 복분재",
+      "final_text": "주 복분재",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        276,
+        197,
+        398,
+        213
+      ]
+    },
+    {
+      "idx": 29,
+      "raw_text": "막걸리3,000 올료수2,000",
+      "normalized_text": "막걸리 올료수",
+      "final_text": "막걸리 올료수",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "none",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        277,
+        213,
+        397,
+        227
+      ]
+    }
+  ]
+}
