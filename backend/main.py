@@ -3,6 +3,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 from .database import engine
 from . import models
+from .routers import auth
 
 from .routers import (
     members,
@@ -39,3 +40,4 @@ app.include_router(restriction_items.router)
 app.include_router(member_restrictions.router)
 app.include_router(reviews.router)
 app.include_router(communities.router)
+app.include_router(auth.router)

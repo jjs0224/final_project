@@ -23,7 +23,7 @@ def create_item(payload: schemas.RestrictionItemCreate, db: Session = Depends(ge
         return item
     except IntegrityError:
         db.rollback()
-        raise HTTPException(status_code=409, detail="Item code already exists")
+        raise HTTPException(status_code=409, detail="Item label_en already exists")
 
 @router.get("", response_model=list[schemas.RestrictionItemRead])
 def list_items(category_id: int | None = None, db: Session = Depends(get_db)):
