@@ -243,7 +243,7 @@ def run_ocr_and_save_json(
 
 if __name__ == "__main__":
     BASE_DIR = Path(__file__).resolve().parent
-    image_path = (BASE_DIR / "Upload_Images" / "image_2.jpg").resolve()
+    image_path = (BASE_DIR / "Upload_Images" / "image2.jpg").resolve()
     out_dir = (BASE_DIR / "ocr_output").resolve()
 
     run_ocr_and_save_json(

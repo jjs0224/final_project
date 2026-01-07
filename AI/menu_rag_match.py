@@ -547,9 +547,9 @@ python menu_rag_match.py --mode build --dict menu_final_with_allergen.json --ind
 
 실행 코드 
 python menu_rag_match.py --mode run ^
-  --meta ocr_output/image_1_run_meta.json ^
+  --meta ocr_output/image_3_run_meta.json ^
   --index_dir rag_index ^
-  --out ocr_output/image_1_menu_rag.json ^
+  --out ocr_output/image_3_menu_rag.json ^
   --threshold 0.90 --top_k 10 ^
   --min_cos 0.62 --min_jacc 0.55 --min_margin 0.08 ^
   --drop_nonmenu --drop_unmatched
