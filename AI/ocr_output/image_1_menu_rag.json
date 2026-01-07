@@ -1,16 +1,77 @@
 {
   "meta": {
-    "input_image": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\Upload_Images\\image_1.jpg",
-    "json_path": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_res.json",
-    "out_dir": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output",
+    "input_image_original": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\Upload_Images\\image_1.jpg",
+    "input_image_for_ocr": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output\\image_1_rectified.jpg",
+    "json_path": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output\\image_1_rectified_res.json",
+    "out_dir": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output",
     "paddleocr_config": {
       "use_doc_unwarping": false,
       "use_textline_orientation": true,
       "det_limit_type": "max",
       "det_limit_side_len": 4000
+    },
+    "rectify": {
+      "enabled": true,
+      "status": "ok",
+      "method": "opencv_contour_perspective",
+      "scale_used_for_detection": 1.0,
+      "quad_orig_xy": [
+        [
+          32.0,
+          56.0
+        ],
+        [
+          34.0,
+          402.0
+        ],
+        [
+          479.0,
+          401.0
+        ],
+        [
+          478.0,
+          56.0
+        ]
+      ],
+      "H": [
+        [
+          0.9943033773457608,
+          -0.005747418366160443,
+          -31.495852646559364
+        ],
+        [
+          1.3466379484493027e-16,
+          0.994316292892651,
+          -55.68171240198846
+        ],
+        [
+          -6.491003263015857e-06,
+          -6.420240759013187e-06,
+          1.0
+        ]
+      ],
+      "H_inv": [
+        [
+          1.0053676667437073,
+          0.00601792039378875,
+          32.0
+        ],
+        [
+          0.0003655787469003896,
+          1.0055094100097666,
+          56.0
+        ],
+        [
+          6.528191908935529e-06,
+          6.4946748386290425e-06,
+          1.0
+        ]
+      ],
+      "rectified_image": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output\\image_1_rectified.jpg",
+      "orig_image": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\Upload_Images\\image_1.jpg"
     }
   },
-  "ocr_json_path": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_res.json",
+  "ocr_json_path": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output\\image_1_rectified_res.json",
   "index_dir": "rag_index",
   "model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
   "threshold": 0.9,
@@ -18,19 +79,65 @@
   "items": [
     {
       "idx": 0,
-      "raw_text": "한식마당",
-      "normalized_text": "한식마당",
-      "final_text": "한식마당",
+      "raw_text": "한식마다",
+      "normalized_text": "한식마다",
+      "final_text": "한식마다",
+      "final_text_compact": "한식마다",
       "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
+      "match_score": 0.8811103701591492,
+      "match_type": "filtered_out_by_jamo",
       "matched_norm": null,
       "debug": null,
       "box": [
-        165,
-        36,
-        260,
-        67
+        174,
+        89,
+        270,
+        122
+      ]
+    },
+    {
+      "idx": 1,
+      "raw_text": "김치찌개",
+      "normalized_text": "김치찌개",
+      "final_text": "김치찌개",
+      "final_text_compact": "김치찌개",
+      "ingredient": [
+        "돼지고기",
+        "두부",
+        "멸치",
+        "새우",
+        "참치"
+      ],
+      "match_score": 1.0,
+      "match_type": "exact",
+      "matched_norm": "김치찌개",
+      "debug": null,
+      "box": [
+        40,
+        106,
+        87,
+        121
+      ]
+    },
+    {
+      "idx": 3,
+      "raw_text": "오늘백반",
+      "normalized_text": "오늘백반",
+      "final_text": "오늘백반",
+      "final_text_compact": "오늘백반",
+      "ingredient": null,
+      "match_score": 0.714894292751948,
+      "match_type": "below_threshold_or_low_margin",
+      "matched_norm": "오늘회",
+      "debug": {
+        "cos": 0.920350193977356,
+        "jamo_jaccard": 0.3333333333333333
+      },
+      "box": [
+        290,
+        107,
+        335,
+        121
       ]
     },
     {
@@ -38,16 +145,43 @@
       "raw_text": "오징어백반",
       "normalized_text": "오징어백반",
       "final_text": "오징어백반",
+      "final_text_compact": "오징어백반",
       "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
-      "matched_norm": null,
+      "match_score": 0.8140435319197805,
+      "match_type": "below_threshold_or_low_margin",
+      "matched_norm": "오징어전골백반",
+      "debug": {
+        "cos": 0.9406337738037109,
+        "jamo_jaccard": 0.5789473684210527
+      },
+      "box": [
+        288,
+        128,
+        346,
+        144
+      ]
+    },
+    {
+      "idx": 9,
+      "raw_text": "부대찌개",
+      "normalized_text": "부대찌개",
+      "final_text": "부대찌개",
+      "final_text_compact": "부대찌개",
+      "ingredient": [
+        "두부",
+        "멸치",
+        "치즈",
+        "콩"
+      ],
+      "match_score": 1.0,
+      "match_type": "exact",
+      "matched_norm": "부대찌개",
       "debug": null,
       "box": [
-        277,
-        72,
-        338,
-        92
+        40,
+        152,
+        87,
+        167
       ]
     },
     {
@@ -55,33 +189,20 @@
       "raw_text": "제육백반",
       "normalized_text": "제육백반",
       "final_text": "제육백반",
+      "final_text_compact": "제육백반",
       "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
-      "matched_norm": null,
-      "debug": null,
+      "match_score": 0.7792545226487246,
+      "match_type": "below_threshold_or_low_margin",
+      "matched_norm": "회백반",
+      "debug": {
+        "cos": 0.9540978670120239,
+        "jamo_jaccard": 0.45454545454545453
+      },
       "box": [
-        278,
-        96,
-        326,
-        112
-      ]
-    },
-    {
-      "idx": 13,
-      "raw_text": "동태찌개",
-      "normalized_text": "동태찌개",
-      "final_text": "동태찌개",
-      "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
-      "matched_norm": null,
-      "debug": null,
-      "box": [
-        30,
-        120,
-        77,
-        136
+        288,
+        152,
+        334,
+        167
       ]
     },
     {
@@ -89,16 +210,20 @@
       "raw_text": "낙지백반",
       "normalized_text": "낙지백반",
       "final_text": "낙지백반",
+      "final_text_compact": "낙지백반",
       "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
-      "matched_norm": null,
-      "debug": null,
+      "match_score": 0.7060373588612205,
+      "match_type": "below_threshold_or_low_margin",
+      "matched_norm": "낙지쟁반짜장",
+      "debug": {
+        "cos": 0.9161708354949951,
+        "jamo_jaccard": 0.3157894736842105
+      },
       "box": [
-        278,
-        120,
-        326,
-        136
+        286,
+        172,
+        337,
+        192
       ]
     },
     {
@@ -106,33 +231,47 @@
       "raw_text": "순두부찌개",
       "normalized_text": "순두부찌개",
       "final_text": "순두부찌개",
-      "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
-      "matched_norm": null,
+      "final_text_compact": "순두부찌개",
+      "ingredient": [
+        "계란",
+        "굴",
+        "달걀",
+        "돼지고기",
+        "두부",
+        "멸치",
+        "새우",
+        "참치"
+      ],
+      "match_score": 1.0,
+      "match_type": "exact",
+      "matched_norm": "순두부찌개",
       "debug": null,
       "box": [
-        30,
-        144,
-        88,
-        159
+        39,
+        197,
+        98,
+        213
       ]
     },
     {
       "idx": 19,
-      "raw_text": "우렇쌈밥",
-      "normalized_text": "우렇쌈밥",
-      "final_text": "우렇쌈밥",
+      "raw_text": "우령쌈밥",
+      "normalized_text": "우령쌈밥",
+      "final_text": "우령쌈밥",
+      "final_text_compact": "우령쌈밥",
       "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
-      "matched_norm": null,
-      "debug": null,
+      "match_score": 0.8086087584495545,
+      "match_type": "below_threshold_or_low_margin",
+      "matched_norm": "쌈밥",
+      "debug": {
+        "cos": 0.9747827053070068,
+        "jamo_jaccard": 0.5
+      },
       "box": [
-        279,
-        143,
-        326,
-        159
+        289,
+        199,
+        334,
+        213
       ]
     },
     {
@@ -140,16 +279,21 @@
       "raw_text": "고추장찌개",
       "normalized_text": "고추장찌개",
       "final_text": "고추장찌개",
-      "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
-      "matched_norm": null,
+      "final_text_compact": "고추장찌개",
+      "ingredient": [
+        "돼지고기",
+        "두부",
+        "참치"
+      ],
+      "match_score": 1.0,
+      "match_type": "exact",
+      "matched_norm": "고추장찌개",
       "debug": null,
       "box": [
-        30,
-        166,
-        88,
-        181
+        40,
+        221,
+        97,
+        235
       ]
     },
     {
@@ -157,67 +301,153 @@
       "raw_text": "청국장",
       "normalized_text": "청국장",
       "final_text": "청국장",
-      "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
-      "matched_norm": null,
+      "final_text_compact": "청국장",
+      "ingredient": [
+        "돼지고기",
+        "두부",
+        "멸치",
+        "홍합"
+      ],
+      "match_score": 1.0,
+      "match_type": "exact",
+      "matched_norm": "청국장",
       "debug": null,
       "box": [
-        28,
-        187,
-        67,
-        206
+        38,
+        243,
+        76,
+        260
       ]
     },
     {
       "idx": 25,
-      "raw_text": "소 주 4,000청 하 4,000",
-      "normalized_text": "소 주 청 하",
-      "final_text": "소 주 청 하",
+      "raw_text": "소후",
+      "normalized_text": "소후",
+      "final_text": "소후",
+      "final_text_compact": "소후",
       "ingredient": null,
       "match_score": 0.0,
-      "match_type": "none",
+      "match_type": "too_short",
       "matched_norm": null,
       "debug": null,
       "box": [
-        279,
-        185,
-        398,
-        196
+        289,
+        240,
+        314,
+        251
       ]
     },
     {
       "idx": 26,
-      "raw_text": "주4,000복분재0,000",
-      "normalized_text": "주 복분재",
-      "final_text": "주 복분재",
+      "raw_text": "4,000형 하4,000",
+      "normalized_text": "형하",
+      "final_text": "형하",
+      "final_text_compact": "형하",
       "ingredient": null,
       "match_score": 0.0,
-      "match_type": "none",
+      "match_type": "too_short",
       "matched_norm": null,
       "debug": null,
       "box": [
-        276,
-        197,
-        398,
-        213
+        319,
+        239,
+        407,
+        252
+      ]
+    },
+    {
+      "idx": 27,
+      "raw_text": "맥주",
+      "normalized_text": "맥주",
+      "final_text": "맥주",
+      "final_text_compact": "맥주",
+      "ingredient": null,
+      "match_score": 0.0,
+      "match_type": "too_short",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        288,
+        255,
+        314,
+        265
+      ]
+    },
+    {
+      "idx": 28,
+      "raw_text": "뚝배기불고기",
+      "normalized_text": "뚝배기불고기",
+      "final_text": "뚝배기 불고기",
+      "final_text_compact": "뚝배기불고기",
+      "ingredient": [
+        "소고기"
+      ],
+      "match_score": 1.0,
+      "match_type": "exact",
+      "matched_norm": "뚝배기불고기",
+      "debug": null,
+      "box": [
+        38,
+        265,
+        108,
+        282
       ]
     },
     {
       "idx": 29,
-      "raw_text": "막걸리3,000 올료수2,000",
-      "normalized_text": "막걸리 올료수",
-      "final_text": "막걸리 올료수",
+      "raw_text": "4,000 백분재0,000",
+      "normalized_text": "백분재",
+      "final_text": "백분재",
+      "final_text_compact": "백분재",
       "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "none",
+      "match_score": 0.7099206964174907,
+      "match_type": "below_threshold_or_low_margin",
+      "matched_norm": "백반",
+      "debug": {
+        "cos": 0.91269850730896,
+        "jamo_jaccard": 0.3333333333333333
+      },
+      "box": [
+        320,
+        256,
+        406,
+        265
+      ]
+    },
+    {
+      "idx": 31,
+      "raw_text": "막걸리",
+      "normalized_text": "막걸리",
+      "final_text": "막걸리",
+      "final_text_compact": "막걸리",
+      "ingredient": null,
+      "match_score": 0.9798632860183716,
+      "match_type": "filtered_out_by_jamo",
       "matched_norm": null,
       "debug": null,
       "box": [
-        277,
-        213,
-        397,
-        227
+        289,
+        269,
+        315,
+        280
+      ]
+    },
+    {
+      "idx": 32,
+      "raw_text": "3,000 용료수 2,000",
+      "normalized_text": "용료수",
+      "final_text": "용료수",
+      "final_text_compact": "용료수",
+      "ingredient": null,
+      "match_score": 0.9680219888687134,
+      "match_type": "filtered_out_by_jamo",
+      "matched_norm": null,
+      "debug": null,
+      "box": [
+        320,
+        270,
+        406,
+        280
       ]
     }
   ]

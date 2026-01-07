@@ -1,5 +1,5 @@
 {
-    "input_path": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_rectified.jpg",
+    "input_path": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output\\image_1_rectified.jpg",
     "page_index": null,
     "model_settings": {
         "use_doc_preprocessor": false,

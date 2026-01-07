@@ -1,8 +1,8 @@
 {
-  "input_image_original": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\Upload_Images\\image_1.jpg",
-  "input_image_for_ocr": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_rectified.jpg",
-  "json_path": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_rectified_res.json",
-  "out_dir": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output",
+  "input_image_original": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\Upload_Images\\image_1.jpg",
+  "input_image_for_ocr": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output\\image_1_rectified.jpg",
+  "json_path": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output\\image_1_rectified_res.json",
+  "out_dir": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output",
   "paddleocr_config": {
     "use_doc_unwarping": false,
     "use_textline_orientation": true,
@@ -66,7 +66,7 @@
         1.0
       ]
     ],
-    "rectified_image": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\ocr_output\\image_1_rectified.jpg",
-    "orig_image": "C:\\Users\\201\\PycharmProjects\\final_project\\AI\\Upload_Images\\image_1.jpg"
+    "rectified_image": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\ocr_output\\image_1_rectified.jpg",
+    "orig_image": "C:\\Users\\201\\PycharmProjects\\final_project1\\AI\\Upload_Images\\image_1.jpg"
   }
 }
