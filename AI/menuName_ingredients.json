@@ -166,9 +166,9 @@
   {
     "menu": "콩국수",
     "ingredients_ko": ["콩", "밀"]
-  }
-]
-[
+  },
+
+
   {
     "menu": "가제육",
     "ingredients_ko": ["돼지고기"]
@@ -328,9 +328,9 @@
   {
     "menu": "두부전골",
     "ingredients_ko": ["두부", "굴", "새우"]
-  }
-]
-[
+  },
+
+
   {
     "menu": "두부조림",
     "ingredients_ko": ["두부"]
@@ -494,9 +494,8 @@
   {
     "menu": "순댓국",
     "ingredients_ko": ["돼지고기"]
-  }
-]
-[
+  },
+
   {
     "menu": "순무김치",
     "ingredients_ko": ["새우"]
@@ -672,9 +671,9 @@
   {
     "menu": "잡채",
     "ingredients_ko": ["돼지고기"]
-  }
-]
-[
+  },
+
+
   {
     "menu": "잣죽",
     "ingredients_ko": ["잣"]
@@ -838,9 +837,9 @@
   {
     "menu": "황태국",
     "ingredients_ko": ["황태"]
-  }
-]
-[
+  },
+
+
   {
     "menu": "회국수",
     "ingredients_ko": ["생선", "밀"]
@@ -880,9 +879,9 @@
   {
     "menu": "흑돼지구이",
     "ingredients_ko": ["돼지고기"]
-  }
-]
-[
+  },
+
+
   {
     "menu": "가라아게",
     "ingredients_ko": ["닭고기", "밀"]
@@ -938,9 +937,9 @@
   {
     "menu": "가라아게 주먹밥 세트",
     "ingredients_ko": ["닭고기", "쌀"]
-  }
-]
-[
+  },
+
+
   {
     "menu": "감자 핫도그",
     "ingredients_ko": ["밀", "우유"]
