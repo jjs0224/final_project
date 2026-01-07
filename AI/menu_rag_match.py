@@ -10,7 +10,6 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-
 # =========================================================
 # 1) Normalization (요구사항 유지: 영어/숫자 먼저 제거 + 기존 정규화)
 # =========================================================
@@ -18,6 +17,7 @@ _re_eng = re.compile(r"[A-Za-z]")
 _re_num = re.compile(r"\d")
 _re_keep_kor_space = re.compile(r"[^가-힣\s]")
 _re_multi_space = re.compile(r"\s+")
+
 
 def normalize_menu_text(text: str, remove_space: bool = True) -> str:
     """
@@ -37,24 +37,57 @@ def normalize_menu_text(text: str, remove_space: bool = True) -> str:
         t = t.replace(" ", "")
     return t
 
+
 def is_menu_candidate(norm_text: str) -> bool:
     if len(norm_text.replace(" ", "")) < 2:
         return False
     return any("가" <= ch <= "힣" for ch in norm_text)
 
 
+# ---------------------------------------------------------
+# 1.5) Non-menu / 안내문 필터 (샘플 기반 튜닝)
+#  - 주문서/안내문/옵션 문구(인분/선택/맛 등)를 메뉴 매칭에서 제외
+# ---------------------------------------------------------
+_NONMENU_PATTERNS = [
+    r"주문서", r"직원", r"전달", r"착석", r"이용", r"안내", r"공지", r"주의", r"참고",
+    r"원산지", r"알레르기", r"유발", r"표시", r"영양", r"칼로리",
+    r"Self\s*-?\s*Bar", r"셀프\s*-?\s*바", r"셀프바",
+    r"인원수", r"인분", r"선택", r"순한맛", r"중간맛", r"매운맛",
+    r"사리메뉴", r"단품", r"식사\s*후", r"주문해\s*주세요",
+    r"맛있습니다",
+]
+
+
+def is_nonmenu_text(raw_text: str) -> bool:
+    if not raw_text:
+        return True
+    s = str(raw_text).strip()
+    # 메뉴명치고 과도하게 긴 문장은 안내문/설명일 확률이 높음
+    if len(s) >= 22:
+        return True
+    # 안내문 스타일 기호
+    if s.startswith(("※", "*", "★", "■", "▶", "•")):
+        return True
+    for p in _NONMENU_PATTERNS:
+        if re.search(p, s, flags=re.IGNORECASE):
+            return True
+    return False
+
+
 # =========================================================
 # 2) Hangul Jamo utilities (자모 기반 비교 핵심)
 # =========================================================
 CHOSUNG = [
-    "ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"
+    "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"
 ]
 JUNGSUNG = [
-    "ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"
+    "ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"
 ]
 JONGSUNG = [
-    "", "ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"
+    "", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ",
+    "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"
 ]
+
 
 def to_jamo(text: str) -> str:
     """
@@ -79,10 +112,12 @@ def to_jamo(text: str) -> str:
             out.append(ch)
     return "".join(out)
 
+
 def ngrams(s: str, n: int = 2) -> List[str]:
     if len(s) < n:
         return [s] if s else []
-    return [s[i:i+n] for i in range(len(s) - n + 1)]
+    return [s[i:i + n] for i in range(len(s) - n + 1)]
+
 
 def jamo_ngram_jaccard(a: str, b: str, n: int = 2) -> float:
     """
@@ -108,6 +143,8 @@ class MenuEntry:
     menu: str
     norm_menu: str
     ingredients_ko: Optional[List[str]]
+    alg_tag: Optional[List[str]]
+
 
 class MenuRAGMatcher:
     def __init__(self, model_name: str, use_faiss: bool = True):
@@ -123,7 +160,7 @@ class MenuRAGMatcher:
     def build_from_json(self, dict_path: Path):
         rows = json.loads(dict_path.read_text(encoding="utf-8"))
         if not isinstance(rows, list):
-            raise ValueError("menuName_ingredients.json must be a JSON list.")
+            raise ValueError("dictionary json must be a JSON list.")
 
         self.entries = []
         self.norm_to_idx = {}
@@ -137,7 +174,10 @@ class MenuRAGMatcher:
             if not norm:
                 continue
 
-            entry = MenuEntry(menu=menu, norm_menu=norm, ingredients_ko=row.get("ingredients_ko"))
+            alg_tag = row.get("ALG_TAG")
+            if alg_tag is None:
+                alg_tag = row.get("alg_tag")
+            entry = MenuEntry(menu=menu, norm_menu=norm, ingredients_ko=row.get("ingredients_ko"), alg_tag=alg_tag)
 
             # 같은 norm 충돌 시 첫 항목 유지(정책 변경 가능)
             if norm not in self.norm_to_idx:
@@ -174,10 +214,11 @@ class MenuRAGMatcher:
         (out_dir / "index_meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
         entries_payload = [
-            {"menu": e.menu, "norm_menu": e.norm_menu, "ingredients_ko": e.ingredients_ko}
+            {"menu": e.menu, "norm_menu": e.norm_menu, "ingredients_ko": e.ingredients_ko, "ALG_TAG": e.alg_tag}
             for e in self.entries
         ]
-        (out_dir / "entries.json").write_text(json.dumps(entries_payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        (out_dir / "entries.json").write_text(json.dumps(entries_payload, ensure_ascii=False, indent=2),
+                                              encoding="utf-8")
 
         np.save(out_dir / "emb.npy", self.emb)
 
@@ -190,7 +231,8 @@ class MenuRAGMatcher:
 
         entries_payload = json.loads((index_dir / "entries.json").read_text(encoding="utf-8"))
         self.entries = [
-            MenuEntry(menu=e["menu"], norm_menu=e["norm_menu"], ingredients_ko=e.get("ingredients_ko"))
+            MenuEntry(menu=e["menu"], norm_menu=e["norm_menu"], ingredients_ko=e.get("ingredients_ko"),
+                      alg_tag=(e.get("ALG_TAG") if "ALG_TAG" in e else e.get("alg_tag")))
             for e in entries_payload
         ]
         self.norm_to_idx = {e.norm_menu: i for i, e in enumerate(self.entries)}
@@ -271,12 +313,14 @@ class MenuRAGMatcher:
         rescored.sort(key=lambda x: x[1], reverse=True)
         return rescored
 
-    def match(self, norm_query: str, threshold: float = 0.90, top_k: int = 10) -> Dict[str, Any]:
+    def match(self, norm_query: str, threshold: float = 0.90, top_k: int = 10, *, min_cos: float = 0.62,
+              min_jacc: float = 0.55, min_margin: float = 0.08) -> Dict[str, Any]:
         # 0) 너무 짧은 텍스트는 매칭 금지(엉뚱한 결과를 거의 확실히 유발)
         if len(norm_query.replace(" ", "")) < 3:
             return {
-                "final_text": norm_query,
+                "final_text": None,
                 "ingredient": None,
+                "ALG_TAG": None,
                 "match_score": 0.0,
                 "match_type": "too_short",
                 "matched_norm": None,
@@ -289,6 +333,7 @@ class MenuRAGMatcher:
             return {
                 "final_text": e.menu,
                 "ingredient": e.ingredients_ko,
+                "ALG_TAG": e.alg_tag,
                 "match_score": 1.0,
                 "match_type": "exact",
                 "matched_norm": e.norm_menu,
@@ -298,8 +343,9 @@ class MenuRAGMatcher:
         hits = self.retrieve(norm_query, top_k=top_k)
         if not hits:
             return {
-                "final_text": norm_query,
+                "final_text": None,
                 "ingredient": None,
+                "ALG_TAG": None,
                 "match_score": 0.0,
                 "match_type": "none",
                 "matched_norm": None,
@@ -310,8 +356,9 @@ class MenuRAGMatcher:
         if not rescored:
             # 리랭크 필터에서 다 탈락: 매칭하지 않는 것이 안전
             return {
-                "final_text": norm_query,
+                "final_text": None,
                 "ingredient": None,
+                "ALG_TAG": None,
                 "match_score": float(hits[0][1]),
                 "match_type": "filtered_out_by_jamo",
                 "matched_norm": None,
@@ -322,27 +369,32 @@ class MenuRAGMatcher:
 
         best_idx, best_final, best_cos, best_jacc = best
         th = self.adaptive_threshold(norm_query, threshold)
-        margin_ok = self.margin_gate(best_final, second[1] if second else None, min_margin=0.05)
+        margin = (best_final - second[1]) if second else 1.0
+        margin_ok = self.margin_gate(best_final, second[1] if second else None, min_margin=min_margin)
+        pass_gate = (best_final >= th) and margin_ok and (best_cos >= min_cos) and (best_jacc >= min_jacc) and (
+                    margin >= min_margin)
 
-        if best_final >= th and margin_ok:
+        if pass_gate:
             e = self.entries[best_idx]
             return {
                 "final_text": e.menu,
                 "ingredient": e.ingredients_ko,
+                "ALG_TAG": e.alg_tag,
                 "match_score": float(best_final),
                 "match_type": "rag_jamo_reranked",
                 "matched_norm": e.norm_menu,
-                "debug": {"cos": float(best_cos), "jamo_jaccard": float(best_jacc)},
+                "debug": {"cos": float(best_cos), "jamo_jaccard": float(best_jacc), "margin": float(margin)},
             }
 
-        # 미채택(확신 부족): 원본 정규화 텍스트 유지
+        # 미채택(확신 부족): None 처리(후속 단계에서 제거/스킵 가능)
         return {
-            "final_text": norm_query,
+            "final_text": None,
             "ingredient": None,
+            "ALG_TAG": None,
             "match_score": float(best_final),
-            "match_type": "below_threshold_or_low_margin",
+            "match_type": "rejected_by_gate",
             "matched_norm": self.entries[best_idx].norm_menu,
-            "debug": {"cos": float(best_cos), "jamo_jaccard": float(best_jacc)},
+            "debug": {"cos": float(best_cos), "jamo_jaccard": float(best_jacc), "margin": float(margin)},
         }
 
 
@@ -355,16 +407,24 @@ def load_meta(meta_path: Path) -> Dict[str, Any]:
         raise ValueError("meta json must include 'json_path'.")
     return meta
 
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=["build", "run"], required=True)
-    ap.add_argument("--dict", help="menuName_ingredients.json path (build mode)")
+    ap.add_argument("--dict", help="menu_final_with_allergen.json path (build mode)")
     ap.add_argument("--index_dir", required=True, help="index directory path")
     ap.add_argument("--model", default="sentence-transformers/paraphrase-multilingual-mpnet-base-v2")
     ap.add_argument("--meta", help="*_run_meta.json path (run mode)")
     ap.add_argument("--out", help="output json path (run mode)")
     ap.add_argument("--threshold", type=float, default=0.90)
     ap.add_argument("--top_k", type=int, default=10)
+
+    ap.add_argument("--min_cos", type=float, default=0.62, help="minimum cosine similarity gate (run)")
+    ap.add_argument("--min_jacc", type=float, default=0.55, help="minimum jamo jaccard gate (run)")
+    ap.add_argument("--min_margin", type=float, default=0.08, help="minimum (best-second) margin gate (run)")
+    ap.add_argument("--drop_nonmenu", action="store_true", help="drop 안내문/옵션 텍스트 in run")
+    ap.add_argument("--drop_nonmenu_regex", default="", help="additional regex to drop in run (optional)")
+    ap.add_argument("--drop_unmatched", action="store_true", help="drop items with final_text == None (run)")
     ap.add_argument("--min_len", type=int, default=2)
     args = ap.parse_args()
 
@@ -395,6 +455,28 @@ def main():
 
     items_out: List[Dict[str, Any]] = []
     for i, raw in enumerate(rec_texts):
+        # 0) 안내문/옵션 텍스트 드롭 (샘플 기반 튜닝)
+        if args.drop_nonmenu:
+            extra_re = re.compile(args.drop_nonmenu_regex) if args.drop_nonmenu_regex else None
+            if is_nonmenu_text(raw) or (extra_re and extra_re.search(str(raw))):
+                if not args.drop_unmatched:
+                    norm_tmp = normalize_menu_text(raw, remove_space=True)
+                    items_out.append({
+                        "idx": i,
+                        "raw_text": raw,
+                        "normalized_text": norm_tmp,
+                        "final_text": None,
+                        "final_text_compact": None,
+                        "ingredient": None,
+                        "ALG_TAG": None,
+                        "match_score": 0.0,
+                        "match_type": "dropped_nonmenu",
+                        "matched_norm": None,
+                        "debug": None,
+                        "box": (rec_boxes[i] if isinstance(rec_boxes, list) and i < len(rec_boxes) else None),
+                    })
+                continue
+
         # ✅ OCR 전처리도 동일 정책: 공백 제거된 정규화 텍스트를 사용/저장
         norm = normalize_menu_text(raw, remove_space=True)
         if len(norm) < args.min_len:
@@ -402,17 +484,30 @@ def main():
         if not is_menu_candidate(norm):
             continue
 
-        m = matcher.match(norm, threshold=args.threshold, top_k=args.top_k)
+        m = matcher.match(
+            norm,
+            threshold=args.threshold,
+            top_k=args.top_k,
+            min_cos=args.min_cos,
+            min_jacc=args.min_jacc,
+            min_margin=args.min_margin,
+        )
+
         final_text = m["final_text"]
         # ✅ 매칭 이후 결과값도 공백 제거 버전 제공 (저장/키로 사용하기 좋음)
-        final_text_compact = normalize_menu_text(final_text, remove_space=True) if final_text else ""
+        final_text_compact = normalize_menu_text(final_text, remove_space=True) if isinstance(final_text, str) else None
+
+        if args.drop_unmatched and final_text is None:
+            continue
+
         items_out.append({
             "idx": i,
             "raw_text": raw,
             "normalized_text": norm,
-            "final_text": m["final_text"],     # ✅ 최종 메뉴명
+            "final_text": m["final_text"],  # ✅ 최종 메뉴명
             "final_text_compact": final_text_compact,  # ✅ 공백 제거 버전
-            "ingredient": m["ingredient"],     # ✅ 재료 리스트
+            "ingredient": m["ingredient"],  # ✅ 재료 리스트
+            "ALG_TAG": m.get("ALG_TAG"),  # ✅ 알러지 태그 리스트
             "match_score": m["match_score"],
             "match_type": m["match_type"],
             "matched_norm": m.get("matched_norm"),
@@ -427,6 +522,11 @@ def main():
         "model": args.model,
         "threshold": args.threshold,
         "top_k": args.top_k,
+        "min_cos": args.min_cos,
+        "min_jacc": args.min_jacc,
+        "min_margin": args.min_margin,
+        "drop_nonmenu": bool(args.drop_nonmenu),
+        "drop_unmatched": bool(args.drop_unmatched),
         "items": items_out,
     }
 
@@ -435,25 +535,23 @@ def main():
     out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"[OK] saved: {out_path} (items={len(items_out)})")
 
+
 if __name__ == "__main__":
     main()
-
 
 '''
 초기 빌딩 코드
 
-python menu_rag_match.py ^
-  --mode build ^
-  --dict menuName_ingredients.json ^
-  --index_dir rag_index ^
-  --model sentence-transformers/paraphrase-multilingual-mpnet-base-v2
-  
+python menu_rag_match.py --mode build --dict menu_final_with_allergen.json --index_dir rag_index
+
+
 실행 코드 
-python menu_rag_match.py ^
-  --mode run ^
+python menu_rag_match.py --mode run ^
   --meta ocr_output/image_1_run_meta.json ^
   --index_dir rag_index ^
   --out ocr_output/image_1_menu_rag.json ^
-  --threshold 0.90 ^
-  --top_k 10
+  --threshold 0.90 --top_k 10 ^
+  --min_cos 0.62 --min_jacc 0.55 --min_margin 0.08 ^
+  --drop_nonmenu --drop_unmatched
+
 '''

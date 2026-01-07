@@ -76,25 +76,12 @@
   "model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
   "threshold": 0.9,
   "top_k": 10,
+  "min_cos": 0.62,
+  "min_jacc": 0.55,
+  "min_margin": 0.08,
+  "drop_nonmenu": true,
+  "drop_unmatched": true,
   "items": [
-    {
-      "idx": 0,
-      "raw_text": "한식마다",
-      "normalized_text": "한식마다",
-      "final_text": "한식마다",
-      "final_text_compact": "한식마다",
-      "ingredient": null,
-      "match_score": 0.8811103701591492,
-      "match_type": "filtered_out_by_jamo",
-      "matched_norm": null,
-      "debug": null,
-      "box": [
-        174,
-        89,
-        270,
-        122
-      ]
-    },
     {
       "idx": 1,
       "raw_text": "김치찌개",
@@ -104,9 +91,13 @@
       "ingredient": [
         "돼지고기",
         "두부",
-        "멸치",
         "새우",
         "참치"
+      ],
+      "ALG_TAG": [
+        "ALG_CRUSTACEANS",
+        "ALG_FISH",
+        "ALG_SOY"
       ],
       "match_score": 1.0,
       "match_type": "exact",
@@ -120,48 +111,6 @@
       ]
     },
     {
-      "idx": 3,
-      "raw_text": "오늘백반",
-      "normalized_text": "오늘백반",
-      "final_text": "오늘백반",
-      "final_text_compact": "오늘백반",
-      "ingredient": null,
-      "match_score": 0.714894292751948,
-      "match_type": "below_threshold_or_low_margin",
-      "matched_norm": "오늘회",
-      "debug": {
-        "cos": 0.920350193977356,
-        "jamo_jaccard": 0.3333333333333333
-      },
-      "box": [
-        290,
-        107,
-        335,
-        121
-      ]
-    },
-    {
-      "idx": 7,
-      "raw_text": "오징어백반",
-      "normalized_text": "오징어백반",
-      "final_text": "오징어백반",
-      "final_text_compact": "오징어백반",
-      "ingredient": null,
-      "match_score": 0.8140435319197805,
-      "match_type": "below_threshold_or_low_margin",
-      "matched_norm": "오징어전골백반",
-      "debug": {
-        "cos": 0.9406337738037109,
-        "jamo_jaccard": 0.5789473684210527
-      },
-      "box": [
-        288,
-        128,
-        346,
-        144
-      ]
-    },
-    {
       "idx": 9,
       "raw_text": "부대찌개",
       "normalized_text": "부대찌개",
@@ -169,9 +118,12 @@
       "final_text_compact": "부대찌개",
       "ingredient": [
         "두부",
-        "멸치",
         "치즈",
         "콩"
+      ],
+      "ALG_TAG": [
+        "ALG_MILK",
+        "ALG_SOY"
       ],
       "match_score": 1.0,
       "match_type": "exact",
@@ -185,48 +137,6 @@
       ]
     },
     {
-      "idx": 11,
-      "raw_text": "제육백반",
-      "normalized_text": "제육백반",
-      "final_text": "제육백반",
-      "final_text_compact": "제육백반",
-      "ingredient": null,
-      "match_score": 0.7792545226487246,
-      "match_type": "below_threshold_or_low_margin",
-      "matched_norm": "회백반",
-      "debug": {
-        "cos": 0.9540978670120239,
-        "jamo_jaccard": 0.45454545454545453
-      },
-      "box": [
-        288,
-        152,
-        334,
-        167
-      ]
-    },
-    {
-      "idx": 15,
-      "raw_text": "낙지백반",
-      "normalized_text": "낙지백반",
-      "final_text": "낙지백반",
-      "final_text_compact": "낙지백반",
-      "ingredient": null,
-      "match_score": 0.7060373588612205,
-      "match_type": "below_threshold_or_low_margin",
-      "matched_norm": "낙지쟁반짜장",
-      "debug": {
-        "cos": 0.9161708354949951,
-        "jamo_jaccard": 0.3157894736842105
-      },
-      "box": [
-        286,
-        172,
-        337,
-        192
-      ]
-    },
-    {
       "idx": 17,
       "raw_text": "순두부찌개",
       "normalized_text": "순두부찌개",
@@ -235,12 +145,17 @@
       "ingredient": [
         "계란",
         "굴",
-        "달걀",
         "돼지고기",
         "두부",
-        "멸치",
         "새우",
         "참치"
+      ],
+      "ALG_TAG": [
+        "ALG_CRUSTACEANS",
+        "ALG_EGGS",
+        "ALG_FISH",
+        "ALG_MOLLUSCS",
+        "ALG_SOY"
       ],
       "match_score": 1.0,
       "match_type": "exact",
@@ -254,27 +169,6 @@
       ]
     },
     {
-      "idx": 19,
-      "raw_text": "우령쌈밥",
-      "normalized_text": "우령쌈밥",
-      "final_text": "우령쌈밥",
-      "final_text_compact": "우령쌈밥",
-      "ingredient": null,
-      "match_score": 0.8086087584495545,
-      "match_type": "below_threshold_or_low_margin",
-      "matched_norm": "쌈밥",
-      "debug": {
-        "cos": 0.9747827053070068,
-        "jamo_jaccard": 0.5
-      },
-      "box": [
-        289,
-        199,
-        334,
-        213
-      ]
-    },
-    {
       "idx": 21,
       "raw_text": "고추장찌개",
       "normalized_text": "고추장찌개",
@@ -284,6 +178,10 @@
         "돼지고기",
         "두부",
         "참치"
+      ],
+      "ALG_TAG": [
+        "ALG_FISH",
+        "ALG_SOY"
       ],
       "match_score": 1.0,
       "match_type": "exact",
@@ -305,8 +203,11 @@
       "ingredient": [
         "돼지고기",
         "두부",
-        "멸치",
         "홍합"
+      ],
+      "ALG_TAG": [
+        "ALG_MOLLUSCS",
+        "ALG_SOY"
       ],
       "match_score": 1.0,
       "match_type": "exact",
@@ -320,60 +221,6 @@
       ]
     },
     {
-      "idx": 25,
-      "raw_text": "소후",
-      "normalized_text": "소후",
-      "final_text": "소후",
-      "final_text_compact": "소후",
-      "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "too_short",
-      "matched_norm": null,
-      "debug": null,
-      "box": [
-        289,
-        240,
-        314,
-        251
-      ]
-    },
-    {
-      "idx": 26,
-      "raw_text": "4,000형 하4,000",
-      "normalized_text": "형하",
-      "final_text": "형하",
-      "final_text_compact": "형하",
-      "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "too_short",
-      "matched_norm": null,
-      "debug": null,
-      "box": [
-        319,
-        239,
-        407,
-        252
-      ]
-    },
-    {
-      "idx": 27,
-      "raw_text": "맥주",
-      "normalized_text": "맥주",
-      "final_text": "맥주",
-      "final_text_compact": "맥주",
-      "ingredient": null,
-      "match_score": 0.0,
-      "match_type": "too_short",
-      "matched_norm": null,
-      "debug": null,
-      "box": [
-        288,
-        255,
-        314,
-        265
-      ]
-    },
-    {
       "idx": 28,
       "raw_text": "뚝배기불고기",
       "normalized_text": "뚝배기불고기",
@@ -382,6 +229,7 @@
       "ingredient": [
         "소고기"
       ],
+      "ALG_TAG": [],
       "match_score": 1.0,
       "match_type": "exact",
       "matched_norm": "뚝배기불고기",
@@ -391,63 +239,6 @@
         265,
         108,
         282
-      ]
-    },
-    {
-      "idx": 29,
-      "raw_text": "4,000 백분재0,000",
-      "normalized_text": "백분재",
-      "final_text": "백분재",
-      "final_text_compact": "백분재",
-      "ingredient": null,
-      "match_score": 0.7099206964174907,
-      "match_type": "below_threshold_or_low_margin",
-      "matched_norm": "백반",
-      "debug": {
-        "cos": 0.91269850730896,
-        "jamo_jaccard": 0.3333333333333333
-      },
-      "box": [
-        320,
-        256,
-        406,
-        265
-      ]
-    },
-    {
-      "idx": 31,
-      "raw_text": "막걸리",
-      "normalized_text": "막걸리",
-      "final_text": "막걸리",
-      "final_text_compact": "막걸리",
-      "ingredient": null,
-      "match_score": 0.9798632860183716,
-      "match_type": "filtered_out_by_jamo",
-      "matched_norm": null,
-      "debug": null,
-      "box": [
-        289,
-        269,
-        315,
-        280
-      ]
-    },
-    {
-      "idx": 32,
-      "raw_text": "3,000 용료수 2,000",
-      "normalized_text": "용료수",
-      "final_text": "용료수",
-      "final_text_compact": "용료수",
-      "ingredient": null,
-      "match_score": 0.9680219888687134,
-      "match_type": "filtered_out_by_jamo",
-      "matched_norm": null,
-      "debug": null,
-      "box": [
-        320,
-        270,
-        406,
-        280
       ]
     }
   ]
