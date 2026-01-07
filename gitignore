@@ -7,7 +7,7 @@ venv/
 # RAG index artifacts (generated)
 AI/rag_index/
 AI/**/rag_index/
-AI/ocr_output
-AI/Upload_Images
+AI/ocr_output/
+AI/Upload_Images/
 *.npy
 *.index
