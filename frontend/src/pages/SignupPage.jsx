@@ -1,4 +1,5 @@
 import "./SignupPage.css";
+import Modal from "../components/Modal";
 import { useMemo, useState } from "react";
 
 function SignupPage() {
@@ -24,10 +25,29 @@ function SignupPage() {
         []
     );
 
-    // ✅ 카테고리 클릭 전엔 옵션이 안 나오게: 초기값을 "" 로 둠
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalType, setModalType] = useState(null);
+    
+    const openModal = (type) => {
+      setModalType(type);
+      setIsModalOpen(true);
+    }
+
+    /*버튼 이벤트 핸들러*/ 
+    function handleSignup() {
+      console.log("Sign up Complite");
+      setIsModalOpen(false)
+    };
+
+    function handleCancel() {
+      console.log("Cancel Complite");
+      setIsModalOpen(false)
+    };
+
+    // 카테고리 클릭 전엔 옵션이 안 나오게: 초기값을 "" 로 둠
     const [activeCategoryId, setActiveCategoryId] = useState("");
 
-    // ✅ 카테고리별 체크 상태 유지
+    // 카테고리별 체크 상태 유지
     const [selections, setSelections] = useState(() => {
         const init = {};
         categories.forEach((c) => (init[c.id] = []));
@@ -57,12 +77,6 @@ function SignupPage() {
         };
         });
     };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        console.log("Selections:", selections);
-    };   
-
 
   return (
     <div>
@@ -372,7 +386,7 @@ function SignupPage() {
           <section>
             <div>
               <button type="button" onClick={() => onClickCategory("allergy")}>
-                Risk (Required) ({(selections.risk ?? []).length})
+                allergy (Required) ({(selections.allergy ?? []).length})
               </button>
 
               <button type="button" onClick={() => onClickCategory("dislike")}>
@@ -408,12 +422,21 @@ function SignupPage() {
         </section>
 
         <section>
-            <button>Cancel</button>
-            <button>Sign up</button>
+            <button onClick={() => openModal('cancel')}>Cancel</button>
+            <button onClick={() => openModal('signup')}>Sign up</button>
+
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onConfirm={modalType === 'cancel' ? handleCancel : handleSignup}
+              message={modalType === 'cancel' ? "Are you sure you want to cancel?" : "Do you want to proceed?"}
+            />
         </section>
       
     </div>
   );
 }
+
+
 
 export default SignupPage;
