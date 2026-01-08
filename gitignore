@@ -9,5 +9,6 @@ AI/rag_index/
 AI/**/rag_index/
 AI/ocr_output/
 AI/Upload_Images/
+AI/index/
 *.npy
 *.index
