@@ -13,7 +13,7 @@ class Member(Base):
     member_id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)  # 해시 저장 전제
-    nickname = Column(String(50), nullable=False)
+    nickname = Column(String(50), nullable=False, unique=True)
     gender = Column(String(10), nullable=True)
     country = Column(String(50), nullable=True)
     # create_member = Column(DateTime, nullable=False, server_default=func.now())
