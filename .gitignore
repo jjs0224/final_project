@@ -11,5 +11,6 @@ env/
 .env
 .env.*
 
-# IDE
+# JetBrains
 .idea/
+*.iml
