@@ -18,6 +18,7 @@ class MemberRegisterCreate(BaseModel):
     gender: Optional[str] = None
     country: Optional[str] = None
     item_ids: List[int] = Field(default_factory=list)
+    hate_input: Optional[List[str]] = None
 
 class MemberRegisterRead(BaseModel):
     email: str
@@ -25,6 +26,7 @@ class MemberRegisterRead(BaseModel):
     gender: Optional[str] = None
     country: Optional[str] = None
     item_ids: List[int] = Field(default_factory=list)
+    hate_input: Optional[List[str]] = None
 
 class MemberRead(ORMBase):
     member_id: int

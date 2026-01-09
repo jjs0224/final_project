@@ -1,85 +1,204 @@
 import "./SignupPage.css";
 import Modal from "../components/Modal";
 import { useMemo, useState } from "react";
+import Header from "../components/Header";
 
 function SignupPage() {
-    const categories = useMemo(
-        () => [
-            {
-                id: "allergy",
-                label: "allergy (Required)",
-                options: Array.from({ length: 14}, (_, i) => ({
-                    id: `allergy-${i +1}`,
-                    label: `Allergy Option ${i +1}`
-                })),
-            },
-            {
-                id:"dislike",
-                label: "Dislike (Optional)",
-                options: Array.from({ length: 14 }, (_, i) => ({
-                    id: `dislike-${i + 1}`,
-                    label: `Dislike Option ${i + 1}`,
-        })),
-            }
-        ],
-        []
-    );
+  const [formData, setformData] = useState({
+    email: "",
+    nickname: "",
+    password: "",
+    passwordConfirm: "",
+    gender: "",
+    country: ""
+  });
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalType, setModalType] = useState(null);
-    
-    const openModal = (type) => {
-      setModalType(type);
-      setIsModalOpen(true);
+  const categories = useMemo(
+      () => [
+          {
+              id: "allergy",
+              label: "allergy (Required)",
+              options: Array.from({ length: 14}, (_, i) => ({
+                  itemId: i +1,
+                  label: `Allergy Option ${i +1}`
+              })),
+          },
+          {
+              id:"plantBased",
+              label: "Plant-Based (Optional)",
+              options: Array.from({ length: 2 }, (_, i) => ({
+                  itemId: 100 + (i + 1),
+                  label: `PlantBased Option ${i + 1}`,
+              })),
+          },
+          {
+              id:"religion",
+              label: "Religion (Optional)",
+              options: Array.from({ length: 4 }, (_, i) => ({
+                  itemId: 200 + (i + 1),
+                  label: `Religion Option ${i + 1}`,
+              })),
+          },          
+          {
+              id:"hate",
+              label: "Hate (Optional)",
+              options: Array.from({ length: 2 }, (_, i) => ({
+                  id: `hate-${i + 1}`,
+                  label: `Hate Option ${i + 1}`,
+              })),
+          }
+      ],
+      []
+  );
+
+  // 카테고리 클릭 전엔 옵션이 안 나오게: 초기값을 "" 로 둠
+  const [activeCategoryId, setActiveCategoryId] = useState("");
+
+  // 카테고리별 선택값: "optionId 문자열"이 아니라 "itemId 숫자" 배열로 유지
+  const [selections, setSelections] = useState(() => {
+      const init = {};
+      categories.forEach((c) => (init[c.id] = []));
+      return init;
+  });
+
+  const activeCategory = categories.find((c) => c.id === activeCategoryId) || null;
+  const checkedList = activeCategoryId ? selections[activeCategoryId] ?? [] : [];
+
+  const onClickCategory = (categoryId) => {
+      // 같은 카테고리 버튼을 다시 누르면 접히게(원치 않으면 이 if 블록 지우면 됨)
+      setActiveCategoryId((prev) => (prev === categoryId ? "" : categoryId));
+  };
+
+  const toggleOption = (itemId) => {
+      if (!activeCategoryId) return;
+
+      setSelections((prev) => {
+      const current = prev[activeCategoryId] ?? [];
+      const exists = current.includes(itemId);
+
+      return {
+          ...prev,
+          [activeCategoryId]: exists
+          ? current.filter((id) => id !== itemId)
+          : [...current, itemId],
+      };
+    });
+  };
+
+ // ✅ input/select 공통 핸들러
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setformData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // payload.item_ids 생성 (중복 제거)
+  const buildItemIds = () => {
+    const all = Object.values(selections).flat();
+    return Array.from(new Set(all));
+  };
+
+  // hate 직접 입력용
+  const [hateInput, setHateInput] = useState("");
+  const [hateTags, setHateTags] = useState([]); // 최대 3개
+
+  const addHateTag = () => {
+    const v = hateInput.trim();
+    if (!v) return;
+
+    // 최대 3개
+    if (hateTags.length >= 3) return;
+
+    // 중복 방지(대소문자 무시)
+    const exists = hateTags.some((t) => t.toLowerCase() === v.toLowerCase());
+    if (exists) {
+      setHateInput("");
+      return;
     }
 
-    /*버튼 이벤트 핸들러*/ 
-    function handleSignup() {
-      console.log("Sign up Complite");
-      setIsModalOpen(false)
+    setHateTags((prev) => [...prev, v]);
+    setHateInput("");
+  };
+
+  const removeHateTag = (tag) => {
+    setHateTags((prev) => prev.filter((t) => t !== tag));
+  };
+
+
+  // 백엔드 POST /members 호출
+  const submitSignup = async () => {
+    // 최소 검증(원하는 규칙 더 추가 가능)
+    if (!formData.email || !formData.nickname || !formData.password) {
+      alert("Email / Nickname / Password are required.");
+      return;
+    }
+    if (formData.password !== formData.passwordConfirm) {
+      alert("Password does not match.");
+      return;
+    }
+    if ((selections.allergy ?? []).length === 0) {
+      alert("Allergy is required.");
+      return;
+    }
+
+    const payload = {
+      email: formData.email,
+      nickname: formData.nickname,
+      password: formData.password,
+      gender: formData.gender,
+      country: formData.country,
+      item_ids: buildItemIds(),
+      hate_input: hateTags
     };
 
-    function handleCancel() {
-      console.log("Cancel Complite");
-      setIsModalOpen(false)
-    };
+    console.log("SEND PAYLOAD:", payload);
 
-    // 카테고리 클릭 전엔 옵션이 안 나오게: 초기값을 "" 로 둠
-    const [activeCategoryId, setActiveCategoryId] = useState("");
+    try {
+      const res = await fetch("/members", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    // 카테고리별 체크 상태 유지
-    const [selections, setSelections] = useState(() => {
-        const init = {};
-        categories.forEach((c) => (init[c.id] = []));
-        return init;
-    });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        // 백엔드: 409 email already exists
+        alert(err?.detail ?? `Signup failed (${res.status})`);
+        return;
+      }
 
-    const activeCategory = categories.find((c) => c.id === activeCategoryId) || null;
-    const checkedList = activeCategoryId ? selections[activeCategoryId] ?? [] : [];
+      const data = await res.json();
+      console.log("Sign up success:", data);
+      alert("Sign up complete!");
+    } catch (e) {
+      console.error(e);
+      alert("Network error");
+    }
+  };
 
-    const onClickCategory = (categoryId) => {
-        // 같은 카테고리 버튼을 다시 누르면 접히게(원치 않으면 이 if 블록 지우면 됨)
-        setActiveCategoryId((prev) => (prev === categoryId ? "" : categoryId));
-    };
+  //  Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
-    const toggleOption = (optionId) => {
-        if (!activeCategoryId) return;
+  const openModal = (type) => {
+    setModalType(type);
+    setIsModalOpen(true);
+  };
 
-        setSelections((prev) => {
-        const current = prev[activeCategoryId] ?? [];
-        const exists = current.includes(optionId);
+  const handleConfirm = async () => {
+    if (modalType === "cancel") {
+      console.log("Cancel Complete");
+      setIsModalOpen(false);
+      return;
+    }
 
-        return {
-            ...prev,
-            [activeCategoryId]: exists
-            ? current.filter((id) => id !== optionId)
-            : [...current, optionId],
-        };
-        });
-    };
+    // signup
+    await submitSignup();
+    setIsModalOpen(false);
+  };
 
   return (
-    <div>
+    <div className="signupPage">
+      <Header showNav={false} showAuthArea={false}/>
         <section>
             Create your account
         </section>
@@ -92,55 +211,60 @@ function SignupPage() {
                     type="text"
                     placeholder="example@email.com"
                     maxLength={30}
+                    value={formData.email}
+                    onChange={onChange}
                 />
             </label>
 
             <label>
             Nickname
-            <input
-                name="nickname"
-                type="text"
-                placeholder="No more than 10 letters"
-                maxLength={10}
-            />
-            </label>
+                <input
+                    name="nickname"
+                    type="text"
+                    placeholder="No more than 10 letters"
+                    maxLength={10}
+                    value={formData.nickname}
+                    onChange={onChange}                
+                />
+                </label>
 
             <label>
             Password
-            <input
-                name="password"
-                type="password"
-                placeholder="Not more than 8 to 20 letters"
-                maxLength={20}
-            />
-            </label>
+                <input
+                    name="password"
+                    type="password"
+                    placeholder="Not more than 8 to 20 letters"
+                    maxLength={20}
+                    value={formData.password}
+                    onChange={onChange}                    
+                />
+                </label>
 
             <label>
             Password Check
-            <input
-                name="passwordConfirm"
-                type="password"
-                placeholder="check password"
-                maxLength={20}
-            />
+                <input
+                    name="passwordConfirm"
+                    type="password"
+                    placeholder="check password"
+                    maxLength={20}
+                    value={formData.passwordConfirm}
+                    onChange={onChange}                    
+                />
             </label>
-{/* 성별 선택창 */}
+  {/* 성별 선택창 */}
             <label>
             Gender
-                <select name="gender">
+                <select name="gender" value={formData.gender} onChange={onChange}>
                     <option value="">choose</option>
                     <option value="Man">Man</option>
                     <option value="Woman">Woman</option>
                     <option value="Unknown">Not select</option>
                 </select>
             </label>
-{/* 국가선택창 */}
+  {/* 국가선택창 */}
             <label>
-            Nationality
-                <select
-                    id="defaultPhysicalAddress.countryCode"
-                    name="defaultPhysicalAddress.countryCode"
-                >
+            Country
+                <select name="country" value={formData.country} onChange={onChange}>
                     <option value="">Choose your country</option>
                     <option value="US">United States</option>
                     <option value="AF">Afghanistan</option>
@@ -382,16 +506,24 @@ function SignupPage() {
                 </select>
             </label>
 
- {/* ✅ 여기부터: 카테고리 클릭 전엔 종류(체크박스) 안 보임 */}
+  {/* 여기부터: 카테고리 클릭 전엔 종류(체크박스) 안 보임 */}
           <section>
             <div>
               <button type="button" onClick={() => onClickCategory("allergy")}>
                 allergy (Required) ({(selections.allergy ?? []).length})
               </button>
 
-              <button type="button" onClick={() => onClickCategory("dislike")}>
-                Dislike (Optional) ({(selections.dislike ?? []).length})
+              <button type="button" onClick={() => onClickCategory("plantBased")}>
+                Plant-based (Optional) ({(selections.plantBased ?? []).length})
               </button>
+              
+              <button type="button" onClick={() => onClickCategory("religion")}>
+                Religion (Optional) ({(selections.religion ?? []).length})
+              </button>
+              
+              <button type="button" onClick={() => onClickCategory("hate")}>
+                Hate (Optional)
+              </button>                            
             </div>
 
             {/* 카테고리 클릭 전엔 아무것도 안 보이게 */}
@@ -399,25 +531,80 @@ function SignupPage() {
               <div>
                 <div>{activeCategory.label}</div>
 
-                {activeCategory.options.map((opt) => (
-                  <label key={opt.id}>
+                {/* hate 카테고리는 체크박스 대신 직접 입력 */}
+                {activeCategoryId === "hate" ? (
+                  <div>
                     <input
-                      type="checkbox"
-                      checked={checkedList.includes(opt.id)}
-                      onChange={() => toggleOption(opt.id)}
+                      type="text"
+                      value={hateInput}
+                      placeholder="eg) coriander"
+                      maxLength={50}
+                      onChange={(e) => setHateInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          addHateTag();
+                        }
+                      }}
+                      disabled={hateTags.length >= 3}
                     />
-                    {opt.label}
-                  </label>
-                ))}
+                    <button
+                      type="button"
+                      onClick={addHateTag}
+                      disabled={hateTags.length >= 3}
+                    >
+                      Add
+                    </button>
+
+                    {/* 태그 표시 */}
+                    <div style={{ marginTop: 8, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      {hateTags.map((tag) => (
+                        <span
+                          key={tag}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            padding: "4px 8px",
+                            border: "1px solid #ccc",
+                            borderRadius: 999,
+                            fontSize: 12,
+                          }}
+                        >
+                          {tag}
+                          <button type="button" onClick={() => removeHateTag(tag)}>
+                            x
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+
+                    <div style={{ marginTop: 6, fontSize: 12 }}>
+                      {hateTags.length}/3
+                    </div>
+
+                    {/* 서버로 같이 보낼 값(일단 유지용) */}
+                    <input
+                      type="hidden"
+                      name="hateTags"
+                      value={JSON.stringify(hateTags)}
+                    />
+                  </div>
+                ) : (
+                  //  기존대로 체크박스 렌더링 (hate 제외)
+                  activeCategory.options.map((opt) => (
+                    <label key={opt.itemId}>
+                      <input
+                        type="checkbox"
+                        checked={checkedList.includes(opt.itemId)}
+                        onChange={() => toggleOption(opt.itemId)}
+                      />
+                      {opt.label}
+                    </label>
+                  ))
+                )}
               </div>
             ) : null}
-
-            {/* 서버로 같이 보낼 값 */}
-            <input
-              type="hidden"
-              name="categorySelections"
-              value={JSON.stringify(selections)}
-            />
           </section>
         </section>
 
@@ -428,7 +615,7 @@ function SignupPage() {
             <Modal
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
-              onConfirm={modalType === 'cancel' ? handleCancel : handleSignup}
+              onConfirm={handleConfirm}
               message={modalType === 'cancel' ? "Are you sure you want to cancel?" : "Do you want to proceed?"}
             />
         </section>
@@ -436,7 +623,5 @@ function SignupPage() {
     </div>
   );
 }
-
-
 
 export default SignupPage;

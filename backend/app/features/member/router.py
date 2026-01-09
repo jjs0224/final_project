@@ -32,7 +32,7 @@ def create_member(payload: schemas.MemberRegisterCreate, db: Session = Depends(g
     print(payload)
     print(payload.item_ids)
 
-    member_data = payload.model_dump(exclude={"item_ids"})
+    member_data = payload.model_dump(exclude={"item_ids", "hate_input"})
     member = Member(**member_data)
     print(member)
 
@@ -74,6 +74,7 @@ def create_member(payload: schemas.MemberRegisterCreate, db: Session = Depends(g
         gender=member.gender,
         country=member.country,
         item_ids=payload.item_ids,
+        hate_input=payload.hate_input
     )
 
     print("RETURN RESULT:", result.model_dump())
