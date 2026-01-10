@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from worker_app.vision.rectify import (
+from menu_assistant.worker.worker_app.vision.rectify import (
     RectifyConfig,
     rectify_image,
     read_image_bgr,
