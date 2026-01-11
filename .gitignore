@@ -14,3 +14,5 @@ env/
 # JetBrains
 .idea/
 *.iml
+
+interpreter_packages.txt
