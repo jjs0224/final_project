@@ -7,6 +7,6 @@ class Dislike(Base):
 
     dislike_id = Column(Integer, primary_key=True, autoincrement=True)
     member_id = Column(Integer, ForeignKey("member.member_id", ondelete="CASCADE"), nullable=False, unique=True)
-    dislike_text = Column(Text, nullable=True)
+    dislike_tag = Column(Text, nullable=True)
 
     member = relationship("Member", back_populates="dislike")

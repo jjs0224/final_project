@@ -32,7 +32,7 @@ def update_member(member_id: int, payload: schemas.MemberUpdate, db: Session = D
         "gender": m.gender,
         "country": m.country,
         "item_ids": payload.item_ids,         # 필요하면 실제 DB에서 다시 조회해서 내려주기
-        "dislike_texts": payload.dislike_texts,
+        "dislike_tags": payload.dislike_tags,
     }
 
 # MyPage 회원 탈퇴

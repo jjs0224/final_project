@@ -18,7 +18,7 @@ def create_member(db: Session, payload) -> None:
     try:
         with db.begin():
             # item_ids / dislike 제외하고 member 조회
-            member_data = payload.model_dump(exclude={"item_ids", "dislike_texts"})
+            member_data = payload.model_dump(exclude={"item_ids", "dislike_tags"})
             member = Member(**member_data)
             db.add(member)
             db.flush()
@@ -37,17 +37,19 @@ def create_member(db: Session, payload) -> None:
 
                 db.add_all([MemberRestrictions(member_id=member_id, item_id=i) for i in sorted(req_ids)])
 
-            # dislike_text 비선호 추가 부분
-            if payload.dislike_texts is not None and len(payload.dislike_texts) > 0:
-                if isinstance(payload.dislike_texts, list):
-                    text_json = json.dumps(payload.dislike_texts, ensure_ascii=False)
-                db.add(Dislike(member_id=member_id, dislike_text=text_json))
+            # dislike_tag 비선호 추가 부분
+            if payload.dislike_tags is not None and len(payload.dislike_tags) > 0:
+                if isinstance(payload.dislike_tags, list):
+                    tag_json = json.dumps(payload.dislike_tags, ensure_ascii=False)
+                db.add(Dislike(member_id=member_id, dislike_tag=tag_json))
 
     except IntegrityError:
         raise HTTPException(409, detail="duplicate key")
 
 # 조회
 def get_member(db: Session, member_id: int) -> dict:
+    print(member_id)
+
     m = db.get(Member, member_id)
     if not m:
         raise HTTPException(status_code=404, detail="Member not found")
@@ -56,14 +58,22 @@ def get_member(db: Session, member_id: int) -> dict:
         select(MemberRestrictions.item_id).where(MemberRestrictions.member_id == member_id)
     ).scalars().all()
 
-    text_raw = db.execute(
-        select(Dislike.member_id).where(Dislike.member_id == member_id)
+    tag_raw = db.execute(
+        select(Dislike.dislike_tag).where(Dislike.member_id == member_id)
     ).scalar_one_or_none()
+    print("tag_raw :: ", tag_raw)
 
-    dislike_texts = None
-    if text_raw is not None:
-        # DB에 JSON 문자열로 저장했으니 리스트로 복원
-        dislike_texts = json.loads(text_raw)
+    # dislike_tags = None
+    # if tag_raw is not None:
+    #     # DB에 JSON 문자열로 저장했으니 리스트로 복원
+    #     dislike_tags = json.loads(tag_raw)
+
+    dislike_tags = None
+    if tag_raw is not None:
+        try:
+            dislike_tags = json.loads(tag_raw)
+        except Exception:
+            dislike_tags = [tag_raw]  # 혹시 그냥 문자열이면 방어
 
     return {
         "email": m.email,
@@ -71,11 +81,13 @@ def get_member(db: Session, member_id: int) -> dict:
         "gender": m.gender,
         "country": m.country,
         "item_ids": item_ids,
-        "dislike_texts": dislike_texts,
+        "dislike_tags": dislike_tags,
     }
 
 # 수정
 def update_member(db: Session, member_id: int, payload):
+
+    print(payload)
 
     try:
         with db.begin():
@@ -112,22 +124,22 @@ def update_member(db: Session, member_id: int, payload):
                     if new_ids:
                         db.add_all([MemberRestrictions(member_id=member_id, item_id=i) for i in sorted(new_ids)])
 
-            # dislike_texts: None=변경없음 / ""=비우기 / 텍스트=업데이트
-            if payload.dislike_texts is not None:
+            # dislike_tags: None=변경없음 / ""=비우기 / 텍스트=업데이트
+            if payload.dislike_tags is not None:
 
-                if len(payload.dislike_texts) == 0:
+                if len(payload.dislike_tags) == 0:
                     # []면 dislike row 삭제(있을 때만)
                     db.execute(delete(Dislike).where(Dislike.member_id == member_id))
 
-                text_json = json.dumps(payload.dislike_texts, ensure_ascii=False)
+                tag_json = json.dumps(payload.dislike_tags, ensure_ascii=False)
 
                 c = db.execute(
                     select(Dislike).where(Dislike.member_id == member_id)
                 ).scalar_one_or_none()
                 if c:
-                    c.dislike_text = json.dumps(text_json, ensure_ascii=False)
+                    c.dislike_tag = json.dumps(tag_json, ensure_ascii=False)
                 else:
-                    db.add(Dislike(member_id=member_id, dislike_text=text_json))
+                    db.add(Dislike(member_id=member_id, dislike_tag=tag_json))
 
         # 현재 재조회 아닌 입력받은 payload 사용으로 재조회 로직 사용 x
 

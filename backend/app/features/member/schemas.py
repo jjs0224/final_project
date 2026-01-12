@@ -12,13 +12,13 @@ class MemberCreate(BaseModel):
     gender: Optional[str] = None
     country: Optional[str] = None
     item_ids: Optional[List[int]] = None
-    dislike_texts: Optional[List[str]] = None
+    dislike_tags: Optional[List[str]] = None
 
 # 수정
 class MemberUpdate(BaseModel):
     nickname: str
     item_ids: Optional[List[int]] = None
-    dislike_texts: Optional[List[str]] = None
+    dislike_tags: Optional[List[str]] = None
 
 # response [응답]
 class MemberRead(BaseModel):
@@ -27,5 +27,5 @@ class MemberRead(BaseModel):
     gender: str
     country: str
     item_ids: Optional[List[int]] = None
-    dislike_texts: Optional[List[str]] = None
+    dislike_tags: Optional[List[str]] = None
 
