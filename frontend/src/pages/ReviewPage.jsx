@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReviewList from "../components/ReviewList";
 import Header from "../components/Header";
-
 const SESSION_KEY = "final_project_session";
+
 
 function getSession() {
   try {
@@ -67,14 +67,10 @@ export default function ReviewPage() {
         />
 
         <button
-          className="ghostBtn"
-          onClick={() => {
-            if (!session?.user?.id) return navigate("/login");
-            navigate(`/profile/${session.user.id}`);
-          }}
-          title="닉네임 클릭 시 프로필 페이지로 이동"
+          className="create_review_Btn"
+          onClick={() => navigate("/review/new")}
         >
-          {nickname}
+            Create Review
         </button>
       </div>
 
