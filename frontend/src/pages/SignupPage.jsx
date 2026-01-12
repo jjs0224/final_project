@@ -509,21 +509,28 @@ function SignupPage() {
   {/* 여기부터: 카테고리 클릭 전엔 종류(체크박스) 안 보임 */}
           <section>
             <div>
-              <button type="button" onClick={() => onClickCategory("allergy")}>
-                allergy (Required) ({(selections.allergy ?? []).length})
-              </button>
+              <section>
+                <h1>
+                  select dietary requirement   
+                </h1>
+              </section>
+              <section>
+                <button type="button" onClick={() => onClickCategory("allergy")}>
+                  allergy (Optional) ({(selections.allergy ?? []).length})
+                </button>
 
-              <button type="button" onClick={() => onClickCategory("plantBased")}>
-                Plant-based (Optional) ({(selections.plantBased ?? []).length})
-              </button>
-              
-              <button type="button" onClick={() => onClickCategory("religion")}>
-                Religion (Optional) ({(selections.religion ?? []).length})
-              </button>
-              
-              <button type="button" onClick={() => onClickCategory("hate")}>
-                Hate (Optional)
-              </button>                            
+                <button type="button" onClick={() => onClickCategory("plantBased")}>
+                  Plant-based (Optional) ({(selections.plantBased ?? []).length})
+                </button>
+                
+                <button type="button" onClick={() => onClickCategory("religion")}>
+                  Religion (Optional) ({(selections.religion ?? []).length})
+                </button>
+                
+                <button type="button" onClick={() => onClickCategory("hate")}>
+                  Hate (Optional)
+                </button>                            
+              </section>
             </div>
 
             {/* 카테고리 클릭 전엔 아무것도 안 보이게 */}

@@ -66,16 +66,6 @@ export default function ReviewPage() {
           placeholder="검색창"
         />
 
-        <button
-          className="ghostBtn"
-          onClick={() => {
-            if (!session?.user?.id) return navigate("/login");
-            navigate(`/profile/${session.user.id}`);
-          }}
-          title="닉네임 클릭 시 프로필 페이지로 이동"
-        >
-          {nickname}
-        </button>
       </div>
 
       <div className="listBox">
