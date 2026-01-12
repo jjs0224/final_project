@@ -7,7 +7,7 @@ import time
 import cv2
 import numpy as np
 #보정모델과 결과에대한 이미지와 meta에대한 데이터클래스(RectifyResult)
-from .backends import DoctrBackend, DewarpNetBackend, DocUNetBackend, RectifyResult
+from .backends import DoctrBackend, DewarpNetBackend, DocUNetBackend, RectifyResult ,AutoBackend
 #좌표값을 건드리지않고 기본적으로 할수있는 보정에관한 객체및옵션값들
 from .photometric import (
     EnhanceConfig,
@@ -43,7 +43,11 @@ def _get_backend(name: str, device: str, model_dir: Optional[str]):
         return DewarpNetBackend(device=device, model_dir=model_dir)
     if name == "docunet":
         return DocUNetBackend(device=device, model_dir=model_dir)
+    if name == "auto":
+        return AutoBackend(device=device, model_dir=model_dir)
     raise ValueError(f"Unknown backend: {name}")
+
+
 
 #image_bgr img정보와 위에서 설정한 객체값을 받아서 RectifyResult 형식의 객체를 얻어낸다.
 def rectify_image(image_bgr: np.ndarray, cfg: RectifyConfig) -> RectifyResult:

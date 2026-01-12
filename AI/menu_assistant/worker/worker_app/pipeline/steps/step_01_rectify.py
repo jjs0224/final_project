@@ -27,7 +27,7 @@ def main():
     parser.add_argument("--run_id", default=None, help="Run ID (default: timestamp)")
     parser.add_argument("--data_dir", default="menu_assistant/data/runs", help="Base output dir")
     #default none 값은 photometric-only(조명/노이즈/대비 등)만 조정 choices에 있는 모델을 선택 가능
-    parser.add_argument("--backend", default="none", choices=["none", "doctr", "dewarpnet", "docunet"])
+    parser.add_argument("--backend", default="auto", choices=["none", "doctr", "dewarpnet", "docunet","auto"])
     #가중치 값을 사용하거나 cuda 이용할시에 주는 옵션
     parser.add_argument("--device", default="cpu", help="cpu|cuda (depends on backend impl)")
     parser.add_argument("--model_dir", default=None, help="Optional model directory for backend weights")

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple, List
 
 import cv2
 import numpy as np
@@ -16,22 +16,41 @@ class DocUNetConfig:
     """
     Working menu-board rectification backend.
 
-    - enable_orientation: try DocTR orientation (0/90/180/270) BEFORE perspective warp
-    - strict_weights: reserved for future DL weights; if True and weights missing -> raise
-    - params: OpenCV perspective detection/warp parameters
+    Pipeline:
+      1) (Optional) DocTR orientation predictor
+      2) Apply inverse rotation (correction) to make upright
+      3) OpenCV contour-based quad detection
+      4) Perspective warp to fronto-parallel rectangle
+
+    Controls:
+      - min_orientation_confidence: confidence below this => treat as uncertain
+      - prefer_fallback_when_low_conf: if uncertain, prefer heuristic/candidate selection
+      - try_both_directions_when_uncertain: test 90/270 candidates and pick best by quad-detection quality
     """
     params: PerspectiveRectifyParams = PerspectiveRectifyParams()
     strict_weights: bool = False
+    #enable_orientation: DocTR로 회전 추정을 할지 여부
     enable_orientation: bool = True
+    #predictor가 낸 confidence가 이 값 미만이면 “불확실”로 판단
+    min_orientation_confidence: float = 0.95
+    prefer_fallback_when_low_conf: bool = True
+    #불확실한 경우 90/270 등 여러 후보를 실제로 돌려보고 최선 선택
+    try_both_directions_when_uncertain: bool = True
+    prefer_doctr_when_tie: bool = True
+    tie_area_ratio: float = 0.01  # 1% 이내면 동률로 간주
 
 
 class DocUNetBackend(RectifyBackend):
     """
-    docunet backend = (optional) DocTR orientation + OpenCV perspective rectification.
+    docunet backend: DocTR orientation (optional) + OpenCV perspective rectify.
 
-    IMPORTANT:
-    - This class MUST override rectify(). If you see NotImplementedError from base.py,
-      it usually means this file's indentation/structure got corrupted.
+    Key decisions:
+      - The predictor output is interpreted as "current document orientation".
+        Therefore we apply the inverse rotation as the correction:
+          correction_angle = (-pred_angle) % 360
+
+      - If confidence is low or parsing fails, we fall back to heuristic candidate rotations
+        and select the best one by document quad detection quality.
     """
 
     name = "docunet"
@@ -40,7 +59,7 @@ class DocUNetBackend(RectifyBackend):
         super().__init__(device=device, model_dir=model_dir)
         self.config = config or DocUNetConfig()
 
-        # Optional torch wiring (future DL path)
+        # torch (future DL weights path)
         self._torch = None
         self._torch_import_error: Optional[BaseException] = None
         self._model = None
@@ -55,7 +74,7 @@ class DocUNetBackend(RectifyBackend):
             self._torch = _torch
             self._torch_import_error = None
 
-        # Optional doctr wiring for orientation
+        # doctr (orientation)
         self._doctr = None
         self._doctr_import_error: Optional[BaseException] = None
         self._orientation_predictor = None
@@ -69,10 +88,10 @@ class DocUNetBackend(RectifyBackend):
             self._doctr = _doctr
             self._doctr_import_error = None
 
-        self._models_ready: bool = False  # lazy init flag
+        self._models_ready: bool = False
 
     # -------------------------
-    # Validation / helpers
+    # basic helpers
     # -------------------------
     @staticmethod
     def _validate_image(image_bgr: np.ndarray) -> Tuple[int, int]:
@@ -90,62 +109,6 @@ class DocUNetBackend(RectifyBackend):
         return image_bgr[:, :, ::-1].copy()
 
     @staticmethod
-    def _normalize_angle(val: Any) -> Optional[int]:
-        if val is None:
-            return None
-        if isinstance(val, (int, np.integer, float, np.floating)):
-            v = int(round(float(val)))
-            v = v % 360  # -90 -> 270 으로 변환
-            return v if v in (0, 90, 180, 270) else None
-        if isinstance(val, (float, np.floating)):
-            v = int(round(float(val)))
-            return v % 360 if v % 90 == 0 else None
-        if isinstance(val, str):
-            s = val.strip().lower()
-            mapping = {
-                "0": 0, "90": 90, "180": 180, "270": 270,
-                "upright": 0, "rot90": 90, "rot180": 180, "rot270": 270,
-            }
-            if s in mapping:
-                return mapping[s]
-            for key in ("0", "90", "180", "270"):
-                if key in s:
-                    return int(key)
-        return None
-
-    @staticmethod
-    def _angle_from_doctr_output(out: Any) -> Optional[int]:
-        if isinstance(out, dict):
-            for k in ("angle", "orientation", "rotation"):
-                if k in out:
-                    return DocUNetBackend._normalize_angle(out[k])
-
-        if isinstance(out, (list, tuple)) and len(out) > 0:
-            first = out[0]
-            ang = DocUNetBackend._angle_from_doctr_output(first)
-            if ang is not None:
-                return ang
-            if len(out) == 4 and all(isinstance(x, (int, float, np.floating, np.integer)) for x in out):
-                arr = np.array(out, dtype=float)
-                return [0, 90, 180, 270][int(arr.argmax())]
-
-        if isinstance(out, np.ndarray):
-            arr = out
-            if arr.ndim == 2 and arr.shape[0] == 1:
-                arr = arr[0]
-            if arr.ndim == 1 and arr.shape[0] == 4:
-                return [0, 90, 180, 270][int(np.argmax(arr))]
-        if isinstance(out, (list, tuple)) and len(out) == 3:
-            # page_orientation_predictor output like: [[class_id], [angle_deg], [confidence]]
-            try:
-                angle_candidate = out[1][0] if isinstance(out[1], (list, tuple, np.ndarray)) else out[1]
-                return DocUNetBackend._normalize_angle(angle_candidate)
-            except Exception:
-                pass
-
-        return DocUNetBackend._normalize_angle(out)
-
-    @staticmethod
     def _apply_rotation_bgr(image_bgr: np.ndarray, angle: int) -> np.ndarray:
         a = angle % 360
         if a == 0:
@@ -159,7 +122,106 @@ class DocUNetBackend(RectifyBackend):
         return image_bgr
 
     # -------------------------
-    # Optional: weights discovery (future DL path)
+    # doctr output normalization/parsing
+    # -------------------------
+    @staticmethod
+    def _normalize_angle(val: Any) -> Optional[int]:
+        """
+        Normalize angle-like values into one of {0, 90, 180, 270}.
+        Supports negative angles: -90 -> 270.
+        """
+        if val is None:
+            return None
+
+        if isinstance(val, (int, np.integer, float, np.floating)):
+            v = int(round(float(val)))
+            v = v % 360
+            return v if v in (0, 90, 180, 270) else None
+
+        if isinstance(val, str):
+            s = val.strip().lower()
+            mapping = {
+                "0": 0, "90": 90, "180": 180, "270": 270,
+                "-90": 270,
+                "upright": 0, "rot90": 90, "rot180": 180, "rot270": 270,
+            }
+            if s in mapping:
+                return mapping[s]
+            for key in ("0", "90", "180", "270", "-90"):
+                if key in s:
+                    return mapping.get(key, None)
+
+        return None
+
+    @staticmethod
+    def _angle_from_doctr_output(out: Any) -> Optional[int]:
+        """
+        Extract normalized angle in {0,90,180,270} from various doctr outputs.
+
+        Known page_orientation_predictor format (observed):
+          [[class_id], [angle_deg], [confidence]]
+          e.g. [[1], [-90], [0.9]]
+        """
+        # dict with angle key
+        if isinstance(out, dict):
+            for k in ("angle", "orientation", "rotation"):
+                if k in out:
+                    return DocUNetBackend._normalize_angle(out[k])
+
+        # page_orientation_predictor observed output: [[cls], [angle], [conf]]
+        if isinstance(out, (list, tuple)) and len(out) == 3:
+            try:
+                angle_part = out[1]
+                if isinstance(angle_part, (list, tuple, np.ndarray)) and len(angle_part) > 0:
+                    angle_part = angle_part[0]
+                ang = DocUNetBackend._normalize_angle(angle_part)
+                if ang is not None:
+                    return ang
+            except Exception:
+                pass
+
+        # batch list/tuple: try first element recursively
+        if isinstance(out, (list, tuple)) and len(out) > 0:
+            first = out[0]
+            ang = DocUNetBackend._angle_from_doctr_output(first)
+            if ang is not None:
+                return ang
+
+            # probability vector [p0,p90,p180,p270]
+            if len(out) == 4 and all(isinstance(x, (int, float, np.floating, np.integer)) for x in out):
+                arr = np.array(out, dtype=float)
+                idx = int(arr.argmax())
+                return [0, 90, 180, 270][idx]
+
+        # numpy array probability vector
+        if isinstance(out, np.ndarray):
+            arr = out
+            if arr.ndim == 2 and arr.shape[0] == 1:
+                arr = arr[0]
+            if arr.ndim == 1 and arr.shape[0] == 4:
+                idx = int(np.argmax(arr))
+                return [0, 90, 180, 270][idx]
+
+        return DocUNetBackend._normalize_angle(out)
+
+    @staticmethod
+    def _confidence_from_doctr_output(out: Any) -> Optional[float]:
+        """
+        Extract confidence from page_orientation_predictor output:
+          [[class_id], [angle_deg], [confidence]]
+        """
+        if isinstance(out, (list, tuple)) and len(out) == 3:
+            try:
+                conf_part = out[2]
+                if isinstance(conf_part, (list, tuple, np.ndarray)) and len(conf_part) > 0:
+                    conf_part = conf_part[0]
+                return float(conf_part)
+            except Exception:
+                return None
+        return None
+
+    # -------------------------
+    # weights discovery (future DL path)
     # -------------------------
     def _resolve_weights_path(self) -> Optional[Path]:
         if not self.model_dir:
@@ -177,7 +239,7 @@ class DocUNetBackend(RectifyBackend):
         return found[0] if found else None
 
     # -------------------------
-    # Lazy init (v2 doctr API support)
+    # lazy init (doctr predictor)
     # -------------------------
     def _lazy_init_models(self) -> Dict[str, Any]:
         if self._models_ready:
@@ -200,7 +262,6 @@ class DocUNetBackend(RectifyBackend):
             "doctr_import_error": repr(self._doctr_import_error) if self._doctr_import_error else None,
         }
 
-        # Try doctr orientation predictors (version differences)
         if self.config.enable_orientation and self._doctr is not None:
             try:
                 from doctr.models import page_orientation_predictor  # type: ignore
@@ -223,9 +284,17 @@ class DocUNetBackend(RectifyBackend):
         return init_meta
 
     # -------------------------
-    # Orientation -> perspective
+    # orientation correction (confidence + candidate selection)
     # -------------------------
     def _maybe_apply_orientation(self, image_bgr: np.ndarray) -> Tuple[np.ndarray, Dict[str, Any]]:
+        """
+        Orientation correction with:
+          - doctr prediction parsing (angle + confidence)
+          - confidence thresholding
+          - SAFE fallback: never rotate if all candidates fail to produce a valid document quad
+          - candidate testing (prefer 0-degree first for safety)
+          - ✅ tie-break: if 0 vs doctr_inverse are nearly equal, prefer doctr_inverse
+        """
         meta: Dict[str, Any] = {
             "enabled": bool(self.config.enable_orientation),
             "applied": False,
@@ -233,43 +302,180 @@ class DocUNetBackend(RectifyBackend):
         }
 
         if not self.config.enable_orientation:
+            meta["reason"] = "orientation disabled"
             return image_bgr, meta
 
         if self._orientation_predictor is None:
             meta["reason"] = "orientation predictor unavailable"
             return image_bgr, meta
 
+        # --- helper: score a rotated image by document quad detection quality ---
+        def score_rotation(img: np.ndarray) -> Tuple[float, Dict[str, Any]]:
+            quad, find_meta = find_document_quad(img, self.config.params)
+            if quad is None:
+                return 0.0, {"found": False, "find": find_meta}
+            best_area = float(find_meta.get("best_area", 0.0))
+            # Found quad => big base score, then tie-break by area
+            return 1e9 + best_area, {"found": True, "find": find_meta}
+
         try:
+            # 1) run doctr predictor
             rgb = self._bgr_to_rgb(image_bgr)
             pred_out = self._orientation_predictor([rgb])
+
+            meta["raw_output_type"] = type(pred_out).__name__
             try:
                 meta["raw_output_preview"] = str(pred_out)[:500]
             except Exception:
                 meta["raw_output_preview"] = "<unserializable>"
-            angle = self._angle_from_doctr_output(pred_out)
-            meta["raw_output_type"] = type(pred_out).__name__
-            meta["angle"] = angle
 
-            if angle in (0, 90, 180, 270):
-                # predictor가 준 값은 '현재 문서 방향'으로 보고, 정상화는 반대 방향으로 회전
-                correction = (-int(angle)) % 360
+            pred_angle = self._angle_from_doctr_output(pred_out)  # 0/90/180/270 or None
+            pred_conf = self._confidence_from_doctr_output(pred_out)  # float or None
+
+            meta["angle"] = pred_angle
+            meta["confidence"] = pred_conf
+
+            # 2) determine uncertainty
+            uncertain = False
+            if pred_angle is None:
+                uncertain = True
+                meta["uncertain_reason"] = "angle_parse_failed"
+            elif pred_conf is not None and pred_conf < float(self.config.min_orientation_confidence):
+                uncertain = True
+                meta["uncertain_reason"] = f"low_confidence<{self.config.min_orientation_confidence}"
+
+            # 3) confident path: apply doctr inverse correction directly
+            if (not uncertain) and pred_angle in (0, 90, 180, 270):
+                correction = (-int(pred_angle)) % 360
                 rotated = self._apply_rotation_bgr(image_bgr, correction)
 
-                meta["angle"] = angle  # 모델이 예측한 '문서 방향'
-                meta["correction_angle"] = correction  # 실제 적용한 회전
+                meta["correction_angle"] = correction
                 meta["applied"] = (correction != 0)
+                meta["reason"] = "used_doctr_inverse_confident"
                 return rotated, meta
-                meta["applied"] = (angle != 0)
-                return rotated, meta
+
+            # 4) uncertain path: build candidates
             h, w = image_bgr.shape[:2]
-            if (angle is None) and (w > h):
-                rotated = self._apply_rotation_bgr(image_bgr, 270)  # 필요하면 90으로 변경
-                meta["fallback"] = {"applied": True, "rule": "angle_none_and_w>h -> rotate270"}
-                meta["angle"] = 270
-                meta["applied"] = True
+            candidates: List[Tuple[int, str]] = []
+
+            # Always include 0-degree first for safety
+            candidates.append((0, "no_rotation"))
+
+            # If landscape, try 90/270
+            if w > h:
+                candidates.append((90, "fallback_rotate90_w>h"))
+                candidates.append((270, "fallback_rotate270_w>h"))
+
+            # Include doctr inverse correction as candidate if available
+            doctr_correction: Optional[int] = None
+            if pred_angle in (0, 90, 180, 270):
+                doctr_correction = (-int(pred_angle)) % 360
+                candidates.append((doctr_correction, "doctr_inverse_candidate"))
+
+            # de-duplicate by angle (keep first tag)
+            seen = set()
+            uniq: List[Tuple[int, str]] = []
+            for ang, tag in candidates:
+                if ang not in seen:
+                    seen.add(ang)
+                    uniq.append((ang, tag))
+            candidates = uniq
+
+            # If not trying both directions, pick first (safe 0deg)
+            if not bool(self.config.try_both_directions_when_uncertain):
+                ang, tag = candidates[0]
+                rotated = self._apply_rotation_bgr(image_bgr, ang)
+                meta["fallback"] = {
+                    "applied": False,
+                    "chosen": {"angle": ang, "tag": tag},
+                    "candidates": candidates,
+                    "note": "try_both_directions_when_uncertain is False; chose first candidate (safe 0deg).",
+                }
+                meta["correction_angle"] = ang
+                meta["applied"] = False
+                meta["reason"] = "fallback_disabled_try_both_false"
                 return rotated, meta
-            meta["reason"] = "angle not normalized to 0/90/180/270"
-            return image_bgr, meta
+
+            # 5) score candidates
+            best_score = -1.0
+            best_ang = 0
+            best_tag = "no_rotation"
+            best_detail: Dict[str, Any] = {}
+
+            all_failed = True
+            scored: List[Dict[str, Any]] = []
+
+            for ang, tag in candidates:
+                rotated = self._apply_rotation_bgr(image_bgr, ang)
+                s, detail = score_rotation(rotated)
+
+                found = bool(detail.get("found", False))
+                if found:
+                    all_failed = False
+
+                scored.append({
+                    "angle": ang,
+                    "tag": tag,
+                    "score": s,
+                    "found": found,
+                    "best_area": float(detail.get("find", {}).get("best_area", 0.0)),
+                })
+
+                if s > best_score:
+                    best_score = s
+                    best_ang = ang
+                    best_tag = tag
+                    best_detail = detail
+
+            # ✅ SAFETY RULE: if all candidates fail to find quad -> DO NOT ROTATE
+            if all_failed or best_score <= 0.0:
+                meta["fallback"] = {
+                    "applied": False,
+                    "chosen": {"angle": 0, "tag": "no_rotation_all_candidates_failed"},
+                    "candidates": candidates,
+                    "scored": scored,
+                    "scoring": {"all_failed": True},
+                }
+                meta["correction_angle"] = 0
+                meta["applied"] = False
+                meta["reason"] = "fallback_disabled_all_candidates_failed"
+                return image_bgr, meta
+
+            # ✅ TIE-BREAK: if 0deg and doctr_inverse are both found and areas are nearly equal, prefer doctr_inverse
+            if bool(self.config.prefer_doctr_when_tie) and (doctr_correction is not None):
+                areas = {s["angle"]: float(s.get("best_area", 0.0)) for s in scored if s.get("found", False)}
+                if 0 in areas and doctr_correction in areas:
+                    a0 = areas[0]
+                    ad = areas[doctr_correction]
+                    denom = max(a0, ad, 1e-6)
+                    rel_diff = abs(a0 - ad) / denom
+
+                    # if difference within tie ratio, trust doctr prior
+                    if rel_diff <= float(self.config.tie_area_ratio):
+                        best_ang = doctr_correction
+                        best_tag = "doctr_inverse_tie_break"
+                        best_detail = {
+                            "tie_break": {
+                                "rel_diff": rel_diff,
+                                "area_0deg": a0,
+                                "area_doctr_inverse": ad,
+                                "tie_area_ratio": float(self.config.tie_area_ratio),
+                            }
+                        }
+
+            # apply best rotation
+            rotated = self._apply_rotation_bgr(image_bgr, best_ang)
+            meta["fallback"] = {
+                "applied": best_ang != 0,
+                "chosen": {"angle": best_ang, "tag": best_tag},
+                "candidates": candidates,
+                "scored": scored,
+                "scoring": best_detail,
+            }
+            meta["correction_angle"] = best_ang
+            meta["applied"] = (best_ang != 0)
+            meta["reason"] = "used_fallback_candidate_selection_safe"
+            return rotated, meta
 
         except Exception as e:
             meta["error"] = repr(e)
@@ -277,7 +483,7 @@ class DocUNetBackend(RectifyBackend):
             return image_bgr, meta
 
     # -------------------------
-    # PUBLIC: rectify (MUST override)
+    # public
     # -------------------------
     def rectify(self, image_bgr: np.ndarray) -> RectifyResult:
         h, w = self._validate_image(image_bgr)
@@ -310,9 +516,11 @@ class DocUNetBackend(RectifyBackend):
                 "Provide --model_dir pointing to a weights file or directory."
             )
 
+        # 1) orientation correction
         oriented, orient_meta = self._maybe_apply_orientation(image_bgr)
         meta["orientation"] = orient_meta
 
+        # 2) perspective rectify on oriented image
         quad, find_meta = find_document_quad(oriented, self.config.params)
         meta["opencv"]["find"] = find_meta
 
