@@ -11,6 +11,11 @@
 #
 # router = APIRouter(prefix="/restriction", tags=["restriction"])
 #
+
+# admin category, item 생성, 수정 부분
+# @router.get("/admin/xxx")
+# def admin_xxx(current=Depends(require_roles("ADMIN"))):
+
 # # Category // [/restriction/category]
 # @router.post("/category/", response_model=category_schemas.CategoryRead)
 # def create_category(payload: category_schemas.CategoryCreate, db: Session = Depends(get_db)):
