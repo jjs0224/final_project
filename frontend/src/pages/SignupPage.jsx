@@ -1,9 +1,13 @@
 import "./SignupPage.css";
 import Modal from "../components/Modal";
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 
 function SignupPage() {
+
+  const nav = useNavigate();
+
   const [formData, setformData] = useState({
     email: "",
     nickname: "",
@@ -13,43 +17,61 @@ function SignupPage() {
     country: ""
   });
 
-  const categories = useMemo(
-      () => [
-          {
-              id: "allergy",
-              label: "allergy (Required)",
-              options: Array.from({ length: 14}, (_, i) => ({
-                  itemId: i +1,
-                  label: `Allergy Option ${i +1}`
-              })),
-          },
-          {
-              id:"plantBased",
-              label: "Plant-Based (Optional)",
-              options: Array.from({ length: 2 }, (_, i) => ({
-                  itemId: 100 + (i + 1),
-                  label: `PlantBased Option ${i + 1}`,
-              })),
-          },
-          {
-              id:"religion",
-              label: "Religion (Optional)",
-              options: Array.from({ length: 4 }, (_, i) => ({
-                  itemId: 200 + (i + 1),
-                  label: `Religion Option ${i + 1}`,
-              })),
-          },          
-          {
-              id:"hate",
-              label: "Hate (Optional)",
-              options: Array.from({ length: 2 }, (_, i) => ({
-                  id: `hate-${i + 1}`,
-                  label: `Hate Option ${i + 1}`,
-              })),
-          }
-      ],
-      []
-  );
+  const categories = [
+  {
+    id: "allergy",
+    label: "Allergy (Required)",
+    options: [
+      { itemId: 1, label: "Peanut" },
+      { itemId: 2, label: "Tree nuts" },
+      { itemId: 3, label: "Milk" },
+      { itemId: 4, label: "Egg" },
+      { itemId: 5, label: "Wheat" },
+      { itemId: 6, label: "Soy" },
+      { itemId: 7, label: "Fish" },
+      { itemId: 8, label: "Shellfish" },
+      { itemId: 9, label: "Sesame" },
+      { itemId: 10, label: "Peach" },
+    ],
+  },
+  {
+    id: "religion",
+    label: "Religion (Optional)",
+    options: [
+      { itemId: 11, label: "Halal" },
+      { itemId: 12, label: "Kosher" },
+      { itemId: 13, label: "No pork" },
+      { itemId: 14, label: "No beef" },
+      { itemId: 15, label: "No alcohol" },
+      { itemId: 16, label: "No gelatin" },
+      { itemId: 17, label: "No seafood" },
+      { itemId: 18, label: "No blood products" },
+      { itemId: 19, label: "No animal rennet" },
+      { itemId: 20, label: "Ritual restrictions" },
+    ],
+  },
+  {
+    id: "plantBased",
+    label: "Plant-Based (Optional)",
+    options: [
+      { itemId: 21, label: "Vegan" },
+      { itemId: 22, label: "Lacto" },
+      { itemId: 23, label: "Ovo" },
+      { itemId: 24, label: "Lacto-ovo" },
+      { itemId: 25, label: "Pesco" },
+      { itemId: 26, label: "Pollo" },
+      { itemId: 27, label: "Flexitarian" },
+      { itemId: 28, label: "No dairy" },
+      { itemId: 29, label: "No egg" },
+      { itemId: 30, label: "No honey" },
+    ],
+  },
+  {
+    id: "hate",
+    label: "Dislike tags (Optional)",
+    options: [],
+  },
+];
 
   // 카테고리 클릭 전엔 옵션이 안 나오게: 초기값을 "" 로 둠
   const [activeCategoryId, setActiveCategoryId] = useState("");
@@ -188,12 +210,16 @@ function SignupPage() {
     if (modalType === "cancel") {
       console.log("Cancel Complete");
       setIsModalOpen(false);
+      nav("/");
       return;
     }
 
     // signup
-    await submitSignup();
-    setIsModalOpen(false);
+    if (modalType === "signup"){
+      await submitSignup();
+      setIsModalOpen(false);
+      nav("/");
+    }
   };
 
   return (
@@ -221,7 +247,7 @@ function SignupPage() {
                 <input
                     name="nickname"
                     type="text"
-                    placeholder="No more than 10 letters"
+                    placeholder="KoKo"
                     maxLength={10}
                     value={formData.nickname}
                     onChange={onChange}                
@@ -256,9 +282,9 @@ function SignupPage() {
             Gender
                 <select name="gender" value={formData.gender} onChange={onChange}>
                     <option value="">choose</option>
-                    <option value="Man">Man</option>
-                    <option value="Woman">Woman</option>
-                    <option value="Unknown">Not select</option>
+                    <option value="M">Male</option>
+                    <option value="W">Female</option>
+                    <option value="U">Not select</option>
                 </select>
             </label>
   {/* 국가선택창 */}
@@ -509,28 +535,21 @@ function SignupPage() {
   {/* 여기부터: 카테고리 클릭 전엔 종류(체크박스) 안 보임 */}
           <section>
             <div>
-              <section>
-                <h1>
-                  select dietary requirement   
-                </h1>
-              </section>
-              <section>
-                <button type="button" onClick={() => onClickCategory("allergy")}>
-                  allergy (Optional) ({(selections.allergy ?? []).length})
-                </button>
+              <button type="button" onClick={() => onClickCategory("allergy")}>
+                allergy (Required) ({(selections.allergy ?? []).length})
+              </button>
 
-                <button type="button" onClick={() => onClickCategory("plantBased")}>
-                  Plant-based (Optional) ({(selections.plantBased ?? []).length})
-                </button>
-                
-                <button type="button" onClick={() => onClickCategory("religion")}>
-                  Religion (Optional) ({(selections.religion ?? []).length})
-                </button>
-                
-                <button type="button" onClick={() => onClickCategory("hate")}>
-                  Hate (Optional)
-                </button>                            
-              </section>
+              <button type="button" onClick={() => onClickCategory("plantBased")}>
+                Plant-based (Optional) ({(selections.plantBased ?? []).length})
+              </button>
+              
+              <button type="button" onClick={() => onClickCategory("religion")}>
+                Religion (Optional) ({(selections.religion ?? []).length})
+              </button>
+              
+              <button type="button" onClick={() => onClickCategory("hate")}>
+                Hate (Optional)
+              </button>                            
             </div>
 
             {/* 카테고리 클릭 전엔 아무것도 안 보이게 */}
