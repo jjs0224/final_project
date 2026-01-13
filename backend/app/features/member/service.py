@@ -8,6 +8,9 @@ from app.models.restrictions.item import Item
 from app.models.restrictions.dislike import Dislike
 from app.models.restrictions.member_restriction import MemberRestrictions
 
+# password hash 작업
+from app.core.security.password import hash_password
+
 import json
 
 # 등록
@@ -15,10 +18,16 @@ def create_member(db: Session, payload) -> None:
     # db.begin() :: commit, reset 둘중 처리
     print(payload)
 
+    # password 변경 작업 추가 예정
+
     try:
         with db.begin():
             # item_ids / dislike 제외하고 member 조회
             member_data = payload.model_dump(exclude={"item_ids", "dislike_tags"})
+            # password hash 추가
+            print("password :: ", member_data["password"])
+
+            member_data["password"] = hash_password(member_data["password"])
             member = Member(**member_data)
             db.add(member)
             db.flush()

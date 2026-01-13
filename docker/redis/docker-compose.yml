@@ -1,0 +1,18 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: app_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
+volumes:
+  redis_data:
+
+
+#restart: unless-stopped : 재부팅/도커 재시작에도 자동 기동
+#volumes : 데이터 유지
+#appendonly yes : AOF로 저장(개발할 때 키가 유지되면 편함)
