@@ -1,6 +1,6 @@
 import "./SignupPage.css";
 import Modal from "../components/Modal";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 
@@ -20,7 +20,7 @@ function SignupPage() {
   const categories = [
   {
     id: "allergy",
-    label: "Allergy (Required)",
+    label: "Allergy (Optional)",
     options: [
       { itemId: 1, label: "Peanut" },
       { itemId: 2, label: "Tree nuts" },
@@ -107,11 +107,109 @@ function SignupPage() {
     });
   };
 
+  const [nickStatus, setNickStatus] = useState("idle");
+  const [nickMsg, setNickMsg] = useState("");
+
+  const toText = (x) => {
+    if (x == null) return "";
+    if (typeof x === "string") return x;
+
+    const d = x?.detail ?? x;
+
+    if (Array.isArray(d)) {
+      return d
+        .map((e) => {
+          const loc = Array.isArray(e.loc) ? e.loc.slice(1).join(".") : "";
+          const msg = e.msg ?? JSON.stringify(e);
+          return loc ? `${loc}: ${msg}` : msg;
+        })
+        .join("\n");
+    }
+
+    if (typeof d === "object") return JSON.stringify(d);
+    return String(d);
+  };
+
  // ✅ input/select 공통 핸들러
   const onChange = (e) => {
     const { name, value } = e.target;
     setformData((prev) => ({ ...prev, [name]: value }));
   };
+
+// ✅ 닉네임이 바뀌면 다시 중복확인 필요 상태로
+const onNicknameChange = (e) => {
+  const v = e.target.value;
+  setformData((prev) => ({ ...prev, nickname: v }));
+
+  const trimmed = v.trim();
+  if (!trimmed) {
+    setNickStatus("idle");
+    setNickMsg("");
+    return;
+  }
+  setNickStatus("dirty");
+  setNickMsg("Please check nickname duplication.");
+};
+
+// ✅ 닉네임 중복 체크 API
+const checkNickname = async () => {
+  const nickname = formData.nickname.trim();
+  if (!nickname) {
+    setNickStatus("idle");
+    setNickMsg("");
+    return;
+  }
+  if (nickname.length < 2) {
+    setNickStatus("dirty");
+    setNickMsg("Nickname must be at least 2 characters.");
+    return;
+  }
+
+  setNickStatus("checking");
+  setNickMsg("Checking...");
+
+  try {
+    const res = await fetch(
+      `/members/nickname/check?nickname=${encodeURIComponent(nickname)}`,
+      { method: "GET" }
+    );
+
+    if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const available =
+        data.available ??
+        (typeof data.exists === "boolean" ? !data.exists : undefined) ??
+        data.is_available ??
+        data.ok;
+
+      if (available === true) {
+        setNickStatus("available");
+        setNickMsg("Nickname is available.");
+      } else if (available === false) {
+        setNickStatus("taken");
+        setNickMsg("Nickname already exists.");
+      } else {
+        setNickStatus("error");
+        setNickMsg("Unexpected response from server.");
+      }
+      return;
+    }
+
+    if (res.status === 409) {
+      setNickStatus("taken");
+      setNickMsg("Nickname already exists.");
+      return;
+    }
+
+    const err = await res.json().catch(() => ({}));
+    setNickStatus("error");
+    setNickMsg(toText(err));
+  } catch (e) {
+    console.error(e);
+    setNickStatus("error");
+    setNickMsg("Network error");
+  }
+};
 
   // payload.item_ids 생성 (중복 제거)
   const buildItemIds = () => {
@@ -151,15 +249,16 @@ function SignupPage() {
     // 최소 검증(원하는 규칙 더 추가 가능)
     if (!formData.email || !formData.nickname || !formData.password) {
       alert("Email / Nickname / Password are required.");
-      return;
+      return false;
     }
     if (formData.password !== formData.passwordConfirm) {
       alert("Password does not match.");
-      return;
+      return false;;
     }
-    if ((selections.allergy ?? []).length === 0) {
-      alert("Allergy is required.");
-      return;
+
+    if (nickStatus !== "available") {
+      alert("Please check nickname duplication first.");
+      return false;
     }
 
     const payload = {
@@ -183,17 +282,18 @@ function SignupPage() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        // 백엔드: 409 email already exists
-        alert(err?.detail ?? `Signup failed (${res.status})`);
-        return;
+        alert(toText(err) || `Signup failed (${res.status})`);
+        return false;
       }
 
       const data = await res.json();
       console.log("Sign up success:", data);
       alert("Sign up complete!");
+      return true;
     } catch (e) {
       console.error(e);
       alert("Network error");
+      return false;
     }
   };
 
@@ -216,7 +316,12 @@ function SignupPage() {
 
     // signup
     if (modalType === "signup"){
-      await submitSignup();
+      const ok = await submitSignup();
+      if (!ok) {
+        setIsModalOpen(false);
+        return;
+      }
+      
       setIsModalOpen(false);
       nav("/");
     }
@@ -247,12 +352,27 @@ function SignupPage() {
                 <input
                     name="nickname"
                     type="text"
-                    placeholder="KoKo"
+                    placeholder="Please write 10 characters or less"
                     maxLength={10}
                     value={formData.nickname}
-                    onChange={onChange}                
+                    onChange={onNicknameChange}
+                    style={{ flex: 1 }}           
                 />
-                </label>
+
+
+                {nickStatus !== "idle" && (
+                  <div>
+                    {nickMsg}
+                  </div>
+                )}
+            </label>
+                <button
+                  type="button"
+                  onClick={checkNickname}
+                  disabled={nickStatus === "checking" || !formData.nickname.trim()}
+                >
+                 {nickStatus === "checking" ? "Checking..." : "Duplicate check"} 
+                </button>
 
             <label>
             Password
