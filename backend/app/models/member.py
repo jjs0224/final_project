@@ -18,9 +18,11 @@ class Member(Base):
     country = Column(String(50), nullable=False)
     create_member = Column(DateTime, nullable=False, server_default=func.now())
     modify_member = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
+    role = Column(String(20), nullable=False, default="USER") # USER / ADMIN
 
     # 관계
     restrictions = relationship("MemberRestrictions", back_populates="member", cascade="all, delete-orphan", passive_deletes=True)
     dislike = relationship("Dislike", back_populates="member", cascade="all, delete-orphan", passive_deletes=True)
+    refresh_token = relationship("RefreshToken", uselist=False, back_populates="member", cascade="all, delete-orphan")
     # review = relationship("Review", back_populates="member", cascade="all, delete-orphan")
     # community = relationship("Community", back_populates="member", cascade="all, delete-orphan")

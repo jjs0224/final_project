@@ -9,6 +9,7 @@ class MemberCreate(BaseModel):
     email: str
     password: str
     nickname: str
+    # role: str
     gender: Optional[str] = None
     country: Optional[str] = None
     item_ids: Optional[List[int]] = None
@@ -26,6 +27,7 @@ class MemberRead(BaseModel):
     nickname: str
     gender: str
     country: str
+    role: str
     item_ids: Optional[List[int]] = None
     dislike_tags: Optional[List[str]] = None
 

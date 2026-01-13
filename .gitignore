@@ -15,4 +15,4 @@ env/
 .idea/
 *.iml
 
-interpreter_packages.txt
+#interpreter_packages.txt
