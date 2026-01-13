@@ -2,99 +2,108 @@ import { useState } from "react";
 import { readReceiptResult } from "../utils/aiBridge";
 
 export default function ReviewWritePage() {
-  const [step, setStep] = useState("upload");
+  const [step, setStep] = useState("upload"); // upload -> confirm -> write -> done
   const [receipt, setReceipt] = useState(null);
-  const [error, setError] = useState(null);
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(5);
-//   const [finalRating, setFinalRating] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const runReceiptOCR = async () => {
+    setLoading(true);
     try {
       const data = await readReceiptResult();
-      console.log("RECEIPT DATA:", data);
       setReceipt(data);
       setStep("confirm");
     } catch (err) {
-      console.error(err);
-      setError("Failed to load receipt");
+      alert("Failed to load receipt");
+    } finally {
+      setLoading(false);
     }
   };
 
   const submitReview = () => {
 
     const total = rating
-
 //     setFinalRating(total);
+
     setStep("done");
 
+    const payload = {
+
+      review_title: `${receipt[0].store_name} review`,
+      // review_menu: receipt[0].menu_name,
+      review_content: review,
+      rating: rating,
+      location: receipt[0].address,
+      member_id: 5,
+
+    };
+    console.log("REVIEW PAYLOAD:", payload)
   }
-
-//   const payload = {
-//       review_title: `${receipt[0].store_name} review`,
-//       review_menu: receipt[0].menu_name,
-//       review_content: review,
-//       rating: rating,
-//       location: receipt[0].address,
-//       member_id: 5,
-//
-//   };
-
 
   return (
     <div>
-      <h2>Review Write Page</h2>
+      {/* LEFT COLUMN: Persistent Controls */}
+      <div>
+        <h2>1. Upload & Detect</h2>
+        <input type="file" accept="image/*" disabled={step !== "upload"} />
+        <button 
+          onClick={runReceiptOCR} 
+          disabled={step !== "upload" || loading}
+        >
+          {loading ? "Analyzing..." : "Detect Receipt"}
+        </button>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* This section stays visible once data exists */}
+        {receipt && (
+          <div style={{ marginTop: "40px", opacity: step === "upload" ? 0.5 : 1 }}>
+            <h2>2. Receipt Details</h2>
+            <div style={{ background: "#f9f9f9", padding: "15px", borderRadius: "8px" }}>
+              <h3>{receipt[0].store_name}</h3>
+              <p>{receipt[0].address}</p>
+              <h4>Menu Items:</h4>
+              <ul>
+                {receipt[0].menu_name?.map((item, i) => <li key={i}>{item}</li>)}
+              </ul>
+              {step === "confirm" && (
+                <button onClick={() => setStep("write")}>Confirm Details</button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
 
-      {step === "upload" && (
-        <>
-          <button onClick={runReceiptOCR}>Detect Receipt</button>
-        </>
-      )}
-
-      {step === "confirm" && receipt && (
-        <>
-          <h3>{receipt[0].store_name}</h3>
-          <p>{receipt[0].address}</p>
-          <p>{receipt[0].city}</p>
-          <h4>Menu</h4>
-          <ul>
-            {receipt[0].menu_name?.map((item, i) => (
-                <li key={i}>{item}</li>
-            ))}
-          </ul>
-
-          <p>Please confirm if following details are correct</p>
-          <button onClick={() => setStep("write")}>Confirm</button>
-        </>
-      )}
-
-
-      {step === "write" && (
-        <>
-            <h3>Write your review</h3>
-            <textarea
-                placeholder="Write review here"
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-                rows={5}
-            />
-            <label>Rating (1-10): </label>
-            <input
-                type="number"
-                min={1}
-                max={10}
-                value={rating}
-                onChange={(e) => setRating(Number(e.target.value))}
-            />
-            <button onClick={submitReview}>
-                Add Review
-            </button>
-        </>
-
-
-      )}
+      {/* RIGHT COLUMN: Review Writing (Visible only after confirmation) */}
+      <div>
+        <h2>3. Your Review</h2>
+        <textarea
+          placeholder="Write your review here"
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+          rows={10}
+          style={{ width: "100%" }}
+        />
+        <div style={{ marginTop: "10px" }}>
+          <label>Rating: </label>
+          <input 
+            type="number" 
+            min={1} max={10} 
+            value={rating} 
+            onChange={(e) => setRating(Number(e.target.value))} 
+          />
+          <p>We will also calculate AI rating based on your review. <br />
+            This score will be used as decimal point of your rating.<br />
+            E.g: your score:8, AI_score:3 => final score: 8.3
+          </p>
+            
+        </div>
+        <button 
+          onClick={submitReview}
+        >
+          Post Review
+        </button>
+      </div>
     </div>
   );
+
 }

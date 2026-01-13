@@ -5,9 +5,16 @@ import numpy as np
 from paddleocr import PaddleOCR
 import json
 import requests
-import re
 
 os.environ["DISABLE_MODEL_SOURCE_CHECK"] = "True"
+
+# MODEL_NAME = "Helsinki-NLP/opus-mt-ko-en"
+#
+# def build_translator():
+#     from transformers import pipeline
+#     return pipeline("translation", model="Helsinki-NLP/opus-mt-ko-en")
+#
+# translator = build_translator()
 
 # ===============================
 # PATH SETUP
@@ -17,6 +24,12 @@ UPLOAD_DIR = BASE_DIR / "tmp_receipt"
 OUTPUT_DIR = BASE_DIR / "tmp_output"
 
 OUTPUT_DIR.mkdir(exist_ok=True)
+
+# def ko_to_en(text: str) -> str:
+#     if not text:
+#         return ""
+#     out = translator(text, max_length=128)
+#     return out[0]["translation_text"].strip()
 
 # ================================
 # OCR normalization
@@ -201,13 +214,27 @@ def extract_menu_items(lines):
     return menu_items
 
 
+def is_menu_token(token_text, menu_lines):
+    return any(token_text in line for line in menu_lines)
+
 #영수증 JSON 으로 저장
 def build_receipt_json(ocr_lines):
     tokens = normalize_ocr_lines(ocr_lines)
     lines = join_split_tokens(tokens)
 
     phone = extract_phone(lines)
-    menu = extract_menu_items(lines)
+
+    menu_ko = extract_menu_items(lines)
+    menu = []
+
+    # for line in menu_ko:
+    #     ko_text = line
+    #     en_text = ko_to_en(ko_text)
+    #
+    #     menu.append({
+    #         "ko": ko_text,
+    #         "en": en_text
+    #     })
 
     print("phone:",phone)
 
@@ -227,7 +254,7 @@ def build_receipt_json(ocr_lines):
             "city": store_info['roadAddress'].split(" ")[0],
             "phone": phone,
             "coords": {"x": store_info['mapx'], "y": store_info['mapy']},
-            "menu_name": menu
+            "menu_name": menu_ko
         }
     else:
         receipt_json = [{"error": "Store information not found"}]
@@ -265,8 +292,14 @@ def normalize_receipt(image_path: Path, i):
     temp_path = OUTPUT_DIR / f"temp_modified{i}.jpg"
     img = cv2.imread(str(image_path))
     img = cv2.resize(img, None, fx=2.5, fy=2.5, interpolation=cv2.INTER_CUBIC)
+    cv2.imwrite("resize.jpg", img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    cv2.imwrite("gray.jpg", gray)
+
     blur = cv2.GaussianBlur(gray, (5,5), 0)
+    cv2.imwrite("blur.jpg", blur)
+
+
     thresh = cv2.adaptiveThreshold(
         blur, 255,
         cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
@@ -313,10 +346,11 @@ def normalize_receipt(image_path: Path, i):
 # ===============================
 if __name__ == "__main__":
     #image_files = list(UPLOAD_DIR.glob("*.jpg")) + list(UPLOAD_DIR.glob("*.png"))
-    image_files = list(UPLOAD_DIR.glob("receipt_12.jpg"))
+    image_files = list(UPLOAD_DIR.glob("receipt_10.jpg"))
     if not image_files:
         raise FileNotFoundError("No receipt image found in Uploaded_Images")
 
     for i, image_path in enumerate(image_files):
 
         normalize_receipt(image_path, i)
+
