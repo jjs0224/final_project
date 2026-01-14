@@ -1,0 +1,5741 @@
+[
+  {
+    "id": "rep_0000",
+    "menu": "김치찌개",
+    "variants": [
+      "김치찌개",
+      "김치 찌개"
+    ],
+    "ingredients_ko": [
+      "김치"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0001",
+    "menu": "된장찌개",
+    "variants": [
+      "된장찌개",
+      "된장 찌개"
+    ],
+    "ingredients_ko": [
+      "된장"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0002",
+    "menu": "순두부찌개",
+    "variants": [
+      "순두부찌개",
+      "순두부 찌개"
+    ],
+    "ingredients_ko": [
+      "두부"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0003",
+    "menu": "부대찌개",
+    "variants": [
+      "부대찌개",
+      "부대 찌개"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0004",
+    "menu": "청국장",
+    "variants": [
+      "청국장"
+    ],
+    "ingredients_ko": [
+      "청국장"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0005",
+    "menu": "동태찌개",
+    "variants": [
+      "동태찌개",
+      "동태 찌개"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0006",
+    "menu": "고추장찌개",
+    "variants": [
+      "고추장찌개",
+      "고추장 찌개"
+    ],
+    "ingredients_ko": [
+      "고추"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0007",
+    "menu": "참치김치찌개",
+    "variants": [
+      "참치김치찌개",
+      "참치김치 찌개"
+    ],
+    "ingredients_ko": [
+      "김치",
+      "참치"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0008",
+    "menu": "돼지고기김치찌개",
+    "variants": [
+      "돼지고기김치찌개",
+      "돼지고기김치 찌개"
+    ],
+    "ingredients_ko": [
+      "김치",
+      "돼지고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0009",
+    "menu": "꽁치김치찌개",
+    "variants": [
+      "꽁치김치찌개",
+      "꽁치김치 찌개"
+    ],
+    "ingredients_ko": [
+      "김치"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0010",
+    "menu": "콩비지찌개",
+    "variants": [
+      "콩비지찌개",
+      "콩비지 찌개"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0011",
+    "menu": "감자탕",
+    "variants": [
+      "감자탕",
+      "감자 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0012",
+    "menu": "뼈해장국",
+    "variants": [
+      "뼈해장국",
+      "뼈해장 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0013",
+    "menu": "해장국",
+    "variants": [
+      "해장국",
+      "해장 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0014",
+    "menu": "선지해장국",
+    "variants": [
+      "선지해장국",
+      "선지해장 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0015",
+    "menu": "우거지해장국",
+    "variants": [
+      "우거지해장국",
+      "우거지해장 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0016",
+    "menu": "올갱이국",
+    "variants": [
+      "올갱이국",
+      "올갱이 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0017",
+    "menu": "북엇국",
+    "variants": [
+      "북엇국",
+      "북엇 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0018",
+    "menu": "미역국",
+    "variants": [
+      "미역국",
+      "미역 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0019",
+    "menu": "소고기무국",
+    "variants": [
+      "소고기무국",
+      "소고기무 국"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0020",
+    "menu": "황태해장국",
+    "variants": [
+      "황태해장국",
+      "황태해장 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0021",
+    "menu": "떡국",
+    "variants": [
+      "떡국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0022",
+    "menu": "만둣국",
+    "variants": [
+      "만둣국",
+      "만둣 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0023",
+    "menu": "갈비탕",
+    "variants": [
+      "갈비탕",
+      "갈비 탕"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0024",
+    "menu": "설렁탕",
+    "variants": [
+      "설렁탕",
+      "설렁 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0025",
+    "menu": "곰탕",
+    "variants": [
+      "곰탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0026",
+    "menu": "도가니탕",
+    "variants": [
+      "도가니탕",
+      "도가니 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0027",
+    "menu": "삼계탕",
+    "variants": [
+      "삼계탕",
+      "삼계 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0028",
+    "menu": "추어탕",
+    "variants": [
+      "추어탕",
+      "추어 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0029",
+    "menu": "육개장",
+    "variants": [
+      "육개장"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0030",
+    "menu": "순대국",
+    "variants": [
+      "순대국",
+      "순대 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0031",
+    "menu": "돼지국밥",
+    "variants": [
+      "돼지국밥"
+    ],
+    "ingredients_ko": [
+      "돼지고기",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0032",
+    "menu": "소머리국밥",
+    "variants": [
+      "소머리국밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0033",
+    "menu": "내장탕",
+    "variants": [
+      "내장탕",
+      "내장 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0034",
+    "menu": "사골국",
+    "variants": [
+      "사골국",
+      "사골 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0035",
+    "menu": "매운탕",
+    "variants": [
+      "매운탕",
+      "매운 탕"
+    ],
+    "ingredients_ko": [
+      "고추"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0036",
+    "menu": "동태탕",
+    "variants": [
+      "동태탕",
+      "동태 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0037",
+    "menu": "알탕",
+    "variants": [
+      "알탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0038",
+    "menu": "대구탕",
+    "variants": [
+      "대구탕",
+      "대구 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0039",
+    "menu": "복어탕",
+    "variants": [
+      "복어탕",
+      "복어 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0040",
+    "menu": "닭곰탕",
+    "variants": [
+      "닭곰탕",
+      "닭곰 탕"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0041",
+    "menu": "닭개장",
+    "variants": [
+      "닭개장"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0042",
+    "menu": "오리탕",
+    "variants": [
+      "오리탕",
+      "오리 탕"
+    ],
+    "ingredients_ko": [
+      "오리고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0043",
+    "menu": "감자국",
+    "variants": [
+      "감자국",
+      "감자 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0044",
+    "menu": "콩나물국",
+    "variants": [
+      "콩나물국",
+      "콩나물 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0045",
+    "menu": "콩나물해장국",
+    "variants": [
+      "콩나물해장국",
+      "콩나물해장 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0046",
+    "menu": "우동국물",
+    "variants": [
+      "우동국물"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0047",
+    "menu": "짬뽕국물",
+    "variants": [
+      "짬뽕국물"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0048",
+    "menu": "불고기전골",
+    "variants": [
+      "불고기전골",
+      "불고기 전골"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0049",
+    "menu": "만두전골",
+    "variants": [
+      "만두전골",
+      "만두 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0050",
+    "menu": "버섯전골",
+    "variants": [
+      "버섯전골",
+      "버섯 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0051",
+    "menu": "소고기전골",
+    "variants": [
+      "소고기전골",
+      "소고기 전골"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0052",
+    "menu": "곱창전골",
+    "variants": [
+      "곱창전골",
+      "곱창 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0053",
+    "menu": "부대전골",
+    "variants": [
+      "부대전골",
+      "부대 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0054",
+    "menu": "해물전골",
+    "variants": [
+      "해물전골",
+      "해물 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0055",
+    "menu": "알곤이전골",
+    "variants": [
+      "알곤이전골",
+      "알곤이 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0056",
+    "menu": "낙지전골",
+    "variants": [
+      "낙지전골",
+      "낙지 전골"
+    ],
+    "ingredients_ko": [
+      "낙지"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0057",
+    "menu": "김치전골",
+    "variants": [
+      "김치전골",
+      "김치 전골"
+    ],
+    "ingredients_ko": [
+      "김치"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0058",
+    "menu": "샤브샤브",
+    "variants": [
+      "샤브샤브"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0059",
+    "menu": "월남쌈",
+    "variants": [
+      "월남쌈"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0060",
+    "menu": "나베",
+    "variants": [
+      "나베"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0061",
+    "menu": "스키야키",
+    "variants": [
+      "스키야키"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0062",
+    "menu": "오뎅탕",
+    "variants": [
+      "오뎅탕",
+      "오뎅 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0063",
+    "menu": "어묵탕",
+    "variants": [
+      "어묵탕",
+      "어묵 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0064",
+    "menu": "닭한마리",
+    "variants": [
+      "닭한마리"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0065",
+    "menu": "닭볶음탕",
+    "variants": [
+      "닭볶음탕",
+      "닭볶음 탕"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0066",
+    "menu": "찜닭",
+    "variants": [
+      "찜닭"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0067",
+    "menu": "해물탕",
+    "variants": [
+      "해물탕",
+      "해물 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0068",
+    "menu": "꽃게탕",
+    "variants": [
+      "꽃게탕",
+      "꽃게 탕"
+    ],
+    "ingredients_ko": [
+      "게"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0069",
+    "menu": "해신탕",
+    "variants": [
+      "해신탕",
+      "해신 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0070",
+    "menu": "홍합탕",
+    "variants": [
+      "홍합탕",
+      "홍합 탕"
+    ],
+    "ingredients_ko": [
+      "조개류"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0071",
+    "menu": "조개탕",
+    "variants": [
+      "조개탕",
+      "조개 탕"
+    ],
+    "ingredients_ko": [
+      "조개류"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0072",
+    "menu": "매운해물탕",
+    "variants": [
+      "매운해물탕",
+      "매운해물 탕"
+    ],
+    "ingredients_ko": [
+      "고추"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0073",
+    "menu": "감자탕전골",
+    "variants": [
+      "감자탕전골",
+      "감자탕 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0074",
+    "menu": "순대전골",
+    "variants": [
+      "순대전골",
+      "순대 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0075",
+    "menu": "두부전골",
+    "variants": [
+      "두부전골",
+      "두부 전골"
+    ],
+    "ingredients_ko": [
+      "두부"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0076",
+    "menu": "청국장전골",
+    "variants": [
+      "청국장전골",
+      "청국장 전골"
+    ],
+    "ingredients_ko": [
+      "청국장"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0077",
+    "menu": "김치전골(묵은지)",
+    "variants": [
+      "김치전골",
+      "김치 전골",
+      "김치전골(묵은지)"
+    ],
+    "ingredients_ko": [
+      "김치"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0078",
+    "menu": "갈비전골",
+    "variants": [
+      "갈비전골",
+      "갈비 전골"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0079",
+    "menu": "버섯샤브",
+    "variants": [
+      "버섯샤브"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0080",
+    "menu": "소고기샤브",
+    "variants": [
+      "소고기샤브"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0081",
+    "menu": "해물샤브",
+    "variants": [
+      "해물샤브"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0082",
+    "menu": "어탕",
+    "variants": [
+      "어탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0083",
+    "menu": "추어탕전골",
+    "variants": [
+      "추어탕전골",
+      "추어탕 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0084",
+    "menu": "부대전골(라면사리)",
+    "variants": [
+      "부대전골",
+      "부대 전골",
+      "부대전골(라면사리)"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0085",
+    "menu": "곱도리탕",
+    "variants": [
+      "곱도리탕",
+      "곱도리 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0086",
+    "menu": "알탕전골",
+    "variants": [
+      "알탕전골",
+      "알탕 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0087",
+    "menu": "불낙전골",
+    "variants": [
+      "불낙전골",
+      "불낙 전골"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0088",
+    "menu": "물냉면",
+    "variants": [
+      "물냉면",
+      "물냉 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0089",
+    "menu": "비빔냉면",
+    "variants": [
+      "비빔냉면",
+      "비빔냉 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0090",
+    "menu": "열무냉면",
+    "variants": [
+      "열무냉면",
+      "열무냉 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0091",
+    "menu": "회냉면",
+    "variants": [
+      "회냉면",
+      "회냉 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0092",
+    "menu": "칡냉면",
+    "variants": [
+      "칡냉면",
+      "칡냉 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0093",
+    "menu": "평양냉면",
+    "variants": [
+      "평양냉면",
+      "평양냉 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0094",
+    "menu": "함흥냉면",
+    "variants": [
+      "함흥냉면",
+      "함흥냉 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0095",
+    "menu": "막국수",
+    "variants": [
+      "막국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0096",
+    "menu": "물막국수",
+    "variants": [
+      "물막국수",
+      "물막 국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0097",
+    "menu": "비빔막국수",
+    "variants": [
+      "비빔막국수",
+      "비빔막 국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0098",
+    "menu": "메밀국수",
+    "variants": [
+      "메밀국수",
+      "메밀 국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0099",
+    "menu": "냉모밀",
+    "variants": [
+      "냉모밀"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0100",
+    "menu": "자루소바",
+    "variants": [
+      "자루소바"
+    ],
+    "ingredients_ko": [
+      "면",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0101",
+    "menu": "소바",
+    "variants": [
+      "소바"
+    ],
+    "ingredients_ko": [
+      "면",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0102",
+    "menu": "온모밀",
+    "variants": [
+      "온모밀"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0103",
+    "menu": "잔치국수",
+    "variants": [
+      "잔치국수",
+      "잔치 국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0104",
+    "menu": "비빔국수",
+    "variants": [
+      "비빔국수",
+      "비빔 국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0105",
+    "menu": "칼국수",
+    "variants": [
+      "칼국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0106",
+    "menu": "바지락칼국수",
+    "variants": [
+      "바지락칼국수",
+      "바지락칼 국수"
+    ],
+    "ingredients_ko": [
+      "면",
+      "조개류"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0107",
+    "menu": "해물칼국수",
+    "variants": [
+      "해물칼국수",
+      "해물칼 국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0108",
+    "menu": "들깨칼국수",
+    "variants": [
+      "들깨칼국수",
+      "들깨칼 국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SESAME",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0109",
+    "menu": "닭칼국수",
+    "variants": [
+      "닭칼국수",
+      "닭칼 국수"
+    ],
+    "ingredients_ko": [
+      "닭고기",
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0110",
+    "menu": "수제비",
+    "variants": [
+      "수제비"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0111",
+    "menu": "감자수제비",
+    "variants": [
+      "감자수제비"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0112",
+    "menu": "라면",
+    "variants": [
+      "라면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0113",
+    "menu": "떡라면",
+    "variants": [
+      "떡라면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0114",
+    "menu": "치즈라면",
+    "variants": [
+      "치즈라면",
+      "치즈 라면"
+    ],
+    "ingredients_ko": [
+      "면",
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0115",
+    "menu": "김치라면",
+    "variants": [
+      "김치라면",
+      "김치 라면"
+    ],
+    "ingredients_ko": [
+      "김치",
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0116",
+    "menu": "짬뽕라면",
+    "variants": [
+      "짬뽕라면",
+      "짬뽕 라면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0117",
+    "menu": "라볶이",
+    "variants": [
+      "라볶이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0118",
+    "menu": "우동",
+    "variants": [
+      "우동"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0119",
+    "menu": "가락국수",
+    "variants": [
+      "가락국수",
+      "가락 국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0120",
+    "menu": "튀김우동",
+    "variants": [
+      "튀김우동",
+      "튀김 우동"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0121",
+    "menu": "김치우동",
+    "variants": [
+      "김치우동",
+      "김치 우동"
+    ],
+    "ingredients_ko": [
+      "김치",
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0122",
+    "menu": "카레우동",
+    "variants": [
+      "카레우동",
+      "카레 우동"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0123",
+    "menu": "짜장면",
+    "variants": [
+      "짜장면",
+      "짜장 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0124",
+    "menu": "간짜장",
+    "variants": [
+      "간짜장"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0125",
+    "menu": "삼선짜장",
+    "variants": [
+      "삼선짜장"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0126",
+    "menu": "짬뽕",
+    "variants": [
+      "짬뽕"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0127",
+    "menu": "삼선짬뽕",
+    "variants": [
+      "삼선짬뽕"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0128",
+    "menu": "볶음짬뽕",
+    "variants": [
+      "볶음짬뽕"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0129",
+    "menu": "울면",
+    "variants": [
+      "울면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0130",
+    "menu": "쫄면",
+    "variants": [
+      "쫄면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0131",
+    "menu": "비빔쫄면",
+    "variants": [
+      "비빔쫄면",
+      "비빔쫄 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0132",
+    "menu": "콩국수",
+    "variants": [
+      "콩국수"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0133",
+    "menu": "비빔면",
+    "variants": [
+      "비빔면",
+      "비빔 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0134",
+    "menu": "냉라면",
+    "variants": [
+      "냉라면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0135",
+    "menu": "파스타",
+    "variants": [
+      "파스타"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0136",
+    "menu": "크림파스타",
+    "variants": [
+      "크림파스타",
+      "크림 파스타"
+    ],
+    "ingredients_ko": [
+      "면",
+      "유제품"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0137",
+    "menu": "토마토파스타",
+    "variants": [
+      "토마토파스타",
+      "토마토 파스타"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0138",
+    "menu": "로제파스타",
+    "variants": [
+      "로제파스타",
+      "로제 파스타"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0139",
+    "menu": "봉골레파스타",
+    "variants": [
+      "봉골레파스타",
+      "봉골레 파스타"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0140",
+    "menu": "냉우동",
+    "variants": [
+      "냉우동"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0141",
+    "menu": "나가사키짬뽕",
+    "variants": [
+      "나가사키짬뽕"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0142",
+    "menu": "탄탄면",
+    "variants": [
+      "탄탄면",
+      "탄탄 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0143",
+    "menu": "마라탕면",
+    "variants": [
+      "마라탕면",
+      "마라탕 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0144",
+    "menu": "마라샹궈면",
+    "variants": [
+      "마라샹궈면",
+      "마라샹궈 면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0145",
+    "menu": "비빔밥",
+    "variants": [
+      "비빔밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0146",
+    "menu": "돌솥비빔밥",
+    "variants": [
+      "돌솥비빔밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0147",
+    "menu": "전주비빔밥",
+    "variants": [
+      "전주비빔밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0148",
+    "menu": "육회비빔밥",
+    "variants": [
+      "육회비빔밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0149",
+    "menu": "김치볶음밥",
+    "variants": [
+      "김치볶음밥"
+    ],
+    "ingredients_ko": [
+      "김치",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0150",
+    "menu": "새우볶음밥",
+    "variants": [
+      "새우볶음밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "새우"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0151",
+    "menu": "게살볶음밥",
+    "variants": [
+      "게살볶음밥"
+    ],
+    "ingredients_ko": [
+      "게",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0152",
+    "menu": "계란볶음밥",
+    "variants": [
+      "계란볶음밥"
+    ],
+    "ingredients_ko": [
+      "계란",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_EGGS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0153",
+    "menu": "불고기볶음밥",
+    "variants": [
+      "불고기볶음밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0154",
+    "menu": "제육덮밥",
+    "variants": [
+      "제육덮밥",
+      "제육 덮밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0155",
+    "menu": "오징어덮밥",
+    "variants": [
+      "오징어덮밥",
+      "오징어 덮밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "오징어"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0156",
+    "menu": "낙지덮밥",
+    "variants": [
+      "낙지덮밥",
+      "낙지 덮밥"
+    ],
+    "ingredients_ko": [
+      "낙지",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0157",
+    "menu": "소불고기덮밥",
+    "variants": [
+      "소불고기덮밥",
+      "소불고기 덮밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0158",
+    "menu": "돈까스덮밥",
+    "variants": [
+      "돈까스덮밥",
+      "돈까스 덮밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0159",
+    "menu": "카레덮밥",
+    "variants": [
+      "카레덮밥",
+      "카레 덮밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0160",
+    "menu": "규동",
+    "variants": [
+      "규동"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0161",
+    "menu": "가츠동",
+    "variants": [
+      "가츠동"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0162",
+    "menu": "오야코동",
+    "variants": [
+      "오야코동"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_EGGS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0163",
+    "menu": "잡채밥",
+    "variants": [
+      "잡채밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0164",
+    "menu": "짬뽕밥",
+    "variants": [
+      "짬뽕밥"
+    ],
+    "ingredients_ko": [
+      "면",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0165",
+    "menu": "짜장밥",
+    "variants": [
+      "짜장밥"
+    ],
+    "ingredients_ko": [
+      "면",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0166",
+    "menu": "볶음밥",
+    "variants": [
+      "볶음밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0167",
+    "menu": "해물볶음밥",
+    "variants": [
+      "해물볶음밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0168",
+    "menu": "김치알밥",
+    "variants": [
+      "김치알밥"
+    ],
+    "ingredients_ko": [
+      "김치",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0169",
+    "menu": "알밥",
+    "variants": [
+      "알밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0170",
+    "menu": "오므라이스",
+    "variants": [
+      "오므라이스"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_EGGS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0171",
+    "menu": "오므라이스(치즈)",
+    "variants": [
+      "오므라이스",
+      "오므라이스(치즈)"
+    ],
+    "ingredients_ko": [
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_EGGS",
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0172",
+    "menu": "백반",
+    "variants": [
+      "백반"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0173",
+    "menu": "가정식백반",
+    "variants": [
+      "가정식백반"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0174",
+    "menu": "정식",
+    "variants": [
+      "정식"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0175",
+    "menu": "불고기정식",
+    "variants": [
+      "불고기정식",
+      "불고기 정식"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0176",
+    "menu": "제육정식",
+    "variants": [
+      "제육정식",
+      "제육 정식"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0177",
+    "menu": "생선구이정식",
+    "variants": [
+      "생선구이정식",
+      "생선구이 정식"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0178",
+    "menu": "갈비정식",
+    "variants": [
+      "갈비정식",
+      "갈비 정식"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0179",
+    "menu": "비빔밥정식",
+    "variants": [
+      "비빔밥정식",
+      "비빔밥 정식"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0180",
+    "menu": "국밥정식",
+    "variants": [
+      "국밥정식",
+      "국밥 정식"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0181",
+    "menu": "김밥",
+    "variants": [
+      "김밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0182",
+    "menu": "참치김밥",
+    "variants": [
+      "참치김밥",
+      "참치 김밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "참치"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0183",
+    "menu": "치즈김밥",
+    "variants": [
+      "치즈김밥",
+      "치즈 김밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0184",
+    "menu": "돈까스김밥",
+    "variants": [
+      "돈까스김밥",
+      "돈까스 김밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0185",
+    "menu": "떡갈비김밥",
+    "variants": [
+      "떡갈비김밥",
+      "떡갈비 김밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0186",
+    "menu": "불고기김밥",
+    "variants": [
+      "불고기김밥",
+      "불고기 김밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0187",
+    "menu": "야채김밥",
+    "variants": [
+      "야채김밥",
+      "야채 김밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0188",
+    "menu": "초밥",
+    "variants": [
+      "초밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0189",
+    "menu": "모둠초밥",
+    "variants": [
+      "모둠초밥",
+      "모둠 초밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0190",
+    "menu": "연어초밥",
+    "variants": [
+      "연어초밥",
+      "연어 초밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "연어"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0191",
+    "menu": "참치초밥",
+    "variants": [
+      "참치초밥",
+      "참치 초밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "참치"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0192",
+    "menu": "유부초밥",
+    "variants": [
+      "유부초밥",
+      "유부 초밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0193",
+    "menu": "주먹밥",
+    "variants": [
+      "주먹밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0194",
+    "menu": "치즈주먹밥",
+    "variants": [
+      "치즈주먹밥"
+    ],
+    "ingredients_ko": [
+      "밥",
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0195",
+    "menu": "날치알주먹밥",
+    "variants": [
+      "날치알주먹밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0196",
+    "menu": "멸치주먹밥",
+    "variants": [
+      "멸치주먹밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0197",
+    "menu": "볶음주먹밥",
+    "variants": [
+      "볶음주먹밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0198",
+    "menu": "볶음밥(곱배기)",
+    "variants": [
+      "볶음밥",
+      "볶음밥(곱배기)"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0199",
+    "menu": "삼겹살",
+    "variants": [
+      "삼겹살"
+    ],
+    "ingredients_ko": [
+      "돼지고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0200",
+    "menu": "목살",
+    "variants": [
+      "목살"
+    ],
+    "ingredients_ko": [
+      "돼지고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0201",
+    "menu": "항정살",
+    "variants": [
+      "항정살"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0202",
+    "menu": "가브리살",
+    "variants": [
+      "가브리살"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0203",
+    "menu": "오겹살",
+    "variants": [
+      "오겹살"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0204",
+    "menu": "돼지갈비",
+    "variants": [
+      "돼지갈비"
+    ],
+    "ingredients_ko": [
+      "돼지고기",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0205",
+    "menu": "양념갈비",
+    "variants": [
+      "양념갈비"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0206",
+    "menu": "LA갈비",
+    "variants": [
+      "LA갈비"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0207",
+    "menu": "소갈비",
+    "variants": [
+      "소갈비"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0208",
+    "menu": "소갈비살",
+    "variants": [
+      "소갈비살"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0209",
+    "menu": "차돌박이",
+    "variants": [
+      "차돌박이"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0210",
+    "menu": "우삼겹",
+    "variants": [
+      "우삼겹"
+    ],
+    "ingredients_ko": [
+      "돼지고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0211",
+    "menu": "한우등심",
+    "variants": [
+      "한우등심"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0212",
+    "menu": "한우안심",
+    "variants": [
+      "한우안심"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0213",
+    "menu": "불고기",
+    "variants": [
+      "불고기"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0214",
+    "menu": "언양불고기",
+    "variants": [
+      "언양불고기"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0215",
+    "menu": "제육볶음",
+    "variants": [
+      "제육볶음",
+      "제육 볶음"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0216",
+    "menu": "돼지불백",
+    "variants": [
+      "돼지불백"
+    ],
+    "ingredients_ko": [
+      "돼지고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0217",
+    "menu": "닭갈비",
+    "variants": [
+      "닭갈비"
+    ],
+    "ingredients_ko": [
+      "닭고기",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0218",
+    "menu": "춘천닭갈비",
+    "variants": [
+      "춘천닭갈비"
+    ],
+    "ingredients_ko": [
+      "닭고기",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0219",
+    "menu": "닭불고기",
+    "variants": [
+      "닭불고기"
+    ],
+    "ingredients_ko": [
+      "닭고기",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0220",
+    "menu": "닭꼬치",
+    "variants": [
+      "닭꼬치"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0221",
+    "menu": "양꼬치",
+    "variants": [
+      "양꼬치"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0222",
+    "menu": "양갈비",
+    "variants": [
+      "양갈비"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0223",
+    "menu": "곱창",
+    "variants": [
+      "곱창"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0224",
+    "menu": "대창",
+    "variants": [
+      "대창"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0225",
+    "menu": "막창",
+    "variants": [
+      "막창"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0226",
+    "menu": "곱창구이",
+    "variants": [
+      "곱창구이",
+      "곱창 구이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0227",
+    "menu": "곱창전골(구이)",
+    "variants": [
+      "곱창전골",
+      "곱창 전골",
+      "곱창전골(구이)"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0228",
+    "menu": "소곱창",
+    "variants": [
+      "소곱창"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0229",
+    "menu": "족발",
+    "variants": [
+      "족발"
+    ],
+    "ingredients_ko": [
+      "돼지고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0230",
+    "menu": "불족발",
+    "variants": [
+      "불족발"
+    ],
+    "ingredients_ko": [
+      "돼지고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0231",
+    "menu": "보쌈",
+    "variants": [
+      "보쌈"
+    ],
+    "ingredients_ko": [
+      "돼지고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0232",
+    "menu": "족보",
+    "variants": [
+      "족보"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0233",
+    "menu": "편육",
+    "variants": [
+      "편육"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0234",
+    "menu": "수육",
+    "variants": [
+      "수육"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0235",
+    "menu": "훈제오리",
+    "variants": [
+      "훈제오리"
+    ],
+    "ingredients_ko": [
+      "오리고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0236",
+    "menu": "오리주물럭",
+    "variants": [
+      "오리주물럭"
+    ],
+    "ingredients_ko": [
+      "오리고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0237",
+    "menu": "오리로스",
+    "variants": [
+      "오리로스"
+    ],
+    "ingredients_ko": [
+      "오리고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0238",
+    "menu": "주물럭",
+    "variants": [
+      "주물럭"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0239",
+    "menu": "떡갈비",
+    "variants": [
+      "떡갈비"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0240",
+    "menu": "함박스테이크",
+    "variants": [
+      "함박스테이크"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0241",
+    "menu": "스테이크",
+    "variants": [
+      "스테이크"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0242",
+    "menu": "햄버그스테이크",
+    "variants": [
+      "햄버그스테이크"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0243",
+    "menu": "회",
+    "variants": [
+      "회"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0244",
+    "menu": "모둠회",
+    "variants": [
+      "모둠회",
+      "모둠 회"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0245",
+    "menu": "광어회",
+    "variants": [
+      "광어회",
+      "광어 회"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0246",
+    "menu": "우럭회",
+    "variants": [
+      "우럭회",
+      "우럭 회"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0247",
+    "menu": "연어회",
+    "variants": [
+      "연어회",
+      "연어 회"
+    ],
+    "ingredients_ko": [
+      "연어"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0248",
+    "menu": "참치회",
+    "variants": [
+      "참치회",
+      "참치 회"
+    ],
+    "ingredients_ko": [
+      "참치"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0249",
+    "menu": "물회",
+    "variants": [
+      "물회"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0250",
+    "menu": "해산물모둠",
+    "variants": [
+      "해산물모둠"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0251",
+    "menu": "멍게",
+    "variants": [
+      "멍게"
+    ],
+    "ingredients_ko": [
+      "게"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0252",
+    "menu": "해삼",
+    "variants": [
+      "해삼"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0253",
+    "menu": "조개구이",
+    "variants": [
+      "조개구이",
+      "조개 구이"
+    ],
+    "ingredients_ko": [
+      "조개류"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0254",
+    "menu": "가리비구이",
+    "variants": [
+      "가리비구이",
+      "가리비 구이"
+    ],
+    "ingredients_ko": [
+      "조개류"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0255",
+    "menu": "새우구이",
+    "variants": [
+      "새우구이",
+      "새우 구이"
+    ],
+    "ingredients_ko": [
+      "새우"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0256",
+    "menu": "문어숙회",
+    "variants": [
+      "문어숙회",
+      "문어숙 회"
+    ],
+    "ingredients_ko": [
+      "문어"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0257",
+    "menu": "오징어숙회",
+    "variants": [
+      "오징어숙회",
+      "오징어숙 회"
+    ],
+    "ingredients_ko": [
+      "오징어"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0258",
+    "menu": "낙지볶음",
+    "variants": [
+      "낙지볶음",
+      "낙지 볶음"
+    ],
+    "ingredients_ko": [
+      "낙지"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0259",
+    "menu": "쭈꾸미볶음",
+    "variants": [
+      "쭈꾸미볶음",
+      "쭈꾸미 볶음"
+    ],
+    "ingredients_ko": [
+      "쭈꾸미"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0260",
+    "menu": "오징어볶음",
+    "variants": [
+      "오징어볶음",
+      "오징어 볶음"
+    ],
+    "ingredients_ko": [
+      "오징어"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0261",
+    "menu": "해물볶음",
+    "variants": [
+      "해물볶음",
+      "해물 볶음"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0262",
+    "menu": "해물찜",
+    "variants": [
+      "해물찜",
+      "해물 찜"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0263",
+    "menu": "아구찜",
+    "variants": [
+      "아구찜",
+      "아구 찜"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0264",
+    "menu": "아구탕",
+    "variants": [
+      "아구탕",
+      "아구 탕"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0265",
+    "menu": "꽃게찜",
+    "variants": [
+      "꽃게찜",
+      "꽃게 찜"
+    ],
+    "ingredients_ko": [
+      "게"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0266",
+    "menu": "게장",
+    "variants": [
+      "게장"
+    ],
+    "ingredients_ko": [
+      "게"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0267",
+    "menu": "간장게장",
+    "variants": [
+      "간장게장"
+    ],
+    "ingredients_ko": [
+      "게"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0268",
+    "menu": "양념게장",
+    "variants": [
+      "양념게장"
+    ],
+    "ingredients_ko": [
+      "게"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0269",
+    "menu": "새우장",
+    "variants": [
+      "새우장"
+    ],
+    "ingredients_ko": [
+      "새우"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0270",
+    "menu": "굴전",
+    "variants": [
+      "굴전"
+    ],
+    "ingredients_ko": [
+      "굴"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0271",
+    "menu": "굴국밥",
+    "variants": [
+      "굴국밥"
+    ],
+    "ingredients_ko": [
+      "굴",
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0272",
+    "menu": "전복죽",
+    "variants": [
+      "전복죽",
+      "전복 죽"
+    ],
+    "ingredients_ko": [
+      "전복"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MOLLUSCS"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0273",
+    "menu": "전복구이",
+    "variants": [
+      "전복구이",
+      "전복 구이"
+    ],
+    "ingredients_ko": [
+      "전복"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0274",
+    "menu": "전복회",
+    "variants": [
+      "전복회",
+      "전복 회"
+    ],
+    "ingredients_ko": [
+      "전복"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_FISH",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0275",
+    "menu": "전복찜",
+    "variants": [
+      "전복찜",
+      "전복 찜"
+    ],
+    "ingredients_ko": [
+      "전복"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0276",
+    "menu": "조개찜",
+    "variants": [
+      "조개찜",
+      "조개 찜"
+    ],
+    "ingredients_ko": [
+      "조개류"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0277",
+    "menu": "홍합찜",
+    "variants": [
+      "홍합찜",
+      "홍합 찜"
+    ],
+    "ingredients_ko": [
+      "조개류"
+    ],
+    "alg_tags": [
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0278",
+    "menu": "바지락탕",
+    "variants": [
+      "바지락탕",
+      "바지락 탕"
+    ],
+    "ingredients_ko": [
+      "조개류"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0279",
+    "menu": "오징어튀김",
+    "variants": [
+      "오징어튀김",
+      "오징어 튀김"
+    ],
+    "ingredients_ko": [
+      "오징어"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0280",
+    "menu": "새우튀김",
+    "variants": [
+      "새우튀김",
+      "새우 튀김"
+    ],
+    "ingredients_ko": [
+      "새우"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0281",
+    "menu": "생선구이",
+    "variants": [
+      "생선구이",
+      "생선 구이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0282",
+    "menu": "고등어구이",
+    "variants": [
+      "고등어구이",
+      "고등어 구이"
+    ],
+    "ingredients_ko": [
+      "고등어"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0283",
+    "menu": "갈치구이",
+    "variants": [
+      "갈치구이",
+      "갈치 구이"
+    ],
+    "ingredients_ko": [
+      "갈치"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0284",
+    "menu": "삼치구이",
+    "variants": [
+      "삼치구이",
+      "삼치 구이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0285",
+    "menu": "장어구이",
+    "variants": [
+      "장어구이",
+      "장어 구이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0286",
+    "menu": "장어덮밥",
+    "variants": [
+      "장어덮밥",
+      "장어 덮밥"
+    ],
+    "ingredients_ko": [
+      "밥"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0287",
+    "menu": "매운생선조림",
+    "variants": [
+      "매운생선조림",
+      "매운생선 조림"
+    ],
+    "ingredients_ko": [
+      "고추"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0288",
+    "menu": "갈치조림",
+    "variants": [
+      "갈치조림",
+      "갈치 조림"
+    ],
+    "ingredients_ko": [
+      "갈치"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0289",
+    "menu": "고등어조림",
+    "variants": [
+      "고등어조림",
+      "고등어 조림"
+    ],
+    "ingredients_ko": [
+      "고등어"
+    ],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0290",
+    "menu": "김치전",
+    "variants": [
+      "김치전",
+      "김치 전"
+    ],
+    "ingredients_ko": [
+      "김치"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0291",
+    "menu": "해물파전",
+    "variants": [
+      "해물파전",
+      "해물파 전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0292",
+    "menu": "파전",
+    "variants": [
+      "파전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0293",
+    "menu": "부추전",
+    "variants": [
+      "부추전",
+      "부추 전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0294",
+    "menu": "감자전",
+    "variants": [
+      "감자전",
+      "감자 전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0295",
+    "menu": "호박전",
+    "variants": [
+      "호박전",
+      "호박 전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0296",
+    "menu": "동그랑땡",
+    "variants": [
+      "동그랑땡"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0297",
+    "menu": "녹두전",
+    "variants": [
+      "녹두전",
+      "녹두 전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0298",
+    "menu": "빈대떡",
+    "variants": [
+      "빈대떡"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0299",
+    "menu": "육전",
+    "variants": [
+      "육전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0300",
+    "menu": "계란말이",
+    "variants": [
+      "계란말이"
+    ],
+    "ingredients_ko": [
+      "계란"
+    ],
+    "alg_tags": [
+      "ALG_EGGS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0301",
+    "menu": "계란찜",
+    "variants": [
+      "계란찜",
+      "계란 찜"
+    ],
+    "ingredients_ko": [
+      "계란"
+    ],
+    "alg_tags": [
+      "ALG_EGGS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0302",
+    "menu": "오징어전",
+    "variants": [
+      "오징어전",
+      "오징어 전"
+    ],
+    "ingredients_ko": [
+      "오징어"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MOLLUSCS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0303",
+    "menu": "새우전",
+    "variants": [
+      "새우전",
+      "새우 전"
+    ],
+    "ingredients_ko": [
+      "새우"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0304",
+    "menu": "버섯전",
+    "variants": [
+      "버섯전",
+      "버섯 전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0305",
+    "menu": "두부전",
+    "variants": [
+      "두부전",
+      "두부 전"
+    ],
+    "ingredients_ko": [
+      "두부"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0306",
+    "menu": "고추전",
+    "variants": [
+      "고추전",
+      "고추 전"
+    ],
+    "ingredients_ko": [
+      "고추"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0307",
+    "menu": "깻잎전",
+    "variants": [
+      "깻잎전",
+      "깻잎 전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0308",
+    "menu": "야채전",
+    "variants": [
+      "야채전",
+      "야채 전"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0309",
+    "menu": "탕수육",
+    "variants": [
+      "탕수육"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0310",
+    "menu": "깐풍기",
+    "variants": [
+      "깐풍기"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0311",
+    "menu": "유린기",
+    "variants": [
+      "유린기"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0312",
+    "menu": "양장피",
+    "variants": [
+      "양장피"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0313",
+    "menu": "팔보채",
+    "variants": [
+      "팔보채"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0314",
+    "menu": "깐쇼새우",
+    "variants": [
+      "깐쇼새우"
+    ],
+    "ingredients_ko": [
+      "새우"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0315",
+    "menu": "칠리새우",
+    "variants": [
+      "칠리새우"
+    ],
+    "ingredients_ko": [
+      "새우"
+    ],
+    "alg_tags": [
+      "ALG_CRUSTACEANS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0316",
+    "menu": "멘보샤",
+    "variants": [
+      "멘보샤"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0317",
+    "menu": "돈까스",
+    "variants": [
+      "돈까스"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0318",
+    "menu": "치즈돈까스",
+    "variants": [
+      "치즈돈까스",
+      "치즈 돈까스"
+    ],
+    "ingredients_ko": [
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0319",
+    "menu": "왕돈까스",
+    "variants": [
+      "왕돈까스"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0320",
+    "menu": "생선까스",
+    "variants": [
+      "생선까스"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0321",
+    "menu": "치킨까스",
+    "variants": [
+      "치킨까스"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0322",
+    "menu": "치킨",
+    "variants": [
+      "치킨"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0323",
+    "menu": "후라이드치킨",
+    "variants": [
+      "후라이드치킨"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0324",
+    "menu": "양념치킨",
+    "variants": [
+      "양념치킨"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0325",
+    "menu": "간장치킨",
+    "variants": [
+      "간장치킨"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0326",
+    "menu": "마늘치킨",
+    "variants": [
+      "마늘치킨"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0327",
+    "menu": "파닭",
+    "variants": [
+      "파닭"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0328",
+    "menu": "치킨윙",
+    "variants": [
+      "치킨윙"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0329",
+    "menu": "순살치킨",
+    "variants": [
+      "순살치킨"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0330",
+    "menu": "튀김",
+    "variants": [
+      "튀김"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0331",
+    "menu": "모둠튀김",
+    "variants": [
+      "모둠튀김",
+      "모둠 튀김"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0332",
+    "menu": "고구마튀김",
+    "variants": [
+      "고구마튀김",
+      "고구마 튀김"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0333",
+    "menu": "김말이",
+    "variants": [
+      "김말이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0334",
+    "menu": "야채튀김",
+    "variants": [
+      "야채튀김",
+      "야채 튀김"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0335",
+    "menu": "만두튀김",
+    "variants": [
+      "만두튀김",
+      "만두 튀김"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0336",
+    "menu": "떡볶이",
+    "variants": [
+      "떡볶이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0337",
+    "menu": "치즈떡볶이",
+    "variants": [
+      "치즈떡볶이"
+    ],
+    "ingredients_ko": [
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0338",
+    "menu": "궁중떡볶이",
+    "variants": [
+      "궁중떡볶이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0339",
+    "menu": "즉석떡볶이",
+    "variants": [
+      "즉석떡볶이"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0340",
+    "menu": "순대",
+    "variants": [
+      "순대"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0341",
+    "menu": "순대볶음",
+    "variants": [
+      "순대볶음",
+      "순대 볶음"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0342",
+    "menu": "곱창순대볶음",
+    "variants": [
+      "곱창순대볶음",
+      "곱창순대 볶음"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0343",
+    "menu": "오뎅",
+    "variants": [
+      "오뎅"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0344",
+    "menu": "어묵",
+    "variants": [
+      "어묵"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0345",
+    "menu": "어묵볶음",
+    "variants": [
+      "어묵볶음",
+      "어묵 볶음"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0346",
+    "menu": "만두",
+    "variants": [
+      "만두"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0347",
+    "menu": "군만두",
+    "variants": [
+      "군만두"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0348",
+    "menu": "찐만두",
+    "variants": [
+      "찐만두"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0349",
+    "menu": "왕만두",
+    "variants": [
+      "왕만두"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0350",
+    "menu": "김치만두",
+    "variants": [
+      "김치만두"
+    ],
+    "ingredients_ko": [
+      "김치"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0351",
+    "menu": "고기만두",
+    "variants": [
+      "고기만두"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0352",
+    "menu": "핫도그",
+    "variants": [
+      "핫도그"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0353",
+    "menu": "토스트",
+    "variants": [
+      "토스트"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0354",
+    "menu": "계란토스트",
+    "variants": [
+      "계란토스트"
+    ],
+    "ingredients_ko": [
+      "계란"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_EGGS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0355",
+    "menu": "치즈토스트",
+    "variants": [
+      "치즈토스트"
+    ],
+    "ingredients_ko": [
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0356",
+    "menu": "길거리토스트",
+    "variants": [
+      "길거리토스트"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0357",
+    "menu": "붕어빵",
+    "variants": [
+      "붕어빵"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0358",
+    "menu": "호떡",
+    "variants": [
+      "호떡"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0359",
+    "menu": "토스트(햄치즈)",
+    "variants": [
+      "토스트",
+      "토스트(햄치즈)"
+    ],
+    "ingredients_ko": [
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0360",
+    "menu": "빙수",
+    "variants": [
+      "빙수"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0361",
+    "menu": "팥빙수",
+    "variants": [
+      "팥빙수"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0362",
+    "menu": "망고빙수",
+    "variants": [
+      "망고빙수"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0363",
+    "menu": "인절미빙수",
+    "variants": [
+      "인절미빙수"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0364",
+    "menu": "아이스크림",
+    "variants": [
+      "아이스크림"
+    ],
+    "ingredients_ko": [
+      "유제품"
+    ],
+    "alg_tags": [
+      "ALG_MILK"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0365",
+    "menu": "요거트",
+    "variants": [
+      "요거트"
+    ],
+    "ingredients_ko": [
+      "유제품"
+    ],
+    "alg_tags": [
+      "ALG_MILK"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0366",
+    "menu": "치즈케이크",
+    "variants": [
+      "치즈케이크"
+    ],
+    "ingredients_ko": [
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_MILK"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0367",
+    "menu": "초코케이크",
+    "variants": [
+      "초코케이크"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0368",
+    "menu": "팥죽",
+    "variants": [
+      "팥죽"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0369",
+    "menu": "호박죽",
+    "variants": [
+      "호박죽",
+      "호박 죽"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0370",
+    "menu": "야채죽",
+    "variants": [
+      "야채죽",
+      "야채 죽"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0371",
+    "menu": "닭죽",
+    "variants": [
+      "닭죽"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0372",
+    "menu": "샐러드",
+    "variants": [
+      "샐러드"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0373",
+    "menu": "치킨샐러드",
+    "variants": [
+      "치킨샐러드",
+      "치킨 샐러드"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0374",
+    "menu": "리코타샐러드",
+    "variants": [
+      "리코타샐러드",
+      "리코타 샐러드"
+    ],
+    "ingredients_ko": [
+      "유제품"
+    ],
+    "alg_tags": [
+      "ALG_MILK"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0375",
+    "menu": "그릭샐러드",
+    "variants": [
+      "그릭샐러드",
+      "그릭 샐러드"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0376",
+    "menu": "샌드위치",
+    "variants": [
+      "샌드위치"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0377",
+    "menu": "클럽샌드위치",
+    "variants": [
+      "클럽샌드위치",
+      "클럽 샌드위치"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0378",
+    "menu": "치킨샌드위치",
+    "variants": [
+      "치킨샌드위치",
+      "치킨 샌드위치"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0379",
+    "menu": "에그샌드위치",
+    "variants": [
+      "에그샌드위치",
+      "에그 샌드위치"
+    ],
+    "ingredients_ko": [
+      "계란"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_EGGS",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0380",
+    "menu": "참치샌드위치",
+    "variants": [
+      "참치샌드위치",
+      "참치 샌드위치"
+    ],
+    "ingredients_ko": [
+      "참치"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_FISH",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0381",
+    "menu": "햄버거",
+    "variants": [
+      "햄버거"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0382",
+    "menu": "치즈버거",
+    "variants": [
+      "치즈버거",
+      "치즈 버거"
+    ],
+    "ingredients_ko": [
+      "치즈"
+    ],
+    "alg_tags": [
+      "ALG_MILK",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0383",
+    "menu": "불고기버거",
+    "variants": [
+      "불고기버거",
+      "불고기 버거"
+    ],
+    "ingredients_ko": [
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0384",
+    "menu": "치킨버거",
+    "variants": [
+      "치킨버거",
+      "치킨 버거"
+    ],
+    "ingredients_ko": [
+      "닭고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0385",
+    "menu": "감자튀김",
+    "variants": [
+      "감자튀김",
+      "감자 튀김"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0386",
+    "menu": "어니언링",
+    "variants": [
+      "어니언링"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0387",
+    "menu": "잡채",
+    "variants": [
+      "잡채"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0388",
+    "menu": "떡볶이(국물)",
+    "variants": [
+      "떡볶이",
+      "떡볶이(국물)"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0389",
+    "menu": "해물라면",
+    "variants": [
+      "해물라면",
+      "해물 라면"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0390",
+    "menu": "해물우동",
+    "variants": [
+      "해물우동",
+      "해물 우동"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0391",
+    "menu": "비빔만두",
+    "variants": [
+      "비빔만두"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0392",
+    "menu": "쫄면(곱배기)",
+    "variants": [
+      "쫄면",
+      "쫄면(곱배기)"
+    ],
+    "ingredients_ko": [
+      "면"
+    ],
+    "alg_tags": [
+      "ALG_CEREALS_GLUTEN",
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0393",
+    "menu": "된장국",
+    "variants": [
+      "된장국",
+      "된장 국"
+    ],
+    "ingredients_ko": [
+      "된장"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0394",
+    "menu": "미소된장국",
+    "variants": [
+      "미소된장국",
+      "미소된장 국"
+    ],
+    "ingredients_ko": [
+      "된장",
+      "소고기"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0395",
+    "menu": "김치국",
+    "variants": [
+      "김치국",
+      "김치 국"
+    ],
+    "ingredients_ko": [
+      "김치"
+    ],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0396",
+    "menu": "미역냉국",
+    "variants": [
+      "미역냉국",
+      "미역냉 국"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0397",
+    "menu": "도토리묵",
+    "variants": [
+      "도토리묵"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0398",
+    "menu": "도토리묵무침",
+    "variants": [
+      "도토리묵무침"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+    "id": "rep_0399",
+    "menu": "묵사발",
+    "variants": [
+      "묵사발"
+    ],
+    "ingredients_ko": [],
+    "alg_tags": [
+      "ALG_SOY"
+    ],
+    "source": "representative_korean_menu_400"
+  },
+  {
+  "id": "rep_0400",
+  "menu": "메밀전병",
+  "variants": [
+    "메밀전병",
+    "메밀 전병",
+    "전병",
+    "김치메밀전병",
+    "메밀김치전병"
+  ],
+  "ingredients_ko": [
+    "메밀",
+    "김치",
+    "두부"
+  ],
+  "alg_tags": [
+    "ALG_CEREALS_GLUTEN",
+    "ALG_SOY"
+  ],
+  "source": "representative_korean_menu_400"
+}
+
+]

@@ -72,15 +72,27 @@ class Step3Options:
     min_score: float = 0.0
 
 
+@dataclass
+class Step4Options:
+    # RAG match options
+    top_k: int = 20
+    rerank_top_k: int = 5
+    score_threshold: float = 0.85
+    ambiguous_gap: float = 0.03
+    use_rerank: bool = True
+    include_debug: bool = False
+
+
 class PipelineOrchestrator:
     """
-    image -> step_01_rectify -> step_02_ocr -> step_03_normalize -> (optional) check step_03 output
+    image -> step_01_rectify -> step_02_ocr -> step_03_normalize -> step_04_rag_match -> (optional) check step_03 output
     """
 
     def __init__(self, runs_root: Path):
         self.runs_root = runs_root
-        # runs_root: menu_assistant/data/runs  -> data_dir: menu_assistant/data
-        self.data_dir = runs_root
+        # ✅ FIX: runs_root = .../data/runs  -> data_dir = .../data
+        # (기존 코드는 self.data_dir=runs_root로 설정되어 Step04 경로가 꼬일 수 있음)
+        self.data_dir = runs_root.parent
 
     def run(
         self,
@@ -90,9 +102,11 @@ class PipelineOrchestrator:
         step1: Optional[Step1Options] = None,
         step2: Optional[Step2Options] = None,
         step3: Optional[Step3Options] = None,
+        step4: Optional[Step4Options] = None,
         do_check: bool = True,
         check_keywords: Optional[List[str]] = None,
         show_structured: bool = True,
+        run_step4: bool = True,
     ) -> Path:
         if not image_path.exists():
             raise FileNotFoundError(f"Input image not found: {image_path}")
@@ -100,6 +114,7 @@ class PipelineOrchestrator:
         step1 = step1 or Step1Options()
         step2 = step2 or Step2Options()
         step3 = step3 or Step3Options()
+        step4 = step4 or Step4Options()
 
         run_id = run_id or make_run_id()
         run_dir = self.runs_root / run_id
@@ -107,6 +122,7 @@ class PipelineOrchestrator:
         rectify_img = run_dir / "rectify" / "rectified.jpg"
         ocr_json = run_dir / "ocr" / "ocr.json"
         normalize_json = run_dir / "normalize" / "normalize.json"
+        rag_match_json = run_dir / "rag_match" / "rag_match.json"
 
         # ----------------------------------------------------
         # Step 01: Rectify (정식 인자: --run_id, --data_dir)
@@ -131,8 +147,6 @@ class PipelineOrchestrator:
 
         # ----------------------------------------------------
         # Step 02: OCR
-        # Help 기준: --run_id/--data_dir 사용하면 rectify 결과를 자동으로 읽음
-        # Output 기본: <run>/ocr/ocr.json
         # ----------------------------------------------------
         cmd2 = [
             sys.executable, "-m",
@@ -171,13 +185,11 @@ class PipelineOrchestrator:
 
         run_cmd(cmd2)
 
-        # Step2 out을 커스텀했으면 그 경로를 기준으로 존재 체크
         ocr_json_check = Path(step2.out) if step2.out else ocr_json
         ensure_exists(ocr_json_check, "Step02 expected output missing (ocr json)")
 
         # ----------------------------------------------------
         # Step 03: Normalize
-        # (너가 확정한 규칙: runs/<id>/ocr/ocr.json을 읽어 runs/<id>/normalize/normalize.json 생성)
         # ----------------------------------------------------
         cmd3 = [
             sys.executable, "-m",
@@ -208,11 +220,38 @@ class PipelineOrchestrator:
 
             run_cmd(check_cmd)
 
-        print("\n=== PIPELINE DONE (01~03) ===")
+        # ----------------------------------------------------
+        # Step 04: RAG Match (+ optional rerank)
+        # ----------------------------------------------------
+        if run_step4:
+            cmd4 = [
+                sys.executable, "-m",
+                "menu_assistant.worker.worker_app.pipeline.steps.step_04_rag_match",
+                "--run_id", run_id,
+                "--data_dir", str(self.data_dir),
+                "--top_k", str(step4.top_k),
+                "--rerank_top_k", str(step4.rerank_top_k),
+                "--score_threshold", str(step4.score_threshold),
+                "--ambiguous_gap", str(step4.ambiguous_gap),
+            ]
+            if step4.use_rerank:
+                cmd4 += ["--use_rerank"]
+            else:
+                cmd4 += ["--no_rerank"]
+
+            if step4.include_debug:
+                cmd4 += ["--include_debug"]
+
+            run_cmd(cmd4)
+            ensure_exists(rag_match_json, "Step04 expected output missing (rag_match json)")
+
+        print("\n=== PIPELINE DONE (01~04) ===")
         print(f"run_dir        : {run_dir}")
         print(f"rectified.jpg  : {rectify_img}")
         print(f"ocr.json       : {ocr_json_check}")
         print(f"normalize.json : {normalize_json}")
+        if run_step4:
+            print(f"rag_match.json : {rag_match_json}")
 
         return run_dir
 
@@ -223,7 +262,7 @@ class PipelineOrchestrator:
 if __name__ == "__main__":
     import argparse
 
-    p = argparse.ArgumentParser(description="Pipeline Orchestrator: step_01 -> step_02 -> step_03")
+    p = argparse.ArgumentParser(description="Pipeline Orchestrator: step_01 -> step_02 -> step_03 -> step_04")
 
     p.add_argument("--image", required=True, help="Input image path")
     p.add_argument("--runs-root", default="menu_assistant/data/runs", help="Runs root directory")
@@ -259,6 +298,17 @@ if __name__ == "__main__":
     p.add_argument("--line-y-tol", type=int, default=20)
     p.add_argument("--merge-gap-px", type=int, default=25)
     p.add_argument("--min-score", type=float, default=0.0)
+
+    # ---------------- Step4 passthrough ----------------
+    p.add_argument("--run-step4", action="store_true", help="Run step4 (default: on)")
+    p.add_argument("--no-step4", action="store_true", help="Skip step4")
+    p.add_argument("--top-k", type=int, default=20)
+    p.add_argument("--rerank-top-k", type=int, default=5)
+    p.add_argument("--score-threshold", type=float, default=0.85)
+    p.add_argument("--ambiguous-gap", type=float, default=0.03)
+    p.add_argument("--use-rerank", action="store_true")
+    p.add_argument("--no-rerank", action="store_true")
+    p.add_argument("--rag-debug", action="store_true")
 
     # ---------------- Check options ----------------
     p.add_argument("--no-check", action="store_true", help="Skip step_03 result check")
@@ -301,13 +351,38 @@ if __name__ == "__main__":
         min_score=args.min_score,
     )
 
+    # Step4 옵션 구성
+    use_rerank = True
+    if args.no_rerank:
+        use_rerank = False
+    if args.use_rerank:
+        use_rerank = True
+
+    step4 = Step4Options(
+        top_k=args.top_k,
+        rerank_top_k=args.rerank_top_k,
+        score_threshold=args.score_threshold,
+        ambiguous_gap=args.ambiguous_gap,
+        use_rerank=use_rerank,
+        include_debug=args.rag_debug,
+    )
+
+    run_step4 = True
+    if args.no_step4:
+        run_step4 = False
+    if args.run_step4:
+        run_step4 = True
+
     orch.run(
         image_path=Path(args.image),
         run_id=args.run_id,
         step1=step1,
         step2=step2,
         step3=step3,
+        step4=step4,
         do_check=(not args.no_check),
         check_keywords=args.check_keywords,
         show_structured=(not args.no_structured),
+        run_step4=run_step4,
     )
+

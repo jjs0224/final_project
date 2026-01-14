@@ -1,5 +1,6 @@
 # 0) 통합 실행코드
-python -m menu_assistant.worker.worker_app.pipeline.orchestrator --image Upload_Images\image9.jpg
+python menu_assistant/worker/worker_app/pipeline/orchestrator.py --image Upload_Images/image9.jpg --use-rerank --top-k 20 --rerank-top-k 5
+
 
 # 1) 보정만 수행 (photometric-only)
 python -m menu_assistant.worker.worker_app.pipeline.steps.step_01_rectify --input Upload_Images/image1.jpg --backend none
@@ -22,7 +23,19 @@ python -m menu_assistant.worker.worker_app.pipeline.steps.step_02_ocr ^
 python -m menu_assistant.worker.worker_app.pipeline.steps.step_03_normalize --runs-root "C:\Users\201\Desktop\PGHfolder\Final_project\AI\menu_assistant\data\runs" --run-id 20260112_181356
 
 # 4) rag match 메뉴명만 선매칭
-python -m menu_assistant.worker.worker_app.pipeline.steps.step_04_rag_match --run_id 20260113_121958 --save_candidates_k 5 --include_debug
-
+python -m menu_assistant.worker.worker_app.pipeline.steps.step_04_rag_match ^
+  --run_id 20260113_121958 ^
+  --top_k 20 ^
+  --rerank_top_k 5 ^
+  --use_rerank
 # ChromaDB build
 python -m menu_assistant.worker.scripts.build_chroma_index
+
+#reduce_dataset
+"""
+python menu_assistant/data/datasets/raw/reduce_Dataset.py ^
+  --input "C:\Users\201\Desktop\PGHfolder\Final_project\AI\menu_assistant\data\datasets\raw\menu_final_with_allergen.json" ^
+  --output "C:\Users\201\Desktop\PGHfolder\Final_project\AI\menu_assistant\data\datasets\raw\menu_representatives_250.json" ^
+  --mapping_out "C:\Users\201\Desktop\PGHfolder\Final_project\AI\menu_assistant\data\datasets\raw\menu_representatives_250_mapping.json" ^
+  --target_n 250
+"""

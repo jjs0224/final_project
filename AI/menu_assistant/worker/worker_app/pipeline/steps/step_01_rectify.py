@@ -42,7 +42,7 @@ def main():
     #run_id 값을 cli때 지정한값을 쓰거나 위에 구성해놓은 타임스탭형식으로쓸수있게 표현
     run_id = args.run_id or _default_run_id()
     #주소값에 대한설정 위에서 설정한 base = {data_dir}/{run_id}
-    base = Path(args.data_dir) / run_id
+    base = Path(args.data_dir) / "runs" / run_id
     input_dir = base / "input"
     rectify_dir = base / "rectify"
     #parents는 중간 폴더가 없어도 생성할것인지 ,exist_ok는 이미 있어도 오류를 발생할지안할지

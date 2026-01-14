@@ -17,7 +17,7 @@ EMBED_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 # PATHS (✅ menu_assistant 기준 고정)
 # ==============================
 BASE_DIR = Path(__file__).resolve().parents[2]  # menu_assistant/
-DATA_PATH = BASE_DIR / "data" /"datasets"/"raw"/ "menu_final_with_allergen.json"
+DATA_PATH = BASE_DIR / "data" /"datasets"/"raw"/ "menu_representative_korean_400.json"
 CHROMA_DIR = BASE_DIR / "data" / "chroma"
 
 
@@ -83,16 +83,19 @@ def main():
             continue
 
         ingredients = safe_str_list(item.get("ingredients_ko"))
-        alg_tags = safe_str_list(item.get("ALG_TAG"))
+        alg_tags = safe_str_list(item.get("alg_tags") or item.get("ALG_TAG"))  # ✅ 호환
+        variants = safe_str_list(item.get("variants"))  # ✅ 400 데이터셋 기준
 
-        ids.append(f"menu_{idx}")
-        documents.append(menu)  # ✅ document는 메뉴명만
+        ids.append(str(item.get("id") or f"menu_{idx}"))  # ✅ id가 있으면 사용
+        documents.append(" ".join([menu] + variants))  # ✅ menu+variants 임베딩
+
         metadatas.append(
             {
                 "menu": menu,
+                "variants": ", ".join(variants),
                 "ingredients_ko": ", ".join(ingredients),
                 "alg_tags": ", ".join(alg_tags),
-                "source": "menu_final_with_allergen",
+                "source": "representative_korean_menu_400",
             }
         )
 

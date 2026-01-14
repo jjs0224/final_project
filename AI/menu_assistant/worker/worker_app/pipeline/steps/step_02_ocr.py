@@ -32,7 +32,10 @@ def resolve_rectified_from_run(data_dir: Path, run_id: str) -> Path:
     Step1 output convention:
       <data_dir>/<run_id>/rectify/rectified.jpg
     """
-    p = data_dir / run_id / "rectify" / "rectified.jpg"
+    # Step1 output convention:
+    #   <data_dir>/runs/<run_id>/rectify/rectified.jpg
+    p = data_dir / "runs" / run_id / "rectify" / "rectified.jpg"
+
     if not p.exists():
         raise FileNotFoundError(f"Rectified image not found: {p}")
     return p
@@ -261,8 +264,9 @@ def main():
     )
 
     # Choose ONE: run_id (recommended) OR direct image path
-    parser.add_argument("--run_id", default=None, help="Run id from Step1 (reads <data_dir>/<run_id>/rectify/rectified.jpg)")
-    parser.add_argument("--data_dir", default="menu_assistant/data/runs", help="Runs base directory")
+    parser.add_argument("--run_id", default=None,help="Run id from Step1 (reads <data_dir>/runs/<run_id>/rectify/rectified.jpg)")
+    parser.add_argument("--data_dir", default="menu_assistant/data", help="Base data directory (contains runs/)")
+
     parser.add_argument("--image", default=None, help="Direct path to rectified image (if not using --run_id)")
 
     # Output
@@ -302,7 +306,8 @@ def main():
         if not args.run_id:
             raise RuntimeError("Provide either --run_id or --image.")
         img_path = resolve_rectified_from_run(data_dir=data_dir, run_id=args.run_id)
-        run_base = data_dir / args.run_id
+        run_base = data_dir / "runs" / args.run_id
+
 
     # Output paths
     if args.out:

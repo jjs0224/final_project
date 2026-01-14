@@ -8,6 +8,148 @@ from typing import Any, Dict, List, Tuple, Optional
 
 
 # ============================================================
+# Non-menu filtering (do NOT change any paths; only filtering)
+# ============================================================
+# Goal: normalize.json should contain menu candidates ONLY.
+# We keep existing output schema/paths intact and simply filter records
+# before they are appended to items_normalized / items_merged.
+# ============================================================
+# Jaccard helpers (NEW)
+# ============================================================
+
+# 메뉴가 절대 될 수 없는 키워드
+_NON_MENU_HARD_KEYWORDS = [
+    "원산지", "국내산", "수입산",
+    "인원", "인분",
+    "포장", "배달",
+    "셀프", "무한",
+    "환불", "결제",
+    "문의", "전화",
+    "대로받습니다",
+    "식자재", "유통",
+]
+# 2글자지만 실제 메뉴로 자주 등장하는 것들(필요시 추가)
+_SHORT_MENU_ALLOW = {
+    "만두", "냉면", "우동", "라면", "먹태", "전", "국", "탕"
+}
+
+# 섹션/카테고리성 단어(메뉴 아님)
+_NON_MENU_CATEGORY_WORDS = {
+    "안주", "사이드", "추가", "추가메뉴", "사리", "음료", "음료수", "주류", "메뉴"
+}
+
+def is_strict_menu_candidate(
+    text_norm: str,
+    detail_parts_norm: list[str] | None = None,
+) -> bool:
+    """
+    Chroma 쿼리용 '진짜 메뉴' 판별 (보수적이되 과도하게 배제하지 않음)
+    """
+    if not text_norm:
+        return False
+
+    # 1) 너무 짧은 조각 텍스트 차단 (단, 예외 허용)
+    if len(text_norm) < 2:
+        return False
+    if len(text_norm) == 2 and text_norm not in _SHORT_MENU_ALLOW:
+        return False
+
+    # 2) 하드 키워드 차단
+    for kw in _NON_MENU_HARD_KEYWORDS:
+        if kw in text_norm:
+            return False
+
+    # 3) 섹션/카테고리 단독 단어 차단
+    if text_norm in _NON_MENU_CATEGORY_WORDS:
+        return False
+
+    # 4) 제목형 표현 차단
+    if text_norm.endswith(("류", "메뉴", "안내")):
+        return False
+
+    # 5) detail_parts_norm(괄호) 유무는 더 이상 필수 조건이 아님
+    #    (괄호 없는 메뉴가 훨씬 많음)
+
+    return True
+
+
+# Jaccard에 독이 되는 일반 메뉴 접미사
+_JACCARD_DROP_SUFFIX = [
+    "국", "탕", "찌개",
+    "면", "밥", "죽",
+    "볶음", "구이", "전", "튀김",
+    "세트", "정식"
+]
+def normalize_for_jaccard(text: str) -> str:
+    """
+    Jaccard 계산 전용 문자열 생성
+    - 한글만 유지
+    - 공백 제거
+    - 의미 없는 접미사 제거
+    """
+    s = normalize_korean_only(text)
+    if not s:
+        return ""
+
+    for suf in _JACCARD_DROP_SUFFIX:
+        if s.endswith(suf) and len(s) > len(suf) + 1:
+            s = s[: -len(suf)]
+            break
+
+    return s
+
+
+# Notice/guide/operation words that indicate non-menu sentences.
+_NON_MENU_SUBSTRINGS = [
+    "주문", "안내", "공지", "필수", "가능", "불가", "포장", "매장", "이용",
+    "시간", "휴무", "전화", "문의", "원산지", "알레르기", "알러지", "주의",
+]
+
+# Common section titles (non-menu headers).
+_NON_MENU_TITLES = {
+    "추가메뉴", "사이드", "사리", "추가", "음료", "음료수", "주류", "메뉴",
+}
+
+def _looks_like_notice(raw_text: str, menu_norm: str) -> bool:
+    t = (raw_text or "").strip()
+    if not t:
+        return True
+
+    # Bullet/marker + notice content (e.g., "※ 1인 1메뉴 주문입니다")
+    if t.startswith(("※", "*", "•", "-", "·")):
+        for s in _NON_MENU_SUBSTRINGS:
+            if s in t:
+                return True
+
+    # Normalized text still contains notice/operation words
+    for s in _NON_MENU_SUBSTRINGS:
+        if s in (menu_norm or ""):
+            return True
+
+    return False
+
+def is_menu_candidate(raw_text: str, menu_norm: Optional[str], score: float, cfg: "NormalizeConfig") -> bool:
+    """
+    Returns True if the record should be kept as a menu candidate.
+    This function MUST NOT affect any file paths; it only determines
+    whether an OCR item is included in normalized outputs.
+    """
+    if not menu_norm:
+        return False
+    if len(menu_norm) < cfg.min_len:
+        return False
+    if score < cfg.min_score:
+        return False
+
+    if menu_norm in _NON_MENU_TITLES:
+        return False
+
+    if _looks_like_notice(raw_text, menu_norm):
+        return False
+
+    return True
+
+# ============================================================
 # 1) Normalization: keep Hangul only + join spaces
 # ============================================================
 _KEEP_KO_AND_SPACE = re.compile(r"[^가-힣\s]+", re.UNICODE)
@@ -62,10 +204,14 @@ def build_structured_fields(raw_text: str) -> Dict[str, Any]:
     # ✅ 메뉴명 "/" variants split (정규화 이전에 수행)
     variants_raw = split_menu_variants(menu_raw)
     variants_norm = [normalize_korean_only(v) for v in variants_raw]
-    variants_norm = [v for v in variants_norm if v]  # 빈 값 제거
+    variants_norm = [v for v in variants_norm if v]
 
-    # 대표 메뉴명: 첫 번째 variant
+    # ✅ Jaccard 전용 variants
+    variants_jaccard = [normalize_for_jaccard(v) for v in variants_norm]
+    variants_jaccard = [v for v in variants_jaccard if v]
+
     menu_norm = variants_norm[0] if variants_norm else None
+    menu_jaccard = variants_jaccard[0] if variants_jaccard else None
 
     detail_parts_raw: List[str] = []
     detail_parts_norm: List[str] = []
@@ -76,6 +222,10 @@ def build_structured_fields(raw_text: str) -> Dict[str, Any]:
         detail_parts_norm = [p for p in detail_parts_norm if p]  # 빈 값 제거
 
     is_set = ("세트" in menu_raw) or (detail_raw is not None)
+    menu_candidate = is_strict_menu_candidate(
+        menu_norm,
+        detail_parts_norm,
+    )
 
     return {
         "menu_name_raw": menu_raw,
@@ -83,9 +233,14 @@ def build_structured_fields(raw_text: str) -> Dict[str, Any]:
         "menu_name_variants_raw": variants_raw,
         "menu_name_variants_norm": variants_norm,
 
+        "menu_name_jaccard": menu_jaccard,
+        "menu_name_variants_jaccard": variants_jaccard,
+
         "detail_raw": detail_raw,
         "detail_parts_raw": detail_parts_raw,
         "detail_parts_norm": detail_parts_norm,
+
+        "menu_candidate": menu_candidate,  # ✅ NEW
 
         "has_parentheses": detail_raw is not None,
         "is_set": is_set,
@@ -151,6 +306,8 @@ def merge_line_tokens(line: List[Dict[str, Any]], merge_gap_px: int = 25) -> Lis
     - detail_parts_norm도 aggregate + dedup
     """
     merged: List[Dict[str, Any]] = []
+    current_jaccard_variants: List[str] = []
+    current_menu_candidate = False
 
     def union_bbox(a, b):
         return [min(a[0], b[0]), min(a[1], b[1]), max(a[2], b[2]), max(a[3], b[3])]
@@ -172,25 +329,37 @@ def merge_line_tokens(line: List[Dict[str, Any]], merge_gap_px: int = 25) -> Lis
         return out
 
     def flush():
-        nonlocal current_text, current_bbox, current_members, current_detail_parts, current_variants
+        nonlocal current_text, current_bbox, current_members
+        nonlocal current_detail_parts, current_variants, current_jaccard_variants, current_menu_candidate
+
+        j_variants = dedup_keep_order(current_jaccard_variants)
         if current_text:
             merged.append({
-                "text": current_text,  # 대표 메뉴명(norm)
+                "text": current_text,
                 "bbox": current_bbox,
                 "members": current_members[:],
                 "menu_variants_norm": dedup_keep_order(current_variants),
+                "menu_variants_jaccard": j_variants,
+                "menu_jaccard": j_variants[0] if j_variants else None,
+                "menu_candidate": current_menu_candidate,
                 "detail_parts_norm": dedup_keep_order(current_detail_parts),
             })
+
         current_text, current_bbox, current_members = "", None, []
         current_detail_parts, current_variants = [], []
+        current_jaccard_variants = []
+        current_menu_candidate = False
+
+
 
     for it in line:
         raw = it.get("text", "")
 
-        fields = build_structured_fields(raw)
+        fields = it.get("_fields") or build_structured_fields(raw)
         norm = fields.get("menu_name_norm") or ""
         variants_norm = fields.get("menu_name_variants_norm") or []
         detail_parts_norm = fields.get("detail_parts_norm") or []
+        variants_jaccard = fields.get("menu_name_variants_jaccard") or []
 
         if not norm:
             continue
@@ -204,6 +373,9 @@ def merge_line_tokens(line: List[Dict[str, Any]], merge_gap_px: int = 25) -> Lis
             current_members = [idx] if idx is not None else []
             current_variants = list(variants_norm)
             current_detail_parts = list(detail_parts_norm)
+            current_jaccard_variants = list(variants_jaccard)
+            current_menu_candidate = bool(fields.get("menu_candidate", False))
+
             continue
 
         gap = horizontal_gap(current_bbox, bbox)
@@ -227,7 +399,13 @@ def merge_line_tokens(line: List[Dict[str, Any]], merge_gap_px: int = 25) -> Lis
 
             # aggregate
             current_variants.extend(variants_norm)
+            current_jaccard_variants.extend(variants_jaccard)
             current_detail_parts.extend(detail_parts_norm)
+            current_menu_candidate = (
+                    current_menu_candidate or fields.get("menu_candidate", False)
+            )
+
+
         else:
             flush()
             current_text = norm
@@ -235,8 +413,12 @@ def merge_line_tokens(line: List[Dict[str, Any]], merge_gap_px: int = 25) -> Lis
             current_members = [idx] if idx is not None else []
             current_variants = list(variants_norm)
             current_detail_parts = list(detail_parts_norm)
+            current_jaccard_variants = list(variants_jaccard)
+            current_menu_candidate = bool(fields.get("menu_candidate", False))
+
 
     flush()
+
     return merged
 
 
@@ -261,6 +443,10 @@ def run_step_03_normalize(ocr_json_path: Path, out_json_path: Path, cfg: Normali
         fields = build_structured_fields(raw_text)
         menu_norm = fields.get("menu_name_norm")
 
+        # ✅ Keep menus only: do not append non-menu records to outputs
+        if not is_menu_candidate(raw_text=raw_text, menu_norm=menu_norm, score=score, cfg=cfg):
+            continue
+
         rec = {
             "idx": i,
             "raw_text": raw_text,
@@ -268,22 +454,17 @@ def run_step_03_normalize(ocr_json_path: Path, out_json_path: Path, cfg: Normali
             "bbox": bbox,
             "poly": it.get("poly"),
 
-            # ✅ 구조화 필드 저장(핵심)
+            # ✅ 구조화 필드 저장(메뉴/variants/detail)
             **fields,
         }
 
-        # drop reason: 이제 normalized는 menu_name_norm 기준으로 판단
-        if not menu_norm:
-            rec["dropped_reason"] = "no_korean_in_menu_name_after_filter"
-        elif len(menu_norm) < cfg.min_len:
-            rec["dropped_reason"] = "menu_name_too_short_after_normalize"
-
         items_normalized.append(rec)
 
-        # ✅ 병합/후속 Step_04 RAG 키는 menu_name_norm만 사용
-        if bbox and menu_norm and len(menu_norm) >= cfg.min_len and score >= cfg.min_score:
+        # ✅ 병합/후속 Step_04 RAG 대상도 '메뉴만'
+        if bbox:
             it2 = dict(it)
             it2["_idx"] = i
+            it2["_fields"] = fields  # ✅ 구조화 결과 재사용
             filtered_for_merge.append(it2)
 
     lines = group_items_by_line(filtered_for_merge, y_tol=cfg.line_y_tol)

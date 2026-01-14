@@ -33,7 +33,7 @@ DEFAULT_SCORE_THRESHOLD = 0.85
 DEFAULT_AMBIGUOUS_GAP = 0.03  # best - second가 이 값보다 작으면 애매(AMBIGUOUS)로 간주
 
 # Chroma persist dir (프로젝트 상대경로)
-BASE_DIR = Path(__file__).resolve().parents[4]  # menu_assistant/
+BASE_DIR = Path(__file__).resolve().parents[3]  # menu_assistant/
 DEFAULT_CHROMA_DIR = BASE_DIR / "data" / "chroma"
 
 # Embedding model (index 빌드와 동일해야 함)
@@ -173,14 +173,11 @@ class ChromaMenuRetriever:
 
         self.chroma_dir.mkdir(parents=True, exist_ok=True)
 
-        # embedding function (index 빌드와 반드시 동일해야 매칭 품질이 유지됨)
         emb_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
             model_name=self.embed_model
         )
 
-        # Chroma 버전 호환:
-        # - 일부 버전: PersistentClient 사용
-        # - 일부 버전: chromadb.Client + Settings(persist_directory)
+        # Persist 로드: PersistentClient 우선
         if hasattr(chromadb, "PersistentClient"):
             self._client = chromadb.PersistentClient(path=str(self.chroma_dir))
         else:
@@ -191,16 +188,32 @@ class ChromaMenuRetriever:
                 )
             )
 
-        # get_or_create: 존재하면 로드, 없으면 생성
         self._collection = self._client.get_or_create_collection(
             name=self.collection_name,
             embedding_function=emb_fn,
         )
 
+        # ✅ 여기서만 count 체크 (collection 생성 이후)
+        print(f"[RAG] chroma_dir = {self.chroma_dir}")
+        print(f"[RAG] collection = {self.collection_name}")
+
+        try:
+            cnt = self._collection.count()
+        except Exception:
+            got = self._collection.get(limit=1, include=["metadatas"])
+            cnt = len(got.get("ids", []))
+
+        print(f"[RAG] collection.count() = {cnt}")
+        if cnt == 0:
+            raise RuntimeError(
+                f"[RAG] collection is empty. chroma_dir={self.chroma_dir} collection={self.collection_name}"
+            )
+
     @property
     def collection(self):
         self._init()
         return self._collection
+
 
     def retrieve_menu(
         self,
