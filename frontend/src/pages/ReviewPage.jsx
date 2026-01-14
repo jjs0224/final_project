@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReviewList from "../components/ReviewList";
 import Header from "../components/Header";
-const SESSION_KEY = "final_project_session";
 
+const SESSION_KEY = "final_project_session";
 
 function getSession() {
   try {

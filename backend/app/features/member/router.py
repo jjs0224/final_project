@@ -1,129 +1,56 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
 
 from app.core.database import get_db
-from app.common.models.member import Member
-from . import schemas
-
-# restrictions_member 생성
-from app.features.restrictions.models import MemberRestrictions
-
+from . import schemas, service
+from app.common.schemas import responses
 
 router = APIRouter(prefix="/members", tags=["member"])
 
+# 회원가입
+@router.post("", status_code=201)
+def create_member(payload: schemas.MemberCreate, db: Session = Depends(get_db)):
+    service.create_member(db, payload)
+    return {"message": "register ok"}
 
-# 관리자 계정 생성
-@router.post("/admin", response_model=schemas.MemberRead)
-def create_admin(payload: schemas.MemberCreate, db: Session = Depends(get_db)):
-    m = Member(**payload.model_dump())
-    db.add(m)
-    try:
-        db.commit()
-        db.refresh(m)
-        return m
-    except IntegrityError:
-        db.rollback()
-        raise HTTPException(status_code=409, detail="Email already exists")
-
-# 일반 유저 계정 생성
-@router.post("", response_model=schemas.MemberRegisterRead)
-def create_member(payload: schemas.MemberRegisterCreate, db: Session = Depends(get_db)):
-    print(payload)
-    print(payload.item_ids)
-
-    member_data = payload.model_dump(exclude={"item_ids", "hate_input"})
-    member = Member(**member_data)
-    print(member)
-
-    db.add(member)
-    try:
-        db.commit()
-    except IntegrityError as e:
-        db.rollback()
-        print("IntegrityError:", e)
-        raise HTTPException(status_code=409, detail="email already exists")
-
-    db.refresh(member)
-
-    # 현재 등록 회원 ID값 추출 및 사용자 추가 ids
-    orgMemberId = member.member_id
-    items = payload.item_ids
-
-    print(orgMemberId)
-
-    # item 검증 [데이터 여부 확인]
-    
-    # category 검증 [데이터 여부 확인]
-    
-    # item, category ok => 실제 member_restrictions 추가
-    row = [MemberRestrictions(member_id=orgMemberId, item_id=i) for i in items]
-
-    db.add_all(row)
-
-    try:
-        db.commit()
-    except IntegrityError as e:
-        db.rollback()
-        print("IntegrityError:", e)
-        raise HTTPException(status_code=409, detail="restrictions create err")
-
-    result = schemas.MemberRegisterRead(
-        email=member.email,
-        nickname=member.nickname,
-        gender=member.gender,
-        country=member.country,
-        item_ids=payload.item_ids,
-        hate_input=payload.hate_input
-    )
-
-    print("RETURN RESULT:", result.model_dump())
-    return result
-
+# MyPage 연동 - 단일 계정 
 @router.get("/{member_id}", response_model=schemas.MemberRead)
 def get_member(member_id: int, db: Session = Depends(get_db)):
-    print(member_id)
-    m = db.query(Member).filter(Member.member_id == member_id).first()
-    if not m:
-        raise HTTPException(status_code=404, detail="Member not found")
-    return m
+    return service.get_member(db, member_id)
 
-@router.get("", response_model=list[schemas.MemberRead])
-def list_members(db: Session = Depends(get_db)):
-    return db.query(Member).order_by(Member.member_id.asc()).all()
+# MyPage 연동 - 사용자 정보 update
+@router.patch("/{member_id}", response_model=schemas.MemberRead)
+def update_member(member_id: int, payload: schemas.MemberUpdate, db: Session = Depends(get_db)):
+    m = service.update_member(db, member_id, payload)
 
-@router.patch("/{member_id}", response_model=schemas.MemberRegisterRead)
-def update_member(member_id: int, payload: schemas.MemberRegisterCreate, db: Session = Depends(get_db)):
+    # nickname / item_ids / comment만 수정!!!!!!!
 
-    # 수정시 기존 ibs
-    # payload.item_ids
+    # 응답 구성은 router에서(혹은 service에서 return dict로 넘겨도 됨)
+    return {
+        "email": m.email,
+        "nickname": m.nickname,
+        "gender": m.gender,
+        "country": m.country,
+        "item_ids": payload.item_ids,         # 필요하면 실제 DB에서 다시 조회해서 내려주기
+        "dislike_tags": payload.dislike_tags,
+    }
 
-    m = db.query(Member).filter(Member.member_id == member_id).first()
-    if not m:
-        raise HTTPException(status_code=404, detail="Member not found")
-
-    data = payload.model_dump(exclude_unset=True)
-    if not data:
-        return m
-
-    # 이메일 변경 시 unique 충돌 가능
-    for k, v in data.items():
-        setattr(m, k, v)
-
-    try:
-        db.commit()
-        db.refresh(m)
-        return m
-    except IntegrityError:
-        db.rollback()
-        raise HTTPException(status_code=409, detail="Email already exists")
-
-@router.delete("/{member_id}", response_model=list[schemas.MemberRead])
-def delete_members(member_id: int, db: Session = Depends(get_db)):
-    m = db.query(Member).filter(Member.member_id == member_id).first()
-    if not m:
-        raise HTTPException(status_code=404, detail="Member not found")
-
-    db.delete(m)
-    db.commit()
+# MyPage 회원 탈퇴
+@router.delete("/{member_id}", status_code=200)
+def delete_member(member_id: int, db: Session = Depends(get_db)):
+    service.delete_member(db, member_id)
     return {"message": "member delete ok!"}
+
+
+# MyPage - NickName 중복체크
+@router.get("/nickname/check", response_model=responses.NicknameCheckResponse)
+def nickname_check(nickname: str, db: Session = Depends(get_db)):
+
+    # 추가 검증시 필요 로직 현재 사용 x
+    # nickname: str = Query(..., min_length=2, max_length=50),
+
+    ok = service.is_nickname_available(db, nickname)
+    return {
+        "available": ok,
+        "message": "available" if ok else "nickname already exists",
+    }

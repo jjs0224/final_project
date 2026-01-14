@@ -9,7 +9,10 @@ env/
 
 # env files
 .env
-.env.*
+.env
 
-# IDE
+# JetBrains
 .idea/
+*.iml
+
+interpreter_packages.txt

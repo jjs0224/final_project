@@ -1,9 +1,40 @@
 import "./SignupPage.css";
 import Modal from "../components/Modal";
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import { COUNTRY_OPTIONS } from "../contents/signup";
+import { GENDER } from "../contents/signup";
+
+/* email, pw 정규식 */
+const REGEX = {
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+  password: /^.{8,20}$/,
+};
+
+function validate(formData) {
+  const errors = {};
+  const email = formData.email.trim();
+  const pw = formData.password;
+
+  if (!email) errors.email = "Email is required.";
+  else if (!REGEX.email.test(email)) errors.email = "Email must include '@' and be valid.";
+
+  if (!pw) errors.password = "Password is required.";
+  else if (!REGEX.password.test(pw)) errors.password = "Password must be 8~20 characters.";
+
+  if (formData.password !== formData.passwordConfirm) {
+    errors.passwordConfirm = "Password does not match.";
+  }
+
+  return errors;
+}
+
 
 function SignupPage() {
+
+  const nav = useNavigate();
+
   const [formData, setformData] = useState({
     email: "",
     nickname: "",
@@ -13,43 +44,61 @@ function SignupPage() {
     country: ""
   });
 
-  const categories = useMemo(
-      () => [
-          {
-              id: "allergy",
-              label: "allergy (Required)",
-              options: Array.from({ length: 14}, (_, i) => ({
-                  itemId: i +1,
-                  label: `Allergy Option ${i +1}`
-              })),
-          },
-          {
-              id:"plantBased",
-              label: "Plant-Based (Optional)",
-              options: Array.from({ length: 2 }, (_, i) => ({
-                  itemId: 100 + (i + 1),
-                  label: `PlantBased Option ${i + 1}`,
-              })),
-          },
-          {
-              id:"religion",
-              label: "Religion (Optional)",
-              options: Array.from({ length: 4 }, (_, i) => ({
-                  itemId: 200 + (i + 1),
-                  label: `Religion Option ${i + 1}`,
-              })),
-          },          
-          {
-              id:"hate",
-              label: "Hate (Optional)",
-              options: Array.from({ length: 2 }, (_, i) => ({
-                  id: `hate-${i + 1}`,
-                  label: `Hate Option ${i + 1}`,
-              })),
-          }
-      ],
-      []
-  );
+  const categories = [
+  {
+    id: "allergy",
+    label: "Allergy (Optional)",
+    options: [
+      { itemId: 1, label: "Peanut" },
+      { itemId: 2, label: "Tree nuts" },
+      { itemId: 3, label: "Milk" },
+      { itemId: 4, label: "Egg" },
+      { itemId: 5, label: "Wheat" },
+      { itemId: 6, label: "Soy" },
+      { itemId: 7, label: "Fish" },
+      { itemId: 8, label: "Shellfish" },
+      { itemId: 9, label: "Sesame" },
+      { itemId: 10, label: "Peach" },
+    ],
+  },
+  {
+    id: "religion",
+    label: "Religion (Optional)",
+    options: [
+      { itemId: 11, label: "Halal" },
+      { itemId: 12, label: "Kosher" },
+      { itemId: 13, label: "No pork" },
+      { itemId: 14, label: "No beef" },
+      { itemId: 15, label: "No alcohol" },
+      { itemId: 16, label: "No gelatin" },
+      { itemId: 17, label: "No seafood" },
+      { itemId: 18, label: "No blood products" },
+      { itemId: 19, label: "No animal rennet" },
+      { itemId: 20, label: "Ritual restrictions" },
+    ],
+  },
+  {
+    id: "plantBased",
+    label: "Plant-Based (Optional)",
+    options: [
+      { itemId: 21, label: "Vegan" },
+      { itemId: 22, label: "Lacto" },
+      { itemId: 23, label: "Ovo" },
+      { itemId: 24, label: "Lacto-ovo" },
+      { itemId: 25, label: "Pesco" },
+      { itemId: 26, label: "Pollo" },
+      { itemId: 27, label: "Flexitarian" },
+      { itemId: 28, label: "No dairy" },
+      { itemId: 29, label: "No egg" },
+      { itemId: 30, label: "No honey" },
+    ],
+  },
+  {
+    id: "hate",
+    label: "Dislike tags (Optional)",
+    options: [],
+  },
+];
 
   // 카테고리 클릭 전엔 옵션이 안 나오게: 초기값을 "" 로 둠
   const [activeCategoryId, setActiveCategoryId] = useState("");
@@ -85,11 +134,109 @@ function SignupPage() {
     });
   };
 
- // ✅ input/select 공통 핸들러
+  const [nickStatus, setNickStatus] = useState("idle");
+  const [nickMsg, setNickMsg] = useState("");
+
+  const toText = (x) => {
+    if (x == null) return "";
+    if (typeof x === "string") return x;
+
+    const d = x?.detail ?? x;
+
+    if (Array.isArray(d)) {
+      return d
+        .map((e) => {
+          const loc = Array.isArray(e.loc) ? e.loc.slice(1).join(".") : "";
+          const msg = e.msg ?? JSON.stringify(e);
+          return loc ? `${loc}: ${msg}` : msg;
+        })
+        .join("\n");
+    }
+
+    if (typeof d === "object") return JSON.stringify(d);
+    return String(d);
+  };
+
+ //  input/select 공통 핸들러
   const onChange = (e) => {
     const { name, value } = e.target;
     setformData((prev) => ({ ...prev, [name]: value }));
   };
+
+//  닉네임이 바뀌면 다시 중복확인 필요 상태로
+const onNicknameChange = (e) => {
+  const v = e.target.value;
+  setformData((prev) => ({ ...prev, nickname: v }));
+
+  const trimmed = v.trim();
+  if (!trimmed) {
+    setNickStatus("idle");
+    setNickMsg("");
+    return;
+  }
+  setNickStatus("dirty");
+  setNickMsg("Please check nickname duplication.");
+};
+
+//  닉네임 중복 체크 API
+const checkNickname = async () => {
+  const nickname = formData.nickname.trim();
+  if (!nickname) {
+    setNickStatus("idle");
+    setNickMsg("");
+    return;
+  }
+  if (nickname.length < 2) {
+    setNickStatus("dirty");
+    setNickMsg("Nickname must be at least 2 characters.");
+    return;
+  }
+
+  setNickStatus("checking");
+  setNickMsg("Checking...");
+
+  try {
+    const res = await fetch(
+      `/members/nickname/check?nickname=${encodeURIComponent(nickname)}`,
+      { method: "GET" }
+    );
+
+    if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const available =
+        data.available ??
+        (typeof data.exists === "boolean" ? !data.exists : undefined) ??
+        data.is_available ??
+        data.ok;
+
+      if (available === true) {
+        setNickStatus("available");
+        setNickMsg("Nickname is available.");
+      } else if (available === false) {
+        setNickStatus("taken");
+        setNickMsg("Nickname already exists.");
+      } else {
+        setNickStatus("error");
+        setNickMsg("Unexpected response from server.");
+      }
+      return;
+    }
+
+    if (res.status === 409) {
+      setNickStatus("taken");
+      setNickMsg("Nickname already exists.");
+      return;
+    }
+
+    const err = await res.json().catch(() => ({}));
+    setNickStatus("error");
+    setNickMsg(toText(err));
+  } catch (e) {
+    console.error(e);
+    setNickStatus("error");
+    setNickMsg("Network error");
+  }
+};
 
   // payload.item_ids 생성 (중복 제거)
   const buildItemIds = () => {
@@ -124,20 +271,18 @@ function SignupPage() {
   };
 
 
-  // 백엔드 POST /members 호출
+  // 백엔드 POST /members 호출 
   const submitSignup = async () => {
-    // 최소 검증(원하는 규칙 더 추가 가능)
-    if (!formData.email || !formData.nickname || !formData.password) {
-      alert("Email / Nickname / Password are required.");
-      return;
+    const errors = validate(formData);
+
+    if (Object.keys(errors).length > 0) {
+      alert(Object.values(errors).join("\n"));
+      return false;
     }
-    if (formData.password !== formData.passwordConfirm) {
-      alert("Password does not match.");
-      return;
-    }
-    if ((selections.allergy ?? []).length === 0) {
-      alert("Allergy is required.");
-      return;
+
+    if (nickStatus !== "available") {
+      alert("Please check nickname duplication first.");
+      return false;
     }
 
     const payload = {
@@ -161,17 +306,18 @@ function SignupPage() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        // 백엔드: 409 email already exists
-        alert(err?.detail ?? `Signup failed (${res.status})`);
-        return;
+        alert(toText(err) || `Signup failed (${res.status})`);
+        return false;
       }
 
       const data = await res.json();
       console.log("Sign up success:", data);
       alert("Sign up complete!");
+      return true;
     } catch (e) {
       console.error(e);
       alert("Network error");
+      return false;
     }
   };
 
@@ -188,12 +334,21 @@ function SignupPage() {
     if (modalType === "cancel") {
       console.log("Cancel Complete");
       setIsModalOpen(false);
+      nav("/");
       return;
     }
 
     // signup
-    await submitSignup();
-    setIsModalOpen(false);
+    if (modalType === "signup"){
+      const ok = await submitSignup();
+      if (!ok) {
+        setIsModalOpen(false);
+        return;
+      }
+      
+      setIsModalOpen(false);
+      nav("/");
+    }
   };
 
   return (
@@ -221,12 +376,27 @@ function SignupPage() {
                 <input
                     name="nickname"
                     type="text"
-                    placeholder="No more than 10 letters"
+                    placeholder="Please write 10 characters or less"
                     maxLength={10}
                     value={formData.nickname}
-                    onChange={onChange}                
+                    onChange={onNicknameChange}
+                    style={{ flex: 1 }}           
                 />
-                </label>
+
+
+                {nickStatus !== "idle" && (
+                  <div>
+                    {nickMsg}
+                  </div>
+                )}
+            </label>
+                <button
+                  type="button"
+                  onClick={checkNickname}
+                  disabled={nickStatus === "checking" || !formData.nickname.trim()}
+                >
+                 {nickStatus === "checking" ? "Checking..." : "Duplicate check"} 
+                </button>
 
             <label>
             Password
@@ -255,254 +425,22 @@ function SignupPage() {
             <label>
             Gender
                 <select name="gender" value={formData.gender} onChange={onChange}>
-                    <option value="">choose</option>
-                    <option value="Man">Man</option>
-                    <option value="Woman">Woman</option>
-                    <option value="Unknown">Not select</option>
+                    {GENDER.map((option) => {
+                      return <option key={option.value} value={option.value}>
+                        {option.label}
+                        </option>
+                    })}
                 </select>
             </label>
   {/* 국가선택창 */}
             <label>
             Country
                 <select name="country" value={formData.country} onChange={onChange}>
-                    <option value="">Choose your country</option>
-                    <option value="US">United States</option>
-                    <option value="AF">Afghanistan</option>
-                    <option value="AX">Aland Islands</option>
-                    <option value="AL">Albania</option>
-                    <option value="DZ">Algeria</option>
-                    <option value="AS">American Samoa</option>
-                    <option value="AD">Andorra</option>
-                    <option value="AO">Angola</option>
-                    <option value="AI">Anguilla</option>
-                    <option value="AQ">Antarctica</option>
-                    <option value="AG">Antigua and Barbuda</option>
-                    <option value="AR">Argentina</option>
-                    <option value="AM">Armenia</option>
-                    <option value="AW">Aruba</option>
-                    <option value="AU">Australia</option>
-                    <option value="AT">Austria</option>
-                    <option value="AZ">Azerbaijan</option>
-                    <option value="BS">Bahamas</option>
-                    <option value="BH">Bahrain</option>
-                    <option value="BD">Bangladesh</option>
-                    <option value="BB">Barbados</option>
-                    <option value="BE">Belgium</option>
-                    <option value="BZ">Belize</option>
-                    <option value="BJ">Benin</option>
-                    <option value="BM">Bermuda</option>
-                    <option value="BT">Bhutan</option>
-                    <option value="BO">Bolivia</option>
-                    <option value="BA">Bosnia and Herzegovina</option>
-                    <option value="BW">Botswana</option>
-                    <option value="BV">Bouvet Island</option>
-                    <option value="BR">Brazil</option>
-                    <option value="IO">British Indian Ocean Territory</option>
-                    <option value="BN">Brunei Darussalam</option>
-                    <option value="BG">Bulgaria</option>
-                    <option value="BF">Burkina Faso</option>
-                    <option value="BI">Burundi</option>
-                    <option value="KH">Cambodia</option>
-                    <option value="CM">Cameroon</option>
-                    <option value="CA">Canada</option>
-                    <option value="CV">Cape Verde</option>
-                    <option value="KY">Cayman Islands</option>
-                    <option value="CF">Central African Republic</option>
-                    <option value="TD">Chad</option>
-                    <option value="CL">Chile</option>
-                    <option value="CN">China</option>
-                    <option value="CX">Christmas Island</option>
-                    <option value="CC">Cocos (Keeling) Islands</option>
-                    <option value="CO">Colombia</option>
-                    <option value="KM">Comoros</option>
-                    <option value="CG">Congo</option>
-                    <option value="CD">Congo, The Democratic Republic of the</option>
-                    <option value="CK">Cook Islands</option>
-                    <option value="CR">Costa Rica</option>
-                    <option value="CI">Cote d'Ivoire</option>
-                    <option value="HR">Croatia</option>
-                    <option value="CY">Cyprus</option>
-                    <option value="CZ">Czech Republic</option>
-                    <option value="DK">Denmark</option>
-                    <option value="DJ">Djibouti</option>
-                    <option value="DM">Dominica</option>
-                    <option value="DO">Dominican Republic</option>
-                    <option value="EC">Ecuador</option>
-                    <option value="EG">Egypt</option>
-                    <option value="SV">El Salvador</option>
-                    <option value="GQ">Equatorial Guinea</option>
-                    <option value="ER">Eritrea</option>
-                    <option value="EE">Estonia</option>
-                    <option value="ET">Ethiopia</option>
-                    <option value="FK">Falkland Islands (Malvinas)</option>
-                    <option value="FO">Faroe Islands</option>
-                    <option value="FJ">Fiji</option>
-                    <option value="FI">Finland</option>
-                    <option value="FR">France</option>
-                    <option value="GF">French Guiana</option>
-                    <option value="PF">French Polynesia</option>
-                    <option value="TF">French Southern Territories</option>
-                    <option value="GA">Gabon</option>
-                    <option value="GM">Gambia</option>
-                    <option value="GE">Georgia</option>
-                    <option value="DE">Germany</option>
-                    <option value="GH">Ghana</option>
-                    <option value="GI">Gibraltar</option>
-                    <option value="GR">Greece</option>
-                    <option value="GL">Greenland</option>
-                    <option value="GD">Grenada</option>
-                    <option value="GP">Guadeloupe</option>
-                    <option value="GU">Guam</option>
-                    <option value="GT">Guatemala</option>
-                    <option value="GN">Guinea</option>
-                    <option value="GW">Guinea-Bissau</option>
-                    <option value="GY">Guyana</option>
-                    <option value="HT">Haiti</option>
-                    <option value="HM">Heard Island and McDonald Islands</option>
-                    <option value="HN">Honduras</option>
-                    <option value="HK">Hong Kong</option>
-                    <option value="HU">Hungary</option>
-                    <option value="IS">Iceland</option>
-                    <option value="IN">India</option>
-                    <option value="ID">Indonesia</option>
-                    <option value="IQ">Iraq</option>
-                    <option value="IE">Ireland</option>
-                    <option value="IL">Israel</option>
-                    <option value="IT">Italy</option>
-                    <option value="JM">Jamaica</option>
-                    <option value="JP">Japan</option>
-                    <option value="JO">Jordan</option>
-                    <option value="KZ">Kazakhstan</option>
-                    <option value="KE">Kenya</option>
-                    <option value="KI">Kiribati</option>
-                    <option value="KW">Kuwait</option>
-                    <option value="KG">Kyrgyzstan</option>
-                    <option value="LA">Lao People's Democratic Republic</option>
-                    <option value="LV">Latvia</option>
-                    <option value="LB">Lebanon</option>
-                    <option value="LS">Lesotho</option>
-                    <option value="LR">Liberia</option>
-                    <option value="LY">Libya</option>
-                    <option value="LI">Liechtenstein</option>
-                    <option value="LT">Lithuania</option>
-                    <option value="LU">Luxembourg</option>
-                    <option value="MO">Macau</option>
-                    <option value="MK">Macedonia</option>
-                    <option value="MG">Madagascar</option>
-                    <option value="MW">Malawi</option>
-                    <option value="MY">Malaysia</option>
-                    <option value="MV">Maldives</option>
-                    <option value="ML">Mali</option>
-                    <option value="MT">Malta</option>
-                    <option value="MH">Marshall Islands</option>
-                    <option value="MQ">Martinique</option>
-                    <option value="MR">Mauritania</option>
-                    <option value="MU">Mauritius</option>
-                    <option value="YT">Mayotte</option>
-                    <option value="MX">Mexico</option>
-                    <option value="FM">Micronesia (Federated States of)</option>
-                    <option value="MD">Moldova, Republic of</option>
-                    <option value="MC">Monaco</option>
-                    <option value="MN">Mongolia</option>
-                    <option value="ME">Montenegro</option>
-                    <option value="MS">Montserrat</option>
-                    <option value="MA">Morocco</option>
-                    <option value="MZ">Mozambique</option>
-                    <option value="MM">Myanmar</option>
-                    <option value="NA">Namibia</option>
-                    <option value="NR">Nauru</option>
-                    <option value="NP">Nepal</option>
-                    <option value="NL">Netherlands</option>
-                    <option value="AN">Netherlands Antilles</option>
-                    <option value="NC">New Caledonia</option>
-                    <option value="NZ">New Zealand</option>
-                    <option value="NI">Nicaragua</option>
-                    <option value="NE">Niger</option>
-                    <option value="NG">Nigeria</option>
-                    <option value="NU">Niue</option>
-                    <option value="NF">Norfolk Island</option>
-                    <option value="MP">Northern Mariana Islands</option>
-                    <option value="NO">Norway</option>
-                    <option value="OM">Oman</option>
-                    <option value="PK">Pakistan</option>
-                    <option value="PW">Palau</option>
-                    <option value="PA">Panama</option>
-                    <option value="PG">Papua New Guinea</option>
-                    <option value="PY">Paraguay</option>
-                    <option value="PE">Peru</option>
-                    <option value="PH">Philippines</option>
-                    <option value="PN">Pitcairn</option>
-                    <option value="PL">Poland</option>
-                    <option value="PT">Portugal</option>
-                    <option value="PR">Puerto Rico</option>
-                    <option value="QA">Qatar</option>
-                    <option value="RE">Reunion</option>
-                    <option value="RO">Romania</option>
-                    <option value="RW">Rwanda</option>
-                    <option value="SH">Saint Helena</option>
-                    <option value="KN">Saint Kitts and Nevis</option>
-                    <option value="LC">Saint Lucia</option>
-                    <option value="PM">Saint Pierre and Miquelon</option>
-                    <option value="VC">Saint Vincent and the Grenadines</option>
-                    <option value="WS">Samoa</option>
-                    <option value="SM">San Marino</option>
-                    <option value="ST">Sao Tome and Principe</option>
-                    <option value="SA">Saudi Arabia</option>
-                    <option value="SN">Senegal</option>
-                    <option value="RS">Serbia</option>
-                    <option value="SC">Seychelles</option>
-                    <option value="SL">Sierra Leone</option>
-                    <option value="SG">Singapore</option>
-                    <option value="SK">Slovakia</option>
-                    <option value="SI">Slovenia</option>
-                    <option value="SB">Solomon Islands</option>
-                    <option value="SO">Somalia</option>
-                    <option value="ZA">South Africa</option>
-                    <option value="GS">
-                    South Georgia and the South Sandwich Island
-                    </option>
-                    <option value="KR">South Korea</option>
-                    <option value="SS">South Sudan</option>
-                    <option value="ES">Spain</option>
-                    <option value="LK">Sri Lanka</option>
-                    <option value="SD">Sudan</option>
-                    <option value="SR">Suriname</option>
-                    <option value="SJ">Svalbard and Jan Mayen Islands</option>
-                    <option value="SZ">Swaziland</option>
-                    <option value="SE">Sweden</option>
-                    <option value="CH">Switzerland</option>
-                    <option value="TW">Taiwan</option>
-                    <option value="TJ">Tajikistan</option>
-                    <option value="TZ">Tanzania, United Republic of</option>
-                    <option value="TH">Thailand</option>
-                    <option value="TL">Timor-Leste</option>
-                    <option value="TG">Togo</option>
-                    <option value="TK">Tokelau</option>
-                    <option value="TO">Tonga</option>
-                    <option value="TT">Trinidad and Tobago</option>
-                    <option value="TN">Tunisia</option>
-                    <option value="TR">Turkey</option>
-                    <option value="TM">Turkmenistan</option>
-                    <option value="TC">Turks and Caicos Islands</option>
-                    <option value="TV">Tuvalu</option>
-                    <option value="UG">Uganda</option>
-                    <option value="UA">Ukraine</option>
-                    <option value="AE">United Arab Emirates</option>
-                    <option value="GB">United Kingdom</option>
-                    <option value="UM">United States Minor Outlying Islands</option>
-                    <option value="UY">Uruguay</option>
-                    <option value="UZ">Uzbekistan</option>
-                    <option value="VU">Vanuatu</option>
-                    <option value="VA">Vatican City State (Holy See)</option>
-                    <option value="VE">Venezuela</option>
-                    <option value="VN">Viet Nam</option>
-                    <option value="VG">Virgin Islands (British)</option>
-                    <option value="VI">Virgin Islands (U.S.)</option>
-                    <option value="WF">Wallis and Futuna Islands</option>
-                    <option value="EH">Western Sahara</option>
-                    <option value="YE">Yemen</option>
-                    <option value="ZM">Zambia</option>
-                    <option value="ZW">Zimbabwe</option>
+                    {COUNTRY_OPTIONS.map((option) => {
+                     return <option key={option.value} value={option.value}>
+                      {option.label}
+                      </option>
+                    })}
                 </select>
             </label>
 
@@ -510,7 +448,7 @@ function SignupPage() {
           <section>
             <div>
               <button type="button" onClick={() => onClickCategory("allergy")}>
-                allergy (Required) ({(selections.allergy ?? []).length})
+                Allergy (Optional) ({(selections.allergy ?? []).length})
               </button>
 
               <button type="button" onClick={() => onClickCategory("plantBased")}>
