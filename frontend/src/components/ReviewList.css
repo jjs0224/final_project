@@ -1,0 +1,25 @@
+.reviewList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.reviewRow {
+  border: 2px solid #111;
+  padding: 12px;
+}
+
+.reviewTitle {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.reviewSummary {
+  color: #333;
+}
+
+.muted {
+  color: #666;
+}

@@ -10,6 +10,7 @@ router = APIRouter(prefix="/members", tags=["member"])
 # 회원가입
 @router.post("", status_code=201)
 def create_member(payload: schemas.MemberCreate, db: Session = Depends(get_db)):
+    print("회원가입 :: ", payload)
     service.create_member(db, payload)
     return {"message": "register ok"}
 
