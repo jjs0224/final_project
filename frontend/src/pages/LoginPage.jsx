@@ -5,7 +5,8 @@ import Header from "../components/Header.jsx";
 
 const SESSION_KEY = "final_project_session";
 
-const LOGIN_URL = "/login"
+const LOGIN_URL = "/auth/login"
+const ME_URL = "/auth/me"
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -27,14 +28,19 @@ export default function LoginPage() {
         throw new Error("이메일/비밀번호를 입력하세요.");
       }
 
+      // login data
+      const body = new URLSearchParams();
+      body.set("username", form.email);
+      body.set("password", form.password);
+
+      console.log("login form data :: ", body)
+
       const res = await fetch(LOGIN_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-        }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
       });
+      console.log("res :: ", res)
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -42,19 +48,36 @@ export default function LoginPage() {
         throw new Error(err?.detail || `로그인 실패 (${res.status})`);
       }
 
-      const data = await res.json();
+      const tokenData = await res.json();
+      console.log("token data :: ", tokenData)
+
+      // 인증에 사용될 accToken
+      const accessToken = tokenData.access_token;
+
+      const meRes = await fetch(ME_URL, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      const me = await meRes.json();
+      console.log("me.member_id :: ", me.member_id)
+      console.log("me :: ", me)
+
+
 
       // ✅ 백엔드 응답 형태가 달라도 최대한 대응
       const memberId =
-        data?.member_id ?? data?.user?.member_id ?? data?.user?.id ?? data?.id;
+        me?.member_id ?? me?.user?.member_id ?? me?.user?.id ?? me?.id;
       if (!memberId) {
         throw new Error("로그인 응답에 member_id(id)가 없습니다.");
       }
 
+
+
       const session = {
-        token: data?.token ?? data?.access_token ?? null,
+        token: me?.token ?? me?.access_token ?? null,
         member_id: memberId,
-        nickname: data?.nickname ?? data?.user?.nickname ?? "",
+        nickname: me?.nickname ?? me?.user?.nickname ?? "",
       };
 
       localStorage.setItem(SESSION_KEY, JSON.stringify(session));

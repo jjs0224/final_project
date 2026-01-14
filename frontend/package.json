@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "start:frontend": "cd frontend && npm start",
     "start:backend": "uvicorn backend.main:app --reload",
-    "start:all": "concurrently \"npm start:frontend\" \"npm run start:backend\""
+    "start:all": "concurrently \"npm start\" \"npm run start:backend\""
   },
   "eslintConfig": {
     "extends": [

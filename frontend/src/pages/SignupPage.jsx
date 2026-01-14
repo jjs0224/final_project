@@ -271,7 +271,7 @@ const checkNickname = async () => {
   };
 
 
-  // 백엔드 POST /members 호출 
+  // 백엔드 POST /members 호출
   const submitSignup = async () => {
     const errors = validate(formData);
 
@@ -345,7 +345,7 @@ const checkNickname = async () => {
         setIsModalOpen(false);
         return;
       }
-      
+
       setIsModalOpen(false);
       nav("/");
     }
@@ -357,7 +357,7 @@ const checkNickname = async () => {
         <section>
             Create your account
         </section>
-        
+
         <section>
             <label>
             E-mail
@@ -380,7 +380,7 @@ const checkNickname = async () => {
                     maxLength={10}
                     value={formData.nickname}
                     onChange={onNicknameChange}
-                    style={{ flex: 1 }}           
+                    style={{ flex: 1 }}
                 />
 
 
@@ -395,7 +395,7 @@ const checkNickname = async () => {
                   onClick={checkNickname}
                   disabled={nickStatus === "checking" || !formData.nickname.trim()}
                 >
-                 {nickStatus === "checking" ? "Checking..." : "Duplicate check"} 
+                 {nickStatus === "checking" ? "Checking..." : "Duplicate check"}
                 </button>
 
             <label>
@@ -406,7 +406,7 @@ const checkNickname = async () => {
                     placeholder="Not more than 8 to 20 letters"
                     maxLength={20}
                     value={formData.password}
-                    onChange={onChange}                    
+                    onChange={onChange}
                 />
                 </label>
 
@@ -418,7 +418,7 @@ const checkNickname = async () => {
                     placeholder="check password"
                     maxLength={20}
                     value={formData.passwordConfirm}
-                    onChange={onChange}                    
+                    onChange={onChange}
                 />
             </label>
   {/* 성별 선택창 */}
@@ -454,14 +454,14 @@ const checkNickname = async () => {
               <button type="button" onClick={() => onClickCategory("plantBased")}>
                 Plant-based (Optional) ({(selections.plantBased ?? []).length})
               </button>
-              
+
               <button type="button" onClick={() => onClickCategory("religion")}>
                 Religion (Optional) ({(selections.religion ?? []).length})
               </button>
-              
+
               <button type="button" onClick={() => onClickCategory("hate")}>
                 Hate (Optional)
-              </button>                            
+              </button>
             </div>
 
             {/* 카테고리 클릭 전엔 아무것도 안 보이게 */}
@@ -557,7 +557,7 @@ const checkNickname = async () => {
               message={modalType === 'cancel' ? "Are you sure you want to cancel?" : "Do you want to proceed?"}
             />
         </section>
-      
+
     </div>
   );
 }
