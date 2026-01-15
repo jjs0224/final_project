@@ -15,7 +15,7 @@ def _fmt(v):
 def main():
     # 🔧 여기에 rag_match.json 경로만 수정
     RAG_RESULT_PATH = Path(
-        r"C:\Users\201\Desktop\PGHfolder\Final_project\AI\menu_assistant\data\runs\20260114_182745\rag_match\rag_match.json"
+        r"C:\Users\201\Desktop\PGHfolder\Final_project\AI\menu_assistant\data\runs\20260115_200545\rag_match\rag_match.json"
     )
 
     # -----------------------------

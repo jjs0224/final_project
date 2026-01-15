@@ -271,7 +271,7 @@ if __name__ == "__main__":
     # ---------------- Step1 passthrough ----------------
     p.add_argument("--backend", default="auto", choices=["none", "doctr", "dewarpnet", "docunet", "auto"])
     p.add_argument("--device", default="cpu")
-    p.add_argument("--model-dir", default=None)
+    p.add_argument("--model-dir", default="menu_assistant/worker/worker_app/vision/metrics/DewarpNet_master")
     p.add_argument("--gamma", type=float, default=1.0)
     p.add_argument("--clahe-clip", type=float, default=2.0)
     p.add_argument("--shadow-strength", type=float, default=0.0)

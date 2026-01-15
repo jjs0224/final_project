@@ -21,7 +21,7 @@ from .photometric import (
 
 @dataclass
 class RectifyConfig:
-    backend: str = "none"  # none | doctr | dewarpnet | docunet
+    backend: str = "none"  # none | doctr | dewarpnet | docunet | auto
     device: str = "cpu"
     model_dir: Optional[str] = None
 

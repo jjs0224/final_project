@@ -100,7 +100,7 @@ class DoctrBackend(RectifyBackend):
         if err is not None:
             meta["orientation_predictor_error"] = repr(err)
         return meta
-
+    #출력포맷이달라도 0/90/180/270 으로정규화
     @staticmethod
     def _angle_from_doctr_output(out: Any) -> Optional[int]:
         """

@@ -32,11 +32,11 @@ class DocUNetConfig:
     #enable_orientation: DocTR로 회전 추정을 할지 여부
     enable_orientation: bool = True
     #predictor가 낸 confidence가 이 값 미만이면 “불확실”로 판단
-    min_orientation_confidence: float = 0.95
+    min_orientation_confidence: float = 0.90
     prefer_fallback_when_low_conf: bool = True
     #불확실한 경우 90/270 등 여러 후보를 실제로 돌려보고 최선 선택
     try_both_directions_when_uncertain: bool = True
-    prefer_doctr_when_tie: bool = True
+    prefer_doctr_when_tie: bool = False
     tie_area_ratio: float = 0.01  # 1% 이내면 동률로 간주
 
 
@@ -368,7 +368,11 @@ class DocUNetBackend(RectifyBackend):
 
             # Include doctr inverse correction as candidate if available
             doctr_correction: Optional[int] = None
-            if pred_angle in (0, 90, 180, 270):
+            if (
+                    pred_angle in (0, 90, 180, 270)
+                    and (pred_conf is not None)
+                    and (pred_conf >= self.config.min_orientation_confidence)
+            ):
                 doctr_correction = (-int(pred_angle)) % 360
                 candidates.append((doctr_correction, "doctr_inverse_candidate"))
 
@@ -442,7 +446,12 @@ class DocUNetBackend(RectifyBackend):
                 return image_bgr, meta
 
             # ✅ TIE-BREAK: if 0deg and doctr_inverse are both found and areas are nearly equal, prefer doctr_inverse
-            if bool(self.config.prefer_doctr_when_tie) and (doctr_correction is not None):
+            if (
+                    bool(self.config.prefer_doctr_when_tie)
+                    and (doctr_correction is not None)
+                    and (pred_conf is not None)
+                    and (pred_conf >= self.config.min_orientation_confidence)
+            ):
                 areas = {s["angle"]: float(s.get("best_area", 0.0)) for s in scored if s.get("found", False)}
                 if 0 in areas and doctr_correction in areas:
                     a0 = areas[0]

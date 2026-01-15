@@ -4,7 +4,7 @@ from typing import Any, Dict, Tuple
 import cv2
 import numpy as np
 
-
+#입력이 컬러이미지면 gray로 변환한다.앞단에서 이미 회색이여도 작동하도록 한다.
 def _safe_gray(image_bgr: np.ndarray) -> np.ndarray:
     if image_bgr.ndim == 3 and image_bgr.shape[2] == 3:
         return cv2.cvtColor(image_bgr, cv2.COLOR_BGR2GRAY)
@@ -25,7 +25,7 @@ def compute_dewarp_trigger(image_bgr: np.ndarray) -> Dict[str, Any]:
     gray = _safe_gray(image_bgr)
     h, w = gray.shape[:2]
 
-    # Downscale for speed/stability
+    # Downscale for speed/stability 대략판단.
     scale = 800.0 / max(h, w) if max(h, w) > 800 else 1.0
     if scale < 1.0:
         gray = cv2.resize(gray, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_AREA)

@@ -126,11 +126,11 @@ def _char_ngram(s: str, n: int = 2) -> set:
 
 
 def _jaccard(a: str, b: str, n: int = 2) -> float:
-    A = _char_ngram(a, n)
-    B = _char_ngram(b, n)
-    if not A or not B:
+    first = _char_ngram(a, n)
+    second = _char_ngram(b, n)
+    if not first or not second:
         return 0.0
-    return len(A & B) / len(A | B)
+    return len(first & second) / len(first | second)
 
 
 def _patch_candidate_schema(candidates: List[Dict[str, Any]]) -> None:
