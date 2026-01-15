@@ -6,7 +6,7 @@ from pathlib import Path
 # ============================
 # PATHS
 # ============================
-IMAGE_PATH = "receipt_7.jpg"
+IMAGE_PATH = "tmp_receipt/receipt_7.jpg"
 OUTPUT_DIR = Path("output")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
