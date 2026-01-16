@@ -133,20 +133,23 @@ def _classify(item: Dict[str, Any], final_th: float, jacc_th: float, margin_th: 
 
 
 def main():
-    # ===== 실행 환경에 맞춘 기본 경로 설정 =====
-    BASE_RUNS_DIR = Path(
-        r"C:/Users/201/Desktop/PGHfolder/Final_project/AI/menu_assistant/data/runs"
-    )
-    DEFAULT_RUN_ID = "20260115_200545"  # ⭐ 여기만 바꾸면 됨
+    # ===== 실행 환경에 맞춘 기본 경로 설정 (고정 Windows 경로 제거) =====
+    here = Path(__file__).resolve().parent
 
-    default_rag_path = BASE_RUNS_DIR / DEFAULT_RUN_ID / "rag_match" / "rag_match.json"
+    # 1) 같은 폴더에 rag_match.json이 있으면 그걸 기본으로 사용
+    default_rag_path = here / "rag_match.json"
+
+    # 2) (선택) 사용자가 프로젝트 runs 구조에서 돌릴 때를 대비한 fallback 템플릿
+    #    --run-id를 주면 runs/<run-id>/rag_match/rag_match.json을 자동으로 잡아줌
+    DEFAULT_RUN_ID = "20260116_173543"
+    BASE_RUNS_DIR = Path(r"C:\Users\201\Desktop\PGHfolder\Final_project\AI\menu_assistant\data\runs")
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--run-id", default=DEFAULT_RUN_ID, help="runs 하위 타임스탬프 폴더명")
     ap.add_argument(
         "--path",
         default=str(default_rag_path),
-        help="rag_match.json path (기본: runs/<run-id>/rag_match/rag_match.json)",
+        help="rag_match.json path (기본: 스크립트와 같은 폴더의 rag_match.json)",
     )
     ap.add_argument("--top-n", type=int, default=3, help="AMBIGUOUS 후보 출력 개수")
 
@@ -157,11 +160,9 @@ def main():
 
     args = ap.parse_args()
 
-    # run-id가 바뀌면 기본 path도 그 구조로 맞춰주기
-    # (사용자가 --path를 직접 준 경우는 그대로 사용)
-    default_from_runid = BASE_RUNS_DIR / args.run_id / "rag_match" / "rag_match.json"
-    if args.path == str(default_rag_path):
-        args.path = str(default_from_runid)
+    # --path를 안 줬고(=기본값 유지) 현재 폴더에 rag_match.json이 없으면 runs 구조로 fallback
+    if args.path == str(default_rag_path) and not Path(args.path).exists():
+        args.path = str(BASE_RUNS_DIR / args.run_id / "rag_match" / "rag_match.json")
 
     data = _load_json(Path(args.path))
     stats = data.get("stats") or {}

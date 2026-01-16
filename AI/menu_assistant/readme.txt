@@ -1,5 +1,5 @@
 # 0) 통합 실행코드
-python menu_assistant/worker/worker_app/pipeline/orchestrator.py --image Upload_Images/image9.jpg --use-rerank --top-k 20 --rerank-top-k 5
+python menu_assistant/worker/worker_app/pipeline/orchestrator.py --image Upload_Images/image13.jpg --use-rerank --top-k 20 --rerank-top-k 5
 
 
 # 1) 보정만 수행 (photometric-only)

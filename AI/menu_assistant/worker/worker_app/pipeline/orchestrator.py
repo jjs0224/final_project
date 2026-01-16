@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 import subprocess
 from dataclasses import dataclass
@@ -11,17 +12,16 @@ from typing import Optional, List
 # ============================================================
 # Utilities
 # ============================================================
+
 def make_run_id() -> str:
     # runs/20260113_114232 형태
     return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
-def run_cmd(cmd: List[str]) -> None:
-    """
-    Run a command and raise on failure.
-    """
+def run_cmd(cmd: List[str], env: Optional[dict] = None) -> None:
+    """Run a command and raise on failure."""
     print("\n[RUN]", " ".join(cmd))
-    p = subprocess.run(cmd, shell=False)
+    p = subprocess.run(cmd, shell=False, env=env)
     if p.returncode != 0:
         raise RuntimeError(f"Command failed (exit={p.returncode}): {' '.join(cmd)}")
 
@@ -31,12 +31,40 @@ def ensure_exists(path: Path, msg: str) -> None:
         raise RuntimeError(f"{msg}: {path}")
 
 
+def _resolve_chroma_dir(data_dir: Path, chroma_dir_arg: Optional[str]) -> Path:
+    """Resolve the chroma persist directory deterministically.
+
+    Priority:
+      1) --chroma-dir CLI argument (if provided)
+      2) <data_dir>/chroma (if exists)
+      3) Windows known path fallback (only on Windows)
+
+    We intentionally do NOT create directories here; retrieval should fail fast if the path is wrong.
+    """
+    if chroma_dir_arg:
+        return Path(chroma_dir_arg).expanduser().resolve()
+
+    candidate = (data_dir / "chroma")
+    if candidate.exists():
+        return candidate.resolve()
+
+    # Optional Windows fallback for this project layout
+    if os.name == "nt":
+        win_fallback = Path(r"C:\\Users\\201\\Desktop\\PGHfolder\\Final_project\\AI\\menu_assistant\\data\\chroma")
+        if win_fallback.exists():
+            return win_fallback
+
+    # Last resort: still return the standard location (will error later if missing)
+    return candidate
+
+
 # ============================================================
 # Orchestrator
 # ============================================================
+
 @dataclass
 class Step1Options:
-    backend: str = "auto"     # {none,doctr,dewarpnet,docunet,auto}
+    backend: str = "auto"  # {none,doctr,dewarpnet,docunet,auto}
     device: str = "cpu"
     model_dir: Optional[str] = None
     gamma: float = 1.0
@@ -77,21 +105,22 @@ class Step4Options:
     # RAG match options
     top_k: int = 20
     rerank_top_k: int = 5
-    score_threshold: float = 0.85
+    score_threshold: float = 0.55
     ambiguous_gap: float = 0.03
     use_rerank: bool = True
     include_debug: bool = False
 
+    # Retrieval routing (stability)
+    chroma_dir: Optional[str] = None
+    collection: str = "menu_index"
+
 
 class PipelineOrchestrator:
-    """
-    image -> step_01_rectify -> step_02_ocr -> step_03_normalize -> step_04_rag_match -> (optional) check step_03 output
-    """
+    """image -> step_01_rectify -> step_02_ocr -> step_03_normalize -> step_04_rag_match"""
 
     def __init__(self, runs_root: Path):
         self.runs_root = runs_root
-        # ✅ FIX: runs_root = .../data/runs  -> data_dir = .../data
-        # (기존 코드는 self.data_dir=runs_root로 설정되어 Step04 경로가 꼬일 수 있음)
+        # runs_root = .../data/runs  -> data_dir = .../data
         self.data_dir = runs_root.parent
 
     def run(
@@ -125,19 +154,28 @@ class PipelineOrchestrator:
         rag_match_json = run_dir / "rag_match" / "rag_match.json"
 
         # ----------------------------------------------------
-        # Step 01: Rectify (정식 인자: --run_id, --data_dir)
+        # Step 01: Rectify
         # ----------------------------------------------------
         cmd1 = [
-            sys.executable, "-m",
+            sys.executable,
+            "-m",
             "menu_assistant.worker.worker_app.pipeline.steps.step_01_rectify",
-            "--input", str(image_path),
-            "--run_id", run_id,
-            "--data_dir", str(self.data_dir),
-            "--backend", step1.backend,
-            "--device", step1.device,
-            "--gamma", str(step1.gamma),
-            "--clahe_clip", str(step1.clahe_clip),
-            "--shadow_strength", str(step1.shadow_strength),
+            "--input",
+            str(image_path),
+            "--run_id",
+            run_id,
+            "--data_dir",
+            str(self.data_dir),
+            "--backend",
+            step1.backend,
+            "--device",
+            step1.device,
+            "--gamma",
+            str(step1.gamma),
+            "--clahe_clip",
+            str(step1.clahe_clip),
+            "--shadow_strength",
+            str(step1.shadow_strength),
         ]
         if step1.model_dir:
             cmd1 += ["--model_dir", step1.model_dir]
@@ -149,13 +187,19 @@ class PipelineOrchestrator:
         # Step 02: OCR
         # ----------------------------------------------------
         cmd2 = [
-            sys.executable, "-m",
+            sys.executable,
+            "-m",
             "menu_assistant.worker.worker_app.pipeline.steps.step_02_ocr",
-            "--run_id", run_id,
-            "--data_dir", str(self.data_dir),
-            "--lang", step2.lang,
-            "--det_limit_side_len", str(step2.det_limit_side_len),
-            "--det_limit_type", step2.det_limit_type,
+            "--run_id",
+            run_id,
+            "--data_dir",
+            str(self.data_dir),
+            "--lang",
+            step2.lang,
+            "--det_limit_side_len",
+            str(step2.det_limit_side_len),
+            "--det_limit_type",
+            step2.det_limit_type,
         ]
 
         if step2.use_doc_unwarping:
@@ -177,7 +221,6 @@ class PipelineOrchestrator:
         if step2.dump_raw:
             cmd2 += ["--dump_raw"]
 
-        # out/vis를 지정하면 기본 경로를 오버라이드
         if step2.out:
             cmd2 += ["--out", step2.out]
         if step2.vis:
@@ -192,14 +235,21 @@ class PipelineOrchestrator:
         # Step 03: Normalize
         # ----------------------------------------------------
         cmd3 = [
-            sys.executable, "-m",
+            sys.executable,
+            "-m",
             "menu_assistant.worker.worker_app.pipeline.steps.step_03_normalize",
-            "--runs-root", str(self.runs_root),
-            "--run-id", run_id,
-            "--min-len", str(step3.min_len),
-            "--line-y-tol", str(step3.line_y_tol),
-            "--merge-gap-px", str(step3.merge_gap_px),
-            "--min-score", str(step3.min_score),
+            "--runs-root",
+            str(self.runs_root),
+            "--run-id",
+            run_id,
+            "--min-len",
+            str(step3.min_len),
+            "--line-y-tol",
+            str(step3.line_y_tol),
+            "--merge-gap-px",
+            str(step3.merge_gap_px),
+            "--min-score",
+            str(step3.min_score),
         ]
         run_cmd(cmd3)
         ensure_exists(normalize_json, "Step03 expected output missing (normalize json)")
@@ -209,9 +259,11 @@ class PipelineOrchestrator:
         # ----------------------------------------------------
         if do_check:
             check_cmd = [
-                sys.executable, "-m",
+                sys.executable,
+                "-m",
                 "menu_assistant.worker.worker_app.utils.check_step_03_result",
-                "--json", str(normalize_json),
+                "--json",
+                str(normalize_json),
             ]
             if show_structured:
                 check_cmd += ["--show-structured"]
@@ -221,18 +273,33 @@ class PipelineOrchestrator:
             run_cmd(check_cmd)
 
         # ----------------------------------------------------
-        # Step 04: RAG Match (+ optional rerank)
+        # Step 04: RAG Match
         # ----------------------------------------------------
         if run_step4:
+            chroma_dir = _resolve_chroma_dir(self.data_dir, step4.chroma_dir)
+            step4_env = os.environ.copy()
+            step4_env["MENU_ASSISTANT_CHROMA_DIR"] = str(chroma_dir)
+            step4_env["MENU_ASSISTANT_COLLECTION"] = step4.collection
+
+            print("\n[RAG] using chroma_dir   =", step4_env["MENU_ASSISTANT_CHROMA_DIR"])
+            print("[RAG] using collection  =", step4_env["MENU_ASSISTANT_COLLECTION"])
+
             cmd4 = [
-                sys.executable, "-m",
+                sys.executable,
+                "-m",
                 "menu_assistant.worker.worker_app.pipeline.steps.step_04_rag_match",
-                "--run_id", run_id,
-                "--data_dir", str(self.data_dir),
-                "--top_k", str(step4.top_k),
-                "--rerank_top_k", str(step4.rerank_top_k),
-                "--score_threshold", str(step4.score_threshold),
-                "--ambiguous_gap", str(step4.ambiguous_gap),
+                "--run_id",
+                run_id,
+                "--data_dir",
+                str(self.data_dir),
+                "--top_k",
+                str(step4.top_k),
+                "--rerank_top_k",
+                str(step4.rerank_top_k),
+                "--score_threshold",
+                str(step4.score_threshold),
+                "--ambiguous_gap",
+                str(step4.ambiguous_gap),
             ]
             if step4.use_rerank:
                 cmd4 += ["--use_rerank"]
@@ -242,7 +309,7 @@ class PipelineOrchestrator:
             if step4.include_debug:
                 cmd4 += ["--include_debug"]
 
-            run_cmd(cmd4)
+            run_cmd(cmd4, env=step4_env)
             ensure_exists(rag_match_json, "Step04 expected output missing (rag_match json)")
 
         print("\n=== PIPELINE DONE (01~04) ===")
@@ -304,11 +371,19 @@ if __name__ == "__main__":
     p.add_argument("--no-step4", action="store_true", help="Skip step4")
     p.add_argument("--top-k", type=int, default=20)
     p.add_argument("--rerank-top-k", type=int, default=5)
-    p.add_argument("--score-threshold", type=float, default=0.85)
+    p.add_argument("--score-threshold", type=float, default=0.55)
     p.add_argument("--ambiguous-gap", type=float, default=0.03)
     p.add_argument("--use-rerank", action="store_true")
     p.add_argument("--no-rerank", action="store_true")
     p.add_argument("--rag-debug", action="store_true")
+
+    # ✅ hard-fix routing (stability)
+    p.add_argument(
+        "--chroma-dir",
+        default=None,
+        help="Chroma persist directory. If omitted, uses <data_dir>/chroma or Windows fallback.",
+    )
+    p.add_argument("--collection", default="menu_index", help="Chroma collection name (default: menu_index)")
 
     # ---------------- Check options ----------------
     p.add_argument("--no-check", action="store_true", help="Skip step_03 result check")
@@ -351,7 +426,6 @@ if __name__ == "__main__":
         min_score=args.min_score,
     )
 
-    # Step4 옵션 구성
     use_rerank = True
     if args.no_rerank:
         use_rerank = False
@@ -365,6 +439,8 @@ if __name__ == "__main__":
         ambiguous_gap=args.ambiguous_gap,
         use_rerank=use_rerank,
         include_debug=args.rag_debug,
+        chroma_dir=args.chroma_dir,
+        collection=args.collection,
     )
 
     run_step4 = True
@@ -385,4 +461,3 @@ if __name__ == "__main__":
         show_structured=(not args.no_structured),
         run_step4=run_step4,
     )
-
