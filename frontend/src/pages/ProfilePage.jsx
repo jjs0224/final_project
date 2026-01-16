@@ -1,3 +1,4 @@
+import "./ProfilePage.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
@@ -17,8 +18,7 @@ export default function ProfilePage() {
   const { memberId } = useParams();
   const nav = useNavigate();
 
-  // ✅ session을 state로 들고 가야 deps 경고도 깔끔하고,
-  //    로그인/로그아웃 시 같은 탭에서도 즉시 반영됨
+  // session을 state로 들고 가기(탭 내 즉시 반영)
   const [session, setSession] = useState(() => getSession());
 
   const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ export default function ProfilePage() {
   const [gender, setGender] = useState("");
   const [country, setCountry] = useState("");
 
-  // ✅ (추가) 세션 변경 감지: 다른 탭(storage) + 같은 탭(session-changed)
+  // 세션 변경 감지: 다른 탭(storage) + 같은 탭(session-changed)
   useEffect(() => {
     const sync = () => setSession(getSession());
 
@@ -42,7 +42,7 @@ export default function ProfilePage() {
     };
   }, []);
 
-  // ✅ 기존 useEffect 교체: deps에 nav/session 관련 포함
+  // 프로필 조회
   useEffect(() => {
     const token = session?.access_token;
     const myId = session?.member_id;
@@ -52,7 +52,7 @@ export default function ProfilePage() {
       return;
     }
 
-    // 원하면: 내 것만 보게 강제
+    // 내 것만 보게 강제
     if (String(myId) !== String(memberId)) {
       nav(`/profile/${myId}`);
       return;
@@ -68,7 +68,6 @@ export default function ProfilePage() {
         const res = await fetch(`/members/${memberId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("res :: ", res)
 
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
@@ -95,6 +94,7 @@ export default function ProfilePage() {
     };
   }, [memberId, nav, session?.access_token, session?.member_id]);
 
+  // 저장(PATCH)
   const onSave = async () => {
     setError("");
 
@@ -113,7 +113,7 @@ export default function ProfilePage() {
         // item_ids: [],
         // dislike_tags: [],
       };
-      
+
       const res = await fetch(`/members/${memberId}`, {
         method: "PATCH",
         headers: {
@@ -136,57 +136,146 @@ export default function ProfilePage() {
     }
   };
 
+  // 좌측 메뉴 이동(너 프로젝트 라우트에 맞춰 조정 가능)
+  const goReviewList = () => nav("/review");
+  const goPaperList = () => nav("/community"); // 임시: 논문 페이지 라우트가 따로 있으면 바꿔
+  const goEdit = () => nav(`/profile/${memberId}/edit`); // 편집 전용 라우트 쓰면 바꿔
+
   return (
     <div>
       <Header />
 
-      <div style={{ maxWidth: 520, margin: "24px auto", padding: 12 }}>
-        <h2>My Profile</h2>
+      <div className="profileWrap">
+        <div className="profileLayout">
+          {/* LEFT SIDEBAR */}
+          <aside className="profileSidebar">
+            <div className="sideTop">
+              <div className="bannerBox">배너</div>
+              <div className="profileTitle">profile</div>
+            </div>
 
-        {loading && <div>불러오는 중...</div>}
-        {error && (
-          <div style={{ border: "1px solid #b00020", padding: 10, color: "#b00020" }}>
-            {error}
-          </div>
-        )}
+            <div className="sideCard infoCard">
+              {loading ? (
+                <div className="muted">불러오는 중...</div>
+              ) : (
+                <>
+                  <div className="infoText">{profile?.nickname ?? "-"}</div>
+                  <div className="infoText">{profile?.email ?? "-"}</div>
+                </>
+              )}
+            </div>
 
-        {!loading && profile && (
-          <div style={{ display: "grid", gap: 12 }}>
-            <label>
-              Email (readonly)
-              <input value={profile.email || ""} readOnly style={{ width: "100%" }} />
-            </label>
+            <div className="sideCard menuCard">
+              <button className="menuBtn" type="button" onClick={goReviewList}>
+                리뷰 리스트
+              </button>
+              <button className="menuBtn" type="button" onClick={goPaperList}>
+                논문 리스트
+              </button>
+              <button className="menuBtn" type="button" onClick={goEdit}>
+                회원정보 수정
+              </button>
+            </div>
+          </aside>
 
-            <label>
-              Nickname
-              <input
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                style={{ width: "100%" }}
-              />
-            </label>
+          {/* RIGHT MAIN */}
+          <section className="profileMain">
+            {/* ERROR BOX */}
+            {error && (
+              <div className="errorBox">
+                {error}
+              </div>
+            )}
 
-            <label>
-              Gender
-              <input
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                style={{ width: "100%" }}
-              />
-            </label>
+            {/* MAP AREA (지금은 박스만, 나중에 지도 컴포넌트 꽂으면 됨) */}
+            <div className="mapBox">
+              <div className="mapText">
+                내가 다닌 장소를 표시하는 지도
+                <br />
+                보이는 위치
+              </div>
+            </div>
 
-            <label>
-              Country
-              <input
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                style={{ width: "100%" }}
-              />
-            </label>
+            {/* CARDS */}
+            <div className="cardRow">
+              <div className="mainCard">
+                <button
+                  className="moreBtn"
+                  type="button"
+                  onClick={goReviewList}
+                >
+                  더보기
+                </button>
 
-            <button type="button" onClick={onSave}>저장</button>
-          </div>
-        )}
+                <div className="cardBodyText">
+                  내가 작성한
+                  <br />
+                  리뷰 리스트들
+                </div>
+              </div>
+
+              <div className="mainCard">
+                <button
+                  className="moreBtn"
+                  type="button"
+                  onClick={goPaperList}
+                >
+                  더보기
+                </button>
+
+                <div className="cardBodyText">
+                  나의 리뷰
+                  <br />
+                  기반으로 만든
+                  <br />
+                  논문 리스트들
+                </div>
+              </div>
+            </div>
+
+            {/* 회원정보 수정(우측 하단 편집 폼) - 와이어프레임엔 없지만 기능 유지하려고 접어둠 */}
+            <details className="editDetails">
+              <summary className="editSummary">회원정보 수정 열기</summary>
+
+              <div className="editPanel">
+                <div className="editGrid">
+                  <label className="field">
+                    <div className="label">Email (readonly)</div>
+                    <input value={profile?.email || ""} readOnly />
+                  </label>
+
+                  <label className="field">
+                    <div className="label">Nickname</div>
+                    <input
+                      value={nickname}
+                      onChange={(e) => setNickname(e.target.value)}
+                    />
+                  </label>
+
+                  <label className="field">
+                    <div className="label">Gender</div>
+                    <input
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value)}
+                    />
+                  </label>
+
+                  <label className="field">
+                    <div className="label">Country</div>
+                    <input
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                    />
+                  </label>
+
+                  <button className="saveBtn" type="button" onClick={onSave}>
+                    저장
+                  </button>
+                </div>
+              </div>
+            </details>
+          </section>
+        </div>
       </div>
     </div>
   );
