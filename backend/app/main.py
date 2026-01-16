@@ -17,9 +17,13 @@ class ForceUTF8Middleware(BaseHTTPMiddleware):
 
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
 # ForceUTF8Middleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+#     allow_origins=["*"],
+    allow_credentials=True,  # 쿠키 전송 허용
     allow_methods=["*"],
     allow_headers=["*"],
 )

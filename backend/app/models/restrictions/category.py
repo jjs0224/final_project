@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, Integer, String, Text, DateTime,
-    ForeignKey, UniqueConstraint, Index
+    ForeignKey, UniqueConstraint, Index, Boolean
 )
 from sqlalchemy.orm import relationship
 
@@ -12,5 +12,5 @@ class Category(Base):
     category_id = Column(Integer, primary_key=True, autoincrement=True)
     category_label_ko = Column(String(50), nullable=False)
     category_label_en = Column(String(50), nullable=False)
-
+    category_active = Column(Boolean, nullable=False, server_default="1")
     item = relationship("Item", back_populates="category")

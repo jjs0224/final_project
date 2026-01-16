@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class TokenPairResponse(BaseModel):
     access_token: str
-    refresh_token: str
+    # refresh_token: str # login -> JSON acc, cookie ref
     token_type: str = "bearer"
 
 class RefreshRequest(BaseModel):

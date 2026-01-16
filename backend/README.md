@@ -51,3 +51,16 @@ key 확인 : docker exec -it app_redis redis-cli keys "*"
 # role admin/user 구분
 - db member/type으로 구분 예정
 - rotate 사용으로 refresh 재발급 형태 수정중
+
+# hash err 발생시 확인사항
+- pip uninstall -y bcrypt passlib
+- pip install passlib==1.7.4
+- pip install bcrypt==3.2.2
+
+- python -c "import bcrypt; from passlib.context import CryptContext; print('bcrypt', bcrypt.__version__); ctx=CryptContext(schemes=['bcrypt']); print(ctx.hash('123123'))"
+
+# { "is_active": true }
+- DB: bool/boolean (default 1)
+- Model: Boolean
+- Schema: bool
+- Front: true/false
