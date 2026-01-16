@@ -1,29 +1,11 @@
-/* =========================
-   Community 페이지 전용: 헤더 fixed + top sticky
-   ========================= */
+/* src/pages/CommunityPage.css */
 
-/* Community 페이지에서만 헤더를 fixed로 강제 (sticky가 깨져도 무조건 따라오게) */
-.communityPageWrap .appHeader {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0;
-  right: 0;
-  z-index: 2000 !important;
-  background: #fff;
-}
+/* Header는 다른 페이지에서 이미 sticky 처리 중 (z-index:10) */
 
-/* fixed 헤더가 콘텐츠를 덮지 않도록, 페이지 전체를 헤더 높이만큼 아래로 밀기 */
-.communityPageWrap {
-  padding-top: var(--header-h);
-}
-
-/* =========================
-   Community 상단 고정 바 (헤더 아래에서 sticky)
-   ========================= */
 .communityStickyBar {
   position: sticky;
-  top: var(--header-h);      /* ✅ 헤더 바로 아래에 붙음 */
-  z-index: 1500;             /* ✅ 헤더(2000)보다 낮게 */
+  top: var(--appHeaderH, 0px); /* ✅ Header 아래에 붙음 */
+  z-index: 5;                  /* ✅ Header(z=10)보다 낮게 */
   background: #fff;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -44,12 +26,7 @@
   gap: 14px;
 }
 
-/* =========================
-   Post Card
-   ========================= */
 .postCard {
-  position: relative;
-  z-index: 0;
   padding: 14px;
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: 12px;
@@ -69,9 +46,6 @@
   font-size: 18px;
 }
 
-/* =========================
-   Image + overlays
-   ========================= */
 .imageWrap {
   position: relative;
   margin-top: 10px;
@@ -83,7 +57,6 @@
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid rgba(0,0,0,0.08);
-  display: block;
 }
 
 .overlay {
@@ -91,6 +64,7 @@
   display: flex;
   gap: 6px;
   padding: 8px;
+  pointer-events: none; /* ✅ 이미지 위 오버레이가 클릭을 먹지 않도록 */
 }
 
 .topLeft { top: 0; left: 0; }
@@ -113,35 +87,27 @@
   border-color: rgba(255,0,0,0.25);
 }
 
-/* =========================
-   본문 + 최신댓글 한 묶음
-   ========================= */
+/* ✅ 본문 + 최신댓글을 완전히 한 덩어리로 */
 .postBodyGroup {
   margin-top: 10px;
-  background: rgba(0, 0, 0, 0.03);
   border-radius: 12px;
-  padding: 10px 12px;
+  overflow: hidden; /* 핵심: 아래 commentPreview 배경이 “붙어서” 보이게 */
 }
 
-.postBodyGroup .postContent {
+.postContent {
   margin: 0;
-  padding: 0;
+  padding: 10px 0;
   white-space: pre-wrap;
   line-height: 1.5;
 }
 
-.postBodyGroup .commentPreview {
-  margin-top: 10px;
-  padding: 0;
-  border: 0;
-  background: transparent;
+/* ✅ 시각적 구분만: 옅은 배경 */
+.commentPreview {
+  margin: 0;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.03);
 }
 
-.postBodyGroup .commentPreview > .muted {
-  margin: 0 0 6px 0;
-}
-
-/* 댓글 라인 */
 .commentLine {
   display: flex;
   gap: 8px;
@@ -154,10 +120,4 @@
 
 .commentText {
   color: rgba(0,0,0,0.75);
-}
-
-/* 키보드 포커스 */
-.postCard:focus {
-  outline: 2px solid rgba(0,0,0,0.18);
-  outline-offset: 2px;
 }

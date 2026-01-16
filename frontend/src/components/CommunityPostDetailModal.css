@@ -114,3 +114,20 @@
 
 .commentAuthor { font-weight: 900; }
 .commentText { margin-top: 6px; white-space: pre-wrap; }
+
+/* overlay는 클릭을 허용해야 버튼이 눌립니다 */
+.modal .overlay {
+  pointer-events: auto;
+}
+
+/* 혹시 전역에서 overlay에 pointer-events:none이 걸려있다면,
+   이 파일에서 강제로 override */
+.modal .overlay {
+  pointer-events: auto !important;
+}
+
+/* likeBtn이 확실히 위로 오도록 */
+.modal .likeBtn {
+  position: relative;
+  z-index: 5;
+}

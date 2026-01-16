@@ -1,5 +1,6 @@
 // src/pages/CommunityPage.jsx
-import { useLayoutEffect, useMemo, useRef, useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import Header from "../components/Header";
 import "./CommunityPage.css";
 
@@ -14,9 +15,6 @@ export default function CommunityPage() {
   const memberId = useMemo(() => getMemberId(), []);
   const nickname = useMemo(() => getNickname(), []);
 
-  const headerRef = useRef(null);
-  const [headerH, setHeaderH] = useState(64); // 초기값: 대략적인 헤더 높이(플리커 방지)
-
   const [posts, setPosts] = useState([]);
   const [openPostId, setOpenPostId] = useState(null);
   const [writeOpen, setWriteOpen] = useState(false);
@@ -30,42 +28,58 @@ export default function CommunityPage() {
     refresh();
   }, []);
 
-  // ✅ 헤더 높이 측정 (Community에서만 fixed를 쓰므로 정확한 높이를 padding/top에 반영)
-  useLayoutEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
+  // ✅ Header 높이를 측정해서 communityStickyBar top 오프셋으로 사용
+  useEffect(() => {
+    const headerEl = document.querySelector(".appHeader");
+    if (!headerEl) return;
 
-    const update = () => {
-      const h = el.getBoundingClientRect().height;
-      if (h && Math.abs(h - headerH) > 0.5) setHeaderH(h);
+    const setVar = () => {
+      const h = headerEl.getBoundingClientRect().height || 0;
+      document.documentElement.style.setProperty("--appHeaderH", `${h}px`);
     };
 
-    update();
+    setVar();
 
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
+    // 헤더 높이가 바뀌는 경우(반응형/폰트/로그인 영역 변화) 대응
+    let ro;
+    try {
+      ro = new ResizeObserver(() => setVar());
+      ro.observe(headerEl);
+    } catch {
+      // ResizeObserver 미지원이면 무시
+    }
 
-    window.addEventListener("resize", update);
+    window.addEventListener("resize", setVar);
     return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", update);
+      window.removeEventListener("resize", setVar);
+      if (ro) ro.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // ✅ 모달 열릴 때 body 스크롤 잠금
+  useEffect(() => {
+    if (!writeOpen && !openPostId) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [writeOpen, openPostId]);
 
   const openPost = posts.find((p) => String(p.id) === String(openPostId)) || null;
 
-  return (
-    <div
-      className="pageWrap communityPageWrap"
-      style={{ "--header-h": `${headerH}px` }}
-    >
-      {/* Header는 CommunityPage.css에서 fixed로 강제됨 */}
-      <div ref={headerRef}>
-        <Header />
-      </div>
+  const openWrite = (e) => {
+    try {
+      e?.preventDefault?.();
+      e?.stopPropagation?.();
+    } catch {}
+    setWriteOpen(true);
+  };
 
-      {/* ✅ 헤더 아래에 붙는 sticky bar */}
+  return (
+    <div className="pageWrap">
+      <Header />
+
       <div className="communityStickyBar">
         <div className="communityTop">
           <div>
@@ -73,7 +87,13 @@ export default function CommunityPage() {
             <div className="muted">안녕하세요, {nickname}</div>
           </div>
 
-          <button className="btn primary" type="button" onClick={() => setWriteOpen(true)}>
+          <button
+            className="btn primary"
+            type="button"
+            onPointerDownCapture={openWrite}
+            onClickCapture={openWrite}
+            onClick={openWrite}
+          >
             게시글 작성
           </button>
         </div>
@@ -144,10 +164,6 @@ export default function CommunityPage() {
                         </div>
                       ))
                     )}
-
-                    <div className="muted" style={{ marginTop: 6 }}>
-                      게시글을 클릭하면 전체 보기/댓글 작성이 가능합니다.
-                    </div>
                   </div>
                 </div>
               </div>
@@ -156,26 +172,34 @@ export default function CommunityPage() {
         )}
       </div>
 
-      {writeOpen ? (
-        <CommunityPostModal
-          memberId={memberId}
-          onClose={() => setWriteOpen(false)}
-          onCreated={async () => {
-            setWriteOpen(false);
-            await refresh();
-          }}
-        />
-      ) : null}
+      {/* ✅ 작성 모달 (Portal) */}
+      {writeOpen
+        ? createPortal(
+            <CommunityPostModal
+              memberId={memberId}
+              onClose={() => setWriteOpen(false)}
+              onCreated={async () => {
+                setWriteOpen(false);
+                await refresh();
+              }}
+            />,
+            document.body
+          )
+        : null}
 
-      {openPost ? (
-        <CommunityPostDetailModal
-          post={openPost}
-          onClose={() => setOpenPostId(null)}
-          onChanged={async () => {
-            await refresh();
-          }}
-        />
-      ) : null}
+      {/* ✅ 상세 모달 (Portal) */}
+      {openPost
+        ? createPortal(
+            <CommunityPostDetailModal
+              post={openPost}
+              onClose={() => setOpenPostId(null)}
+              onChanged={async () => {
+                await refresh();
+              }}
+            />,
+            document.body
+          )
+        : null}
     </div>
   );
 }
