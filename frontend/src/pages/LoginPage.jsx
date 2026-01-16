@@ -64,14 +64,19 @@ export default function LoginPage() {
       const memberId = me?.member_id;
       if (!memberId) throw new Error("/auth/me 응답에 member_id가 없습니다.");
 
-      // 너가 보여준 형태 그대로 저장
-      const session = {
-        token: accessToken,          // <-- 여기 핵심 (null 방지)
+      const sessionObj = {
+        access_token: accessToken,
         member_id: memberId,
-        nickname: me?.nickname ?? "",
+        nickname: me?.nickname ?? ""
       };
 
-      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      // ✅ 한 덩어리로 저장 (Header와 규격 통일)
+      localStorage.setItem(SESSION_KEY, JSON.stringify(sessionObj));
+
+
+    //  localStorage.setItem('access', accessToken);
+    //  localStorage.setItem('id', memberId);
+    //  localStorage.setItem('nickname', me?.nickname ?? '');
       // 같은 탭에서도 Header가 즉시 반영되게 이벤트 발생
       window.dispatchEvent(new Event("session-changed"));
 

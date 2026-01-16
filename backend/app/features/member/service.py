@@ -89,6 +89,7 @@ def get_member(db: Session, member_id: int) -> dict:
         "nickname": m.nickname,
         "gender": m.gender,
         "country": m.country,
+        "role": m.role,
         "item_ids": item_ids,
         "dislike_tags": dislike_tags,
     }

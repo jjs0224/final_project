@@ -16,6 +16,7 @@ def create_member(payload: schemas.MemberCreate, db: Session = Depends(get_db)):
 # MyPage 연동 - 단일 계정 
 @router.get("/{member_id}", response_model=schemas.MemberRead)
 def get_member(member_id: int, db: Session = Depends(get_db)):
+    print("id :: ", member_id)
     return service.get_member(db, member_id)
 
 # MyPage 연동 - 사용자 정보 update
@@ -31,6 +32,7 @@ def update_member(member_id: int, payload: schemas.MemberUpdate, db: Session = D
         "nickname": m.nickname,
         "gender": m.gender,
         "country": m.country,
+        "role": m.role,
         "item_ids": payload.item_ids,         # 필요하면 실제 DB에서 다시 조회해서 내려주기
         "dislike_tags": payload.dislike_tags,
     }

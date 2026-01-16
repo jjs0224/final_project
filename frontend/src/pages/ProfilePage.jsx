@@ -44,7 +44,7 @@ export default function ProfilePage() {
 
   // ✅ 기존 useEffect 교체: deps에 nav/session 관련 포함
   useEffect(() => {
-    const token = session?.token;
+    const token = session?.access_token;
     const myId = session?.member_id;
 
     if (!token || !myId) {
@@ -68,6 +68,7 @@ export default function ProfilePage() {
         const res = await fetch(`/members/${memberId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log("res :: ", res)
 
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
@@ -92,13 +93,13 @@ export default function ProfilePage() {
     return () => {
       ignore = true;
     };
-  }, [memberId, nav, session?.token, session?.member_id]);
+  }, [memberId, nav, session?.access_token, session?.member_id]);
 
   const onSave = async () => {
     setError("");
 
     try {
-      const token = session?.token;
+      const token = session?.access_token;
       if (!token) {
         nav("/login");
         return;
@@ -112,7 +113,7 @@ export default function ProfilePage() {
         // item_ids: [],
         // dislike_tags: [],
       };
-
+      
       const res = await fetch(`/members/${memberId}`, {
         method: "PATCH",
         headers: {
@@ -183,7 +184,7 @@ export default function ProfilePage() {
               />
             </label>
 
-            <button onClick={onSave}>저장</button>
+            <button type="button" onClick={onSave}>저장</button>
           </div>
         )}
       </div>
