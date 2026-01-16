@@ -1,188 +1,181 @@
-import "./CommunityPage.css";
-import { useEffect, useRef, useState } from "react";
-import Modal from "../components/Modal";
+// src/pages/CommunityPage.jsx
+import { useLayoutEffect, useMemo, useRef, useState, useEffect } from "react";
 import Header from "../components/Header";
+import "./CommunityPage.css";
 
-function buildPost(n) {
-  return {
-    id: `p-${n}`,
-    title: `논문/게시글 ${n}`,
-    author: { id: "u-1", nickname: `작성자${(n % 5) + 1}` },
-    veganInfo: ["비건", "락토", "오보", "페스코"][n % 4],
-    likes: Math.floor(Math.random() * 50),
-    comments: Array.from({ length: n % 4 }, (_, c) => ({
-      id: `c-${n}-${c + 1}`,
-      nickname: `댓글러${c + 1}`,
-      content: `댓글 내용 ${c + 1}`,
-      mine: c === 0,
-    })),
-    paperText: `여기는 논문/본문 영역(임시)\n\n본문 ${n}`,
-  };
-}
+import { listCommunityPosts } from "../services/communityApi";
+import { getMemberId, getNickname } from "../lib/session";
+import { tagsToIcons } from "../lib/allergyIcons";
+
+import CommunityPostDetailModal from "../components/CommunityPostDetailModal";
+import CommunityPostModal from "../components/CommunityPostModal";
 
 export default function CommunityPage() {
-  const [posts, setPosts] = useState(() => Array.from({ length: 12 }, (_, i) => buildPost(i + 1)));
-  const [hasMore, setHasMore] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const memberId = useMemo(() => getMemberId(), []);
+  const nickname = useMemo(() => getNickname(), []);
 
-  // 모달
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(null);
-  const [commentText, setCommentText] = useState("");
+  const headerRef = useRef(null);
+  const [headerH, setHeaderH] = useState(64); // 초기값: 대략적인 헤더 높이(플리커 방지)
 
-  const sentinelRef = useRef(null);
-  const nextIndexRef = useRef(13);
+  const [posts, setPosts] = useState([]);
+  const [openPostId, setOpenPostId] = useState(null);
+  const [writeOpen, setWriteOpen] = useState(false);
 
-  const loadMore = async () => {
-    if (!hasMore || loadingMore) return;
-    setLoadingMore(true);
-    await new Promise((r) => setTimeout(r, 150));
-
-    const start = nextIndexRef.current;
-    const add = Array.from({ length: 10 }, (_, i) => buildPost(start + i));
-
-    nextIndexRef.current = start + 10;
-
-    setPosts((p) => [...p, ...add]);
-    if (nextIndexRef.current > 80) setHasMore(false);
-
-    setLoadingMore(false);
+  const refresh = async () => {
+    const rows = await listCommunityPosts({ memberId });
+    setPosts(rows);
   };
 
   useEffect(() => {
-    const el = sentinelRef.current;
+    refresh();
+  }, []);
+
+  // ✅ 헤더 높이 측정 (Community에서만 fixed를 쓰므로 정확한 높이를 padding/top에 반영)
+  useLayoutEffect(() => {
+    const el = headerRef.current;
     if (!el) return;
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) loadMore();
-      },
-      { threshold: 1 }
-    );
-
-    io.observe(el);
-    return () => io.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sentinelRef.current, hasMore, loadingMore]);
-
-  const openPost = (post) => {
-    setActive(post);
-    setOpen(true);
-    setCommentText("");
-  };
-
-  const closePost = () => {
-    setOpen(false);
-    setActive(null);
-    setCommentText("");
-  };
-
-  const onLike = () => {
-    if (!active) return;
-    setActive((p) => ({ ...p, likes: p.likes + 1 }));
-    setPosts((list) => list.map((x) => (x.id === active.id ? { ...x, likes: x.likes + 1 } : x)));
-  };
-
-  const onAddComment = () => {
-    if (!active) return;
-    if (!commentText.trim()) return;
-
-    const newC = {
-      id: `c-${active.id}-${Date.now()}`,
-      nickname: "닉네임",
-      content: commentText,
-      mine: true,
+    const update = () => {
+      const h = el.getBoundingClientRect().height;
+      if (h && Math.abs(h - headerH) > 0.5) setHeaderH(h);
     };
 
-    setActive((p) => ({ ...p, comments: [...p.comments, newC] }));
-    setCommentText("");
-  };
+    update();
 
-  const onDeleteComment = (commentId) => {
-    if (!active) return;
-    setActive((p) => ({ ...p, comments: p.comments.filter((c) => c.id !== commentId) }));
-  };
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const openPost = posts.find((p) => String(p.id) === String(openPostId)) || null;
 
   return (
-    <div className="pageWrap">
-      <Header />
-      <div className="communityGrid">
-        {posts.map((p) => (
-          <button key={p.id} className="postCard" onClick={() => openPost(p)} type="button">
-            <div className="thumb">논문 사진</div>
-            <div className="postMeta">
-              <div className="postTitle">{p.title}</div>
-              <div className="postSub">
-                <span className="chip">작성자: {p.author.nickname}</span>
-                <span className="chip">비/논비: {p.veganInfo}</span>
-              </div>
-            </div>
-          </button>
-        ))}
+    <div
+      className="pageWrap communityPageWrap"
+      style={{ "--header-h": `${headerH}px` }}
+    >
+      {/* Header는 CommunityPage.css에서 fixed로 강제됨 */}
+      <div ref={headerRef}>
+        <Header />
       </div>
 
-      <div className="muted bottomHint">
-        {loadingMore ? "불러오는 중..." : hasMore ? "아래로 스크롤하면 계속 로딩" : "마지막입니다."}
-      </div>
-
-      <div ref={sentinelRef} style={{ height: 1 }} />
-
-      <Modal open={open} title="게시글" onClose={closePost}>
-        {!active ? null : (
-          <div className="communityModal">
-            <section className="paperPane">
-              <div className="paperBox">
-                <div className="paperTitle">{active.title}</div>
-                <div className="paperInfo">
-                  작성자: {active.author.nickname} / 비/논비: {active.veganInfo}
-                </div>
-                <pre className="paperText">{active.paperText}</pre>
-              </div>
-            </section>
-
-            <section className="commentPane">
-              <div className="likeRow">
-                <button className="solidBtn" onClick={onLike}>
-                  좋아요 ({active.likes})
-                </button>
-              </div>
-
-              <div className="commentList">
-                {active.comments.length === 0 ? (
-                  <div className="muted">댓글이 없습니다.</div>
-                ) : (
-                  active.comments.map((c) => (
-                    <div key={c.id} className="commentItem">
-                      <div className="commentHead">
-                        <strong>{c.nickname}</strong>
-                        {c.mine && (
-                          <button className="ghostBtn" onClick={() => onDeleteComment(c.id)}>
-                            삭제
-                          </button>
-                        )}
-                      </div>
-                      <div className="commentBody">{c.content}</div>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              <div className="commentWrite">
-                <div className="muted">닉네임: 닉네임</div>
-                <textarea
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="댓글내용"
-                  rows={3}
-                />
-                <button className="solidBtn" onClick={onAddComment}>
-                  등록
-                </button>
-              </div>
-            </section>
+      {/* ✅ 헤더 아래에 붙는 sticky bar */}
+      <div className="communityStickyBar">
+        <div className="communityTop">
+          <div>
+            <div className="pageTitle">Community</div>
+            <div className="muted">안녕하세요, {nickname}</div>
           </div>
+
+          <button className="btn primary" type="button" onClick={() => setWriteOpen(true)}>
+            게시글 작성
+          </button>
+        </div>
+      </div>
+
+      <div className="communityList">
+        {posts.length === 0 ? (
+          <div className="muted">게시글이 없습니다.</div>
+        ) : (
+          posts.map((p) => {
+            const icons = tagsToIcons(p.allergy_tags || []);
+            const comments = Array.isArray(p.comments) ? p.comments : [];
+            const latest3 = comments.slice(-3);
+
+            return (
+              <div
+                key={p.id}
+                className="postCard"
+                role="button"
+                tabIndex={0}
+                onClick={() => setOpenPostId(p.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") setOpenPostId(p.id);
+                }}
+              >
+                <div className="postHeader">
+                  <div className="postTitle">{p.title}</div>
+                  <div className="muted">{new Date(p.createdAt).toLocaleString()}</div>
+                </div>
+
+                <div className="imageWrap">
+                  <img className="postImage" src={p.imageUrl} alt="community" />
+
+                  <div className="overlay topLeft">
+                    {icons.length ? (
+                      icons.map((x) => (
+                        <span key={x.tag} className="pill" title={x.tag}>
+                          {x.icon}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="pill muted">No allergy</span>
+                    )}
+                  </div>
+
+                  <div className="overlay topRight">
+                    <span className="pill">❤️ {p.likeCount || 0}</span>
+                  </div>
+
+                  <div className="overlay bottomRight">
+                    <span className={`pill ${p.likedByMe ? "liked" : ""}`}>좋아요</span>
+                  </div>
+                </div>
+
+                <div className="postBodyGroup">
+                  <div className="postContent">{String(p.content || "").trim()}</div>
+
+                  <div className="commentPreview">
+                    <div className="muted">최신 댓글</div>
+
+                    {latest3.length === 0 ? (
+                      <div className="muted">댓글이 없습니다.</div>
+                    ) : (
+                      latest3.map((c) => (
+                        <div key={c.id} className="commentLine">
+                          <span className="commentAuthor">{c.authorNickname || "익명"}</span>
+                          <span className="commentText">{c.text}</span>
+                        </div>
+                      ))
+                    )}
+
+                    <div className="muted" style={{ marginTop: 6 }}>
+                      게시글을 클릭하면 전체 보기/댓글 작성이 가능합니다.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
         )}
-      </Modal>
+      </div>
+
+      {writeOpen ? (
+        <CommunityPostModal
+          memberId={memberId}
+          onClose={() => setWriteOpen(false)}
+          onCreated={async () => {
+            setWriteOpen(false);
+            await refresh();
+          }}
+        />
+      ) : null}
+
+      {openPost ? (
+        <CommunityPostDetailModal
+          post={openPost}
+          onClose={() => setOpenPostId(null)}
+          onChanged={async () => {
+            await refresh();
+          }}
+        />
+      ) : null}
     </div>
   );
 }
