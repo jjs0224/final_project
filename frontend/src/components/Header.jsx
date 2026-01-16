@@ -76,10 +76,10 @@ export default function Header({
               <>
                 <button
                   className="ghostBtn"
-                  onClick={() => navigate(`/profile/${session.user.id}`)}
+                  onClick={() => navigate(`/profile/${session.member_id}`)}
                   title="프로필로 이동"
                 >
-                  {session.user.nickname}
+                  {session.m.nickname}
                 </button>
                 <button className="solidBtn" onClick={onLogout}>
                   로그아웃

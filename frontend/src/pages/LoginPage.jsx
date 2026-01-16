@@ -5,7 +5,8 @@ import Header from "../components/Header.jsx";
 
 const SESSION_KEY = "final_project_session";
 
-const LOGIN_URL = "/login"
+const LOGIN_URL = "/auth/login";
+const ME_URL = "/auth/me";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -27,39 +28,53 @@ export default function LoginPage() {
         throw new Error("이메일/비밀번호를 입력하세요.");
       }
 
+      // FastAPI OAuth2PasswordRequestForm 규격
+      const body = new URLSearchParams();
+      body.set("username", form.email);
+      body.set("password", form.password);
+
       const res = await fetch(LOGIN_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-        }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
       });
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        // FastAPI에서 보통 { detail: "..." }
         throw new Error(err?.detail || `로그인 실패 (${res.status})`);
       }
 
-      const data = await res.json();
+      const tokenData = await res.json();
+      const accessToken = tokenData?.access_token;
 
-      // ✅ 백엔드 응답 형태가 달라도 최대한 대응
-      const memberId =
-        data?.member_id ?? data?.user?.member_id ?? data?.user?.id ?? data?.id;
-      if (!memberId) {
-        throw new Error("로그인 응답에 member_id(id)가 없습니다.");
+      if (!accessToken) throw new Error("로그인 응답에 access_token이 없습니다.");
+
+      // /auth/me로 사용자 정보 조회
+      const meRes = await fetch(ME_URL, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      if (!meRes.ok) {
+        const err = await meRes.json().catch(() => ({}));
+        throw new Error(err?.detail || `me 조회 실패 (${meRes.status})`);
       }
 
+      const me = await meRes.json();
+      const memberId = me?.member_id;
+      if (!memberId) throw new Error("/auth/me 응답에 member_id가 없습니다.");
+
+      // 너가 보여준 형태 그대로 저장
       const session = {
-        token: data?.token ?? data?.access_token ?? null,
+        token: accessToken,          // <-- 여기 핵심 (null 방지)
         member_id: memberId,
-        nickname: data?.nickname ?? data?.user?.nickname ?? "",
+        nickname: me?.nickname ?? "",
       };
 
       localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      // 같은 탭에서도 Header가 즉시 반영되게 이벤트 발생
+      window.dispatchEvent(new Event("session-changed"));
 
-      // ✅ 로그인 후 이동 페이지
       navigate("/");
     } catch (err) {
       setError(err?.message || "로그인 실패");
