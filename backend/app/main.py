@@ -1,7 +1,19 @@
+import sys
+from pathlib import Path
+
+
+
+ROOT_DIR = Path(__file__).resolve().parents[2]  # final_project
+sys.path.insert(0, str(ROOT_DIR))
+
+print("PYTHON ROOT ADDED:", ROOT_DIR)
+
 from fastapi import FastAPI, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from .api_router import api_router
+
+
 
 # import api_router  # 공통 router 설정
 app = FastAPI()

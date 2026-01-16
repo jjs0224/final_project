@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { readReceiptResult } from "../utils/aiBridge";
 
 export default function ReviewWritePage() {
   const [step, setStep] = useState("upload"); // upload -> confirm -> write -> done
@@ -7,19 +6,46 @@ export default function ReviewWritePage() {
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
 
   const runReceiptOCR = async () => {
+    if (!imageFile) {
+      alert("Please select an image first");
+      return;
+    }
+
+    console.log("[DEBUG] Image info:", {
+      name: imageFile.name,
+      size: imageFile.size,
+      type: imageFile.type,
+    });
+
     setLoading(true);
+
     try {
-      const data = await readReceiptResult();
+      const formData = new FormData();
+      formData.append("image", imageFile); // backend key 이름 중요
+
+      const res = await fetch("/upload/receipt", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("OCR failed");
+
+      const data = await res.json();
+      console.log("[DEBUG] OCR response JSON:", data);
+
       setReceipt(data);
       setStep("confirm");
     } catch (err) {
+      console.error(err);
       alert("Failed to load receipt");
     } finally {
       setLoading(false);
     }
   };
+
 
   const submitReview = () => {
 
@@ -30,11 +56,11 @@ export default function ReviewWritePage() {
 
     const payload = {
 
-      review_title: `${receipt[0].store_name} review`,
+      review_title: `${receipt.store_name} review`,
       // review_menu: receipt[0].menu_name,
       review_content: review,
       rating: rating,
-      location: receipt[0].address,
+      location: receipt.address,
       member_id: 5,
 
     };
@@ -46,12 +72,16 @@ export default function ReviewWritePage() {
       {/* LEFT COLUMN: Persistent Controls */}
       <div>
         <h2>1. Upload & Detect</h2>
-        <input type="file" accept="image/*" disabled={step !== "upload"} />
+        <input
+            type="file" 
+            accept="image/*" 
+            disabled={step !== "upload"} 
+            onChange={(e) => setImageFile(e.target.files[0])}/>
         <button 
           onClick={runReceiptOCR} 
-          disabled={step !== "upload" || loading}
+          disabled={!imageFile || step !== "upload" || loading}
         >
-          {loading ? "Analyzing..." : "Detect Receipt"}
+          {loading ? "Analyzing..." : "Upload receipt"}
         </button>
 
         {/* This section stays visible once data exists */}
@@ -59,11 +89,11 @@ export default function ReviewWritePage() {
           <div style={{ marginTop: "40px", opacity: step === "upload" ? 0.5 : 1 }}>
             <h2>2. Receipt Details</h2>
             <div style={{ background: "#f9f9f9", padding: "15px", borderRadius: "8px" }}>
-              <h3>{receipt[0].store_name}</h3>
-              <p>{receipt[0].address}</p>
+              <h3>{receipt.store_name}</h3>
+              <p>{receipt.address}</p>
               <h4>Menu Items:</h4>
               <ul>
-                {receipt[0].menu_name?.map((item, i) => <li key={i}>{item}</li>)}
+                {receipt.menu_name?.map((item, i) => <li key={i}>{item}</li>)}
               </ul>
               {step === "confirm" && (
                 <button onClick={() => setStep("write")}>Confirm Details</button>

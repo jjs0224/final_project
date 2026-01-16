@@ -1,4 +1,5 @@
-from fastapi import requests
+import requests as http_requests
+from fastapi import Request
 import re
 
 
@@ -53,7 +54,7 @@ def join_split_tokens(tokens, y_threshold=15):
     current_line.sort(key=lambda x: x['x_min'])
     lines.append(" ".join([t['text'] for t in current_line]))
 
-    print(lines)
+    print("lines", lines)
     return lines
 
 
@@ -99,9 +100,8 @@ def extract_phone(lines):
 
 #전화번호로 사업자 정보 검색(가게명, 주소, 번호, 위치)
 def find_location(query):
-    client_id = ""
-    client_secret = ""
-    print(query)
+    client_id = "45476rdzYavZqCFMWGI5"
+    client_secret = "PDPZB2w7RS"
     # 지역 검색 API 엔드포인트
     url = "https://openapi.naver.com/v1/search/local.json"
     params = {
@@ -114,7 +114,7 @@ def find_location(query):
     }
 
 
-    response = requests.get(url, headers=headers, params=params)
+    response = http_requests.get(url, headers=headers, params=params)
 
     if response.status_code == 200:
         items = response.json().get('items')
@@ -177,6 +177,7 @@ def build_receipt_json(ocr_lines):
 
     # 3. Extract phone number
     phone = extract_phone(lines)
+    print("phone:", phone)
 
     # 4. Extract menu items
     menu_ko = extract_menu_items(lines)
@@ -200,7 +201,6 @@ def build_receipt_json(ocr_lines):
                 "y": store_info.get("mapy"),
             },
             "menu_name": menu_ko,
-            "raw_lines": lines,          # 디버그용 (원하면 제거 가능)
         }
     else:
         receipt_json = {
@@ -210,7 +210,6 @@ def build_receipt_json(ocr_lines):
             "phone": phone,
             "coords": None,
             "menu_name": menu_ko,
-            "raw_lines": lines,
         }
 
     return receipt_json

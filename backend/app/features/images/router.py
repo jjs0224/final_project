@@ -1,12 +1,39 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from ai.review.receipt_service import process_receipt_ocr
+import traceback
 
-router = APIRouter(prefix="/receipts", tags=["receipt"])
+print("IMAGE ROUTER", __file__)
+router = APIRouter(prefix="/upload", tags=["upload"])
 
 @router.post("/receipt")
-async def ocr_receipt(image: UploadFile = File(...)):
-    if not image.content_type.startswith("image/"):
-        raise HTTPException(400, "Invalid image")
+async def receipt_ocr(image: UploadFile = File(...)):
+    try:
+        print("[DEBUG] endpoint hit")
+        print("[DEBUG] filename:", image.filename)
+        print("[DEBUG] content_type:", image.content_type)
 
-    image_bytes = await image.read()
-    return process_receipt_ocr(image_bytes)
+        contents = await image.read()
+
+        print("[DEBUG] image bytes:", len(contents))
+
+        # temp_path = "temp.jpg"
+        # with open(temp_path, "wb") as f:
+        #     f.write(contents)
+        #
+        # print("[DEBUG] image saved:", temp_path)
+
+        result = process_receipt_ocr(contents)
+
+        print("[DEBUG] OCR result type:", type(result))
+
+        return result
+
+    except Exception as e:
+        print("🔥 OCR ERROR 🔥")
+        traceback.print_exc()
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e),
+        )
+    return result
