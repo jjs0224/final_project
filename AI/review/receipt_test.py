@@ -111,8 +111,8 @@ def extract_phone(lines):
 
 #전화번호로 사업자 정보 검색(가게명, 주소, 번호, 위치)
 def find_location(query):
-    client_id = "45476rdzYavZqCFMWGI5"
-    client_secret = "PDPZB2w7RS"
+    client_id = ""
+    client_secret = ""
     # 지역 검색 API 엔드포인트
     url = "https://openapi.naver.com/v1/search/local.json"
     params = {
