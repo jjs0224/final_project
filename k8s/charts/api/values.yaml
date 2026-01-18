@@ -1,0 +1,43 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/OWNER/REPO/api
+  tag: "sha-REPLACE_ME"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: app.local
+  path: /api
+  pathType: Prefix
+
+resources: {}
+
+env:
+  APP_ENV: "dev"
+  DB_HOST: "rds-endpoint.example.amazonaws.com"
+  DB_PORT: "3306"
+  DB_NAME: "app_db"
+  DB_USER: "app_user"
+
+secret:
+  enabled: true
+  # DEV에서는 임시로 plaintext secret을 둘 수 있으나,
+  # 운영(EKS)에서는 External Secrets로 전환 권장
+  dbPassword: "CHANGE_ME"
+  jwtSecretKey: "CHANGE_ME"
+
+secretsMount:
+  enabled: true
+  mountPath: /run/app-secrets
+  dbPasswordKey: db_password
+  jwtSecretKeyKey: jwt_secret_key
+
+probes:
+  readinessPath: /health
+  livenessPath: /health
