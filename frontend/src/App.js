@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile/:memberid" element={<ProfilePage />} />
+        <Route path="/profile/:memberId" element={<ProfilePage />} />
         <Route path="/profile" element={<Navigate to="/login" replace />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/review/new" element={<ReviewWritePage />} />
