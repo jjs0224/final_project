@@ -2,9 +2,9 @@ from pathlib import Path
 import requests as http_requests
 import re
 from paddleocr import PaddleOCR
-from ai.review.receipt_preprocess import preprocess_image
-from ai.review.receipt_parser import build_receipt_json
-from ai.review.ocr_model import ocr_model as ocr
+# from ai.review.receipt_preprocess import preprocess_image
+# from ai.review.receipt_parser import build_receipt_json
+# from .ocr_model import ocr_model as ocr
 import json
 import numpy as np
 import cv2
@@ -13,6 +13,17 @@ BASE_DIR = Path(__file__).resolve().parent              # model_testing
 UPLOAD_DIR = BASE_DIR / "tmp_receipt"
 OUTPUT_DIR = BASE_DIR / "tmp_output"
 
+ocr_model = PaddleOCR(
+    lang="korean",
+    use_textline_orientation=True,
+    use_doc_unwarping=False,
+    text_det_limit_side_len=1280,
+    text_det_thresh=0.3,
+    text_det_box_thresh=0.2,
+    text_det_unclip_ratio=1.5,
+    enable_mkldnn=False,  # 핵심
+
+)
 
 
 def normalize_ocr_lines(result_item):
@@ -268,7 +279,7 @@ def preprocess_image(image_bytes: bytes) -> np.ndarray:
     img_array = np.frombuffer(image_bytes, np.uint8)
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
 
-    img = cv2.resize(img, None, fx=2.5, fy=2.5, interpolation=cv2.INTER_CUBIC)
+    img = cv2.resize(img, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     cv2.imwrite("gray.png", gray)
     blur = cv2.GaussianBlur(gray, (5,5), 0)
@@ -287,15 +298,30 @@ def preprocess_image(image_bytes: bytes) -> np.ndarray:
     cv2.imwrite("preprocess.png",thresh_bgr)
     return thresh_bgr
 
+def ocr_result_to_json_safe(ocr_item: dict) -> dict:
+    return {
+        "rec_texts": ocr_item["rec_texts"],
+        "rec_scores": [float(s) for s in ocr_item["rec_scores"]],
+        "rec_polys": [
+            poly.astype(float).tolist()
+            for poly in ocr_item["rec_polys"]
+        ],
+    }
 
-def process_receipt_ocr(image_bytes: bytes) -> dict:
+def process_receipt_ocr(image_path: Path) -> dict:
+    image_bytes = image_path.read_bytes()
     img = preprocess_image(image_bytes)
+    print("img")
+    result = ocr_model.predict(img)
 
-    result = ocr.predict(img)
-    # print(result)
 
     if not result or not result[0]:
         return {"error": "No text detected"}
+
+    ocr_raw = ocr_result_to_json_safe(result[0])
+    with open("ocr_raw.json", "w", encoding="utf-8") as f:
+        json.dump(ocr_raw, f, ensure_ascii=False, indent=2)
+    print("[OK] saved ocr_raw.json")
 
     draw_ocr_boxes(
         image=img,
@@ -312,14 +338,17 @@ def process_receipt_ocr(image_bytes: bytes) -> dict:
 
     return receipt
 
-if __name__ == "__main__":
-    #image_files = list(UPLOAD_DIR.glob("*.jpg")) + list(UPLOAD_DIR.glob("*.png"))
-    image_files = UPLOAD_DIR.glob("receipt_10.jpg")
-    if not image_files:
-        raise FileNotFoundError("No receipt image found in Uploaded_Images")
 
-    for image_file in image_files:  # image_file is now a string path
-        with open(image_file, "rb") as f:
-            image_bytes = f.read()
-        process_receipt_ocr(image_bytes)
+
+if __name__ == "__main__":
+    # image_files = list(UPLOAD_DIR.glob("receipt_10.jpg"))
+
+    # if len(image_files) == 0:
+    #     raise FileNotFoundError(f"No receipt image found in {UPLOAD_DIR}")
+    #
+    # for image_file in image_files:
+    #     with open(image_file, "rb") as f:
+    #         image_bytes = f.read()
+    image_files = UPLOAD_DIR / "receipt_10.jpg"
+    process_receipt_ocr(image_files)
 

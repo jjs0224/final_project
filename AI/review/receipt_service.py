@@ -5,7 +5,6 @@ import json
 import cv2
 import numpy as np
 
-
 _ocr = None
 
 def get_ocr():
@@ -61,11 +60,15 @@ def process_receipt_ocr(image_bytes: bytes) -> dict:
     if not result or not result[0]:
         return {"error": "No text detected"}
 
-    receipt = build_receipt_json(result[0])
+    with open("ocr_result.json", "w", encoding="utf-8") as f:
+        json.dump(result[0], f, ensure_ascii=False, indent=2)
+        print("ocr_result.json saved")
 
-    with open("receipt_result.json", "w", encoding="utf-8") as f:
+    # receipt = build_receipt_json(result[0])
 
-        json.dump(receipt, f, ensure_ascii=False, indent=2)
-        print("receipt_to_store.json saved")
-
-    return receipt
+    # with open("receipt_result.json", "w", encoding="utf-8") as f:
+    #
+    #     json.dump(receipt, f, ensure_ascii=False, indent=2)
+    #     print("receipt_to_store.json saved")
+    #
+    # return receipt

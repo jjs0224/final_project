@@ -5,12 +5,15 @@ from io import BytesIO
 from PIL import Image
 import base64
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv("API_KEY")
 
 client = genai.Client(
-    api_key=""
+    api_key=API_KEY
 )
-
-
 
 def build_prompt(user_profile, reviews):
 
@@ -124,7 +127,7 @@ if __name__ == "__main__":
     image_bytes = generate_food_journal(prompt)
 
     # Save in the same directory
-    output_filename = "food_journal_test.png"
+    output_filename = "food_journal_test1.png"
     with open(output_filename, "wb") as f:
         f.write(image_bytes)
 
