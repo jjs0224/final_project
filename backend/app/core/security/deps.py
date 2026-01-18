@@ -48,3 +48,11 @@ def require_roles(*allowed: str):
         return current
     return _checker
 
+# Admin 계정 검증 로직
+def require_admin(current: Member = Depends(get_current_member)) -> Member:
+    if getattr(current, "role", None) != "ADMIN":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin only",
+        )
+    return current

@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, Integer, String, Text, DateTime,
-    ForeignKey, UniqueConstraint, Index
+    ForeignKey, UniqueConstraint, Index, Boolean
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -13,6 +13,7 @@ class Item(Base):
     item_id = Column(Integer, primary_key=True, autoincrement=True)
     item_label_ko = Column(String(100), nullable=False)
     item_label_en = Column(String(100), nullable=False)
+    item_active = Column(Boolean, nullable=False, server_default="1")
     category_id = Column(Integer, ForeignKey("restriction_category.category_id", ondelete="RESTRICT", onupdate="CASCADE"), nullable=False)
 
     category = relationship("Category", back_populates="item")
