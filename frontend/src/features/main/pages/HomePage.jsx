@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../../common/components/ui/Header";
 import icon from '../../../Symbol_icon.svg';
 import "./HomePage.css";
+import Header from "../../../common/components/ui/Header";
 
 export default function HomePage({ user }) {
   const navigate = useNavigate();
