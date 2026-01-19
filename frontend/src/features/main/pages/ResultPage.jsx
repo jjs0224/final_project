@@ -5,6 +5,7 @@ import FoodDetailModal from "../components/FoodDetailModal";
 import { analyzeResponseMock } from "../../../assets/mock/analyzeResponse.mock";
 import { convertPolyToScreen } from "../../../common/utils/convertPolyToScreen";
 import "./ResultPage.css";
+import Header from "../../../common/components/ui/Header";
 
 export default function ResultPage() {
   const navigate = useNavigate();
