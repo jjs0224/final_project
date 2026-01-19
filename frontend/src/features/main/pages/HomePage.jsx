@@ -10,7 +10,8 @@ export default function HomePage({ user }) {
   const handleNavigate = (path) => () => navigate(path);
 
   return (
-    <main className="home-container container">      
+    <main className="home-container container"> 
+      <Header />
 
       <img src={icon} className="App-logo" alt="AppLogo" />
       <h1 className="font-3 home-title font-bold">FOOD RAY</h1>
