@@ -1,0 +1,54 @@
+:root {
+
+  /* 2XS: 캡션, 배지, 아주 작은 도움말 (12px ~ 12.8px) */
+  --font-2xs: clamp(0.75rem, 0.1vw + 0.72rem, 0.8rem);
+
+  /* XS: 보조 텍스트, 하단 푸터, 태그 (13.6px ~ 14.4px) */
+  --font-xs:  clamp(0.85rem, 0.15vw + 0.78rem, 0.9rem);
+
+  /* MD: 기본 본문 텍스트 (15.2px ~ 16px) */
+  --font-md:  clamp(0.95rem, 0.2vw + 0.85rem, 1rem);
+
+  /* LG: 강조된 본문, 작은 버튼 (16.8px ~ 17.6px) */
+  --font-lg:  clamp(1.05rem, 0.25vw + 0.92rem, 1.1rem);
+
+  /* XL: 소제목, 큰 버튼, 리드 텍스트 (18.4px ~ 19.2px) */
+  --font-xl:  clamp(1.15rem, 0.3vw + 1rem, 1.2rem);
+
+  /* 2XL: 카드 제목, 일반 섹션 헤더 (20.8px ~ 22.4px) */
+  --font-2xl: clamp(1.3rem, 0.45vw + 1.1rem, 1.4rem);
+
+  /* 3XL: 중간 크기 섹션 헤더 (24.8px ~ 27.2px) */
+  --font-3xl: clamp(1.55rem, 0.65vw + 1.25rem, 1.7rem);
+
+  /* 4XL: 메인 섹션 타이틀 (29.6px ~ 32px) */
+  --font-4xl: clamp(1.85rem, 0.9vw + 1.45rem, 2rem);
+
+  /* 5XL: 페이지 메인 제목 (35.2px ~ 38.4px) */
+  --font-5xl: clamp(2.2rem, 1.2vw + 1.7rem, 2.4rem);
+
+  /* 6XL: 히어로 섹션 타이틀 (40.8px ~ 44.8px) */
+  --font-6xl: clamp(2.55rem, 1.5vw + 2rem, 2.8rem);
+
+  /* 7XL: 초대형 디스플레이 타이틀 (47.2px ~ 51.2px) */
+  --font-7xl: clamp(2rem, 2vw + 2.25rem, 4rem);
+
+}
+
+
+body {
+  font-family: "Pretendard", "Roboto", "Noto Sans KR", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.02em; /* 한국어 가독성 최적화 */
+}
+
+.home-title {
+  color: var(--main-1); /* 포인트 컬러 적용 */
+  font-size: var(--font-7xl);
+}
+
+/* 폰트 위계 강조를 위한 weight 추가 */
+.font-bold { font-weight: 700; }
+.font-medium { font-weight: 500; }
+.text-center { text-align: center; }

@@ -1,0 +1,62 @@
+.appHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+  border-bottom: 2px solid #111;
+}
+
+.headerInner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand {
+  border: 2px solid #111;
+  background: #fff;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  gap: 10px;
+}
+
+.navItem {
+  padding: 8px 10px;
+  border: 2px solid transparent;
+  text-decoration: none;
+  color: #111;
+}
+
+.navItem.active {
+  border-color: #111;
+}
+
+.authArea {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.solidBtn {
+  border: 2px solid #111;
+  background: #111;
+  color: #fff;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.ghostBtn {
+  border: 2px solid #111;
+  background: #fff;
+  color: #111;
+  padding: 10px 12px;
+  cursor: pointer;
+}

@@ -1,0 +1,88 @@
+/* page scaffold */
+.result-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 40px;
+  min-height: 100dvh;
+  background-color: var(--bg-yellow);
+}
+
+.result-image-section {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-base);
+  border-radius: var(--radius-md);
+  background-color: var(--gray-900);
+}
+
+.result-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 메뉴 오버레이 버튼: 실제 텍스트 위에 띄워지는 인터랙티브 요소 */
+.menu-overlay {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  font-size: var(--font-2xs);
+  font-weight: 700;
+  line-height: 1.2;
+
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(2px);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease, background-color 0.2s ease;
+  z-index: 10;
+}
+
+.menu-overlay:active {
+  transform: scale(0.95);
+  background-color: var(--bg-white);
+}
+
+/* 위험도별 시각적 강조 */
+.menu-overlay.risk-danger {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.menu-overlay.risk-warning {
+  border-color: var(--color-warning);
+  color: var(--gray-900); /* 가독성을 위해 텍스트는 어둡게 */
+  background-color: rgba(255, 157, 0, 0.9); /* 배경색을 약간 입힘 */
+}
+
+.menu-overlay.risk-safe {
+  border-color: var(--color-safe);
+  color: var(--color-safe);
+}
+
+/* 하단 버튼 바 */
+.result-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+  margin-top: auto;
+}
+
+.result-bottom-bar .button {
+  flex: 1;
+}
+
+/* 반응형 보정 */
+@media (min-width: 768px) {
+  .menu-overlay { font-size: var(--font-xs); }
+  .result-page { padding: 40px 20px; }
+}

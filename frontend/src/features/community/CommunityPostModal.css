@@ -1,0 +1,98 @@
+/* src/components/CommunityPostModal.css */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000; /* ✅ Header/StickyBar보다 무조건 위 */
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modalCard {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.25);
+  padding: 14px;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.field {
+  margin-top: 12px;
+}
+
+.label {
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.18);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.rowBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reviewPickList {
+  margin-top: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.pickRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.pickRow.checked {
+  border-color: rgba(0,0,0,0.28);
+}
+
+.pickText {
+  min-width: 0;
+}
+
+.pickTitle {
+  font-weight: 800;
+}
+
+.genPreview {
+  margin-top: 10px;
+}
+
+.genImage {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+}

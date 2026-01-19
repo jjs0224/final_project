@@ -1,0 +1,8 @@
+@media (min-width: 768px) {
+  .image-box img { height: 70dvh; }
+}
+
+@media (min-width: 1024px) {
+  .image-box img { height: 80dvh; }
+  .container { padding: 32px; gap: 24px; }
+}

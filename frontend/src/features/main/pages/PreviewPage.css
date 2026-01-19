@@ -1,0 +1,57 @@
+/* page scaffold */
+.preview-page {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background-color: var(--bg-yellow);
+}
+
+/* image area */
+.preview-image-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* 여백을 조금 더 넓혀 이미지가 답답하지 않게 조절 */
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  max-height: 80vh; /* 버튼 영역 확보를 위해 최대 높이 제한 */
+  object-fit: contain;
+  background-color: var(--gray-900); /* 이미지 배경을 어둡게 하여 사진 집중도 향상 */
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-base);
+}
+
+/* control bar */
+.preview-controls {
+  display: flex;
+  flex-direction: column; /* 모바일에서 주요 액션을 수직으로 배치하여 터치 편의성 증대 */
+  gap: 12px;
+  padding: 24px 20px;
+  background-color: var(--bg-white);
+  border-top: 1px solid var(--green-100);
+}
+
+/* responsive */
+@media (min-width: 768px) {
+  .preview-controls {
+    flex-direction: row-reverse; /* 넓은 화면에선 확인 버튼을 오른쪽으로 */
+    justify-content: center;
+    gap: 20px;
+    padding: 32px;
+  }
+  
+  .preview-controls .button {
+    flex: 0 1 200px; /* 버튼이 너무 길어지지 않게 조절 */
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .preview-controls {
+    flex-direction: row;
+    padding: 12px;
+  }
+}
