@@ -75,10 +75,12 @@ export default function LoginPage() {
 
 
       const session = {
-        token: me?.token ?? me?.access_token ?? null,
+        token: accessToken,
         member_id: memberId,
         nickname: me?.nickname ?? me?.user?.nickname ?? "",
       };
+
+      console.log("session  :: ", session)
 
       localStorage.setItem(SESSION_KEY, JSON.stringify(session));
 

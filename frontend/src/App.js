@@ -7,6 +7,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import ReviewPage from "./pages/ReviewPage.jsx";
 import ReviewWritePage from "./pages/ReviewWritePage.jsx";
 import SignupPage from "./pages/SignupPage.jsx"
+import Admin from "./pages/Admin.jsx"
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Route path="/profile" element={<Navigate to="/login" replace />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/review/new" element={<ReviewWritePage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/signup" element={<SignupPage />} />z
+        <Route path="/admin" element={<Admin />} />z
       </Routes>
   )
 };
