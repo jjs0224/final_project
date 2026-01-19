@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../../common/components/ui/Header";
 import icon from '../../../Symbol_icon.svg';
 import "./HomePage.css";
-import Header from "../../../common/components/ui/Header";
 
 export default function HomePage({ user }) {
   const navigate = useNavigate();
@@ -11,7 +10,6 @@ export default function HomePage({ user }) {
 
   return (
     <main className="home-container container"> 
-      <Header />
 
       <img src={icon} className="App-logo" alt="AppLogo" />
       <h1 className="font-3 home-title font-bold">FOOD RAY</h1>
