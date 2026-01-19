@@ -3,18 +3,18 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 import hashlib
 
-from app.models.member import Member
-from app.core.security.password import verify_password
-from app.core.security.jwt import (
+from backend.app.models.member import Member
+from backend.app.core.security.password import verify_password
+from backend.app.core.security.jwt import (
     create_access_token,
     create_refresh_token,
     decode_token,
     exp_seconds_left,
 )
-from app.core.config import REFRESH_TOKEN_EXPIRE_DAYS
-from app.features.auth import token_store
+from backend.app.core.config import REFRESH_TOKEN_EXPIRE_DAYS
+from backend.app.features.auth import token_store
 # 추가 예정
-from app.models.refresh_token import RefreshToken
+from backend.app.models.refresh_token import RefreshToken
 
 # token hash 검증 추가 
 def _hash(token: str) -> str:

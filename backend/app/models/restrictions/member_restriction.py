@@ -5,7 +5,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
-from app.core.database import Base
+from backend.app.core.database import Base
 
 class MemberRestrictions(Base):
     __tablename__ = "member_restrictions"

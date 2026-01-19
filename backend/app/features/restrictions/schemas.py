@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from app.common.schemas.base import ORMBase
+from backend.app.common.schemas.base import ORMBase
 
 # category, item 전체 조회 --- start
 class RestrictionItemRead(BaseModel):

@@ -3,10 +3,10 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
 from sqlalchemy.orm import Session
 
-from app.core.database import get_db
-from app.core.security.jwt import decode_token
-from app.features.auth.token_store import is_blacklisted
-from app.models.member import Member
+from backend.app.core.database import get_db
+from backend.app.core.security.jwt import decode_token
+from backend.app.features.auth.token_store import is_blacklisted
+from backend.app.models.member import Member
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 

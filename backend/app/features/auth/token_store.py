@@ -1,4 +1,4 @@
-from app.core.cache.redis import redis_client
+from backend.app.core.cache.redis import redis_client
 
 def refresh_key(member_id: int) -> str:
     return f"refresh:{member_id}"

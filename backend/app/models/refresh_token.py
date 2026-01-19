@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.sql import func
-from app.core.database import Base
+from backend.app.core.database import Base
 from sqlalchemy.orm import relationship
 
 # refresh 원문 저장 아닌 hash 처리된 값 저장

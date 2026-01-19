@@ -1,6 +1,6 @@
 import uuid
 from fastapi import APIRouter
-from app.core.cache.redis import redis_client
+from backend.app.core.cache.redis import redis_client
 
 router = APIRouter(prefix="/debug", tags=["debug"])
 

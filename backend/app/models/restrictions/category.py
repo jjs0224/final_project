@@ -4,7 +4,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 
-from app.core.database import Base
+from backend.app.core.database import Base
 
 class Category(Base):
     __tablename__ = "restriction_category"

@@ -1,8 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from ai.review.receipt_service import process_receipt_ocr
+from ai.review.pipeline.receipt_service import process_receipt_ocr
 import traceback
 
-print("IMAGE ROUTER", __file__)
 router = APIRouter(prefix="/upload", tags=["upload"])
 
 @router.post("/receipt")

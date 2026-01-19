@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from app.core.security.deps import require_admin
-from app.core.database import get_db
+from backend.app.core.security.deps import require_admin
+from backend.app.core.database import get_db
 
 from . import schemas, service
-from app.models.restrictions import Category, Item
+from backend.app.models.restrictions import Category, Item
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 

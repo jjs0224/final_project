@@ -122,8 +122,8 @@ def extract_phone(lines):
 
 #전화번호로 사업자 정보 검색(가게명, 주소, 번호, 위치)
 def find_location(query):
-    client_id = "45476rdzYavZqCFMWGI5"
-    client_secret = "PDPZB2w7RS"
+    client_id = ""
+    client_secret = ""
     # 지역 검색 API 엔드포인트
     url = "https://openapi.naver.com/v1/search/local.json"
     params = {
@@ -299,13 +299,19 @@ def preprocess_image(image_bytes: bytes) -> np.ndarray:
     return thresh_bgr
 
 def ocr_result_to_json_safe(ocr_item: dict) -> dict:
+    tokens = []
+
+    texts = ocr_item.get("rec_texts", [])
+    polys = ocr_item.get("rec_polys", [])
+
+    for text, poly in zip(texts, polys):
+        tokens.append({
+            "text": text,
+            "bbox": poly.astype(float).tolist()
+        })
+
     return {
-        "rec_texts": ocr_item["rec_texts"],
-        "rec_scores": [float(s) for s in ocr_item["rec_scores"]],
-        "rec_polys": [
-            poly.astype(float).tolist()
-            for poly in ocr_item["rec_polys"]
-        ],
+        "tokens": tokens
     }
 
 def process_receipt_ocr(image_path: Path) -> dict:
@@ -317,6 +323,7 @@ def process_receipt_ocr(image_path: Path) -> dict:
 
     if not result or not result[0]:
         return {"error": "No text detected"}
+
 
     ocr_raw = ocr_result_to_json_safe(result[0])
     with open("ocr_raw.json", "w", encoding="utf-8") as f:
@@ -349,6 +356,6 @@ if __name__ == "__main__":
     # for image_file in image_files:
     #     with open(image_file, "rb") as f:
     #         image_bytes = f.read()
-    image_files = UPLOAD_DIR / "receipt_10.jpg"
+    image_files = UPLOAD_DIR / "receipt_7.jpg"
     process_receipt_ocr(image_files)
 

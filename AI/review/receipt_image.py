@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from ultralytics import YOLO
 from pathlib import Path
 
 # ============================
@@ -9,12 +8,6 @@ from pathlib import Path
 IMAGE_PATH = "tmp_receipt/receipt_7.jpg"
 OUTPUT_DIR = Path("output")
 OUTPUT_DIR.mkdir(exist_ok=True)
-
-# ============================
-# LOAD YOLO MODEL
-# ============================
-# This model detects documents very well
-model = YOLO("yolov8n.pt")  # lightweight, fast
 
 # ============================
 # VISUALIZE YOLO DETECTIONS

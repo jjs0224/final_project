@@ -1,7 +1,7 @@
 from typing import Optional, List
 from pydantic import BaseModel
 
-from app.common.schemas.base import ORMBase
+from backend.app.common.schemas.base import ORMBase
 
 # request [요청]
 # 등록

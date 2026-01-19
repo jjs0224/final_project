@@ -3,9 +3,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from app.models.restrictions.category import Category
-from app.models.restrictions.item import Item
-from app.features.restrictions.schemas import CategoriesBatchCreate
+from backend.app.models.restrictions.category import Category
+from backend.app.models.restrictions.item import Item
+from backend.app.features.restrictions.schemas import CategoriesBatchCreate
 
 # Category_Item 전체 조회
 def get_categories_with_items(db: Session):

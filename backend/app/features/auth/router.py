@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, Response
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
-from app.core.database import get_db
-from app.core.security.deps import get_current_member, oauth2_scheme
-from app.features.auth import service, schemas
+from backend.app.core.database import get_db
+from backend.app.core.security.deps import get_current_member, oauth2_scheme
+from backend.app.features.auth import service, schemas
 
-from app.core.security import jwt
+from backend.app.core.security import jwt
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -69,7 +69,7 @@ def me(current=Depends(get_current_member)):
 
 # redis test
 from fastapi import APIRouter
-from app.core.cache.redis import redis_client
+from backend.app.core.cache.redis import redis_client
 
 # router = APIRouter(prefix="/debug", tags=["debug"])
 #

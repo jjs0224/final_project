@@ -3,13 +3,13 @@ from sqlalchemy import select, delete
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 
-from app.models.member import Member
-from app.models.restrictions.item import Item
-from app.models.restrictions.dislike import Dislike
-from app.models.restrictions.member_restriction import MemberRestrictions
+from backend.app.models.member import Member
+from backend.app.models.restrictions.item import Item
+from backend.app.models.restrictions.dislike import Dislike
+from backend.app.models.restrictions.member_restriction import MemberRestrictions
 
 # password hash 작업
-from app.core.security.password import hash_password
+from backend.app.core.security.password import hash_password
 
 import json
 

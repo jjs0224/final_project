@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func, JSON, Text
-from app.core.database import Base  # 네 Base 경로에 맞춰 수정
+from backend.app.core.database import Base  # 네 Base 경로에 맞춰 수정
 from sqlalchemy.orm import relationship
 
 class Dislike(Base):
