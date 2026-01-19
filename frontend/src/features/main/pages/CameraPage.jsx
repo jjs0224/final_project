@@ -21,6 +21,7 @@ export default function CameraPage() {
   if (error) {
     return (
       <main className="camera-page">
+        <Header />
         <div className="camera-error container">
           <p className="font-7 font-medium">
             {error === "DENIED"
