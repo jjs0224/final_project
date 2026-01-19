@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import mockPreview from "../../../assets/mock/processed_preview.jpg";
 import "./PreviewPage.css";
+import Header from "../../../common/components/ui/Header";
 
 export default function PreviewPage() {
   const navigate = useNavigate();
