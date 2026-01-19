@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { navigateToPreview } from "../../../common/utils/navigateToPreview";
 import "./UploadPage.css";
+import Header from "../../../common/components/ui/Header";
 
 export default function UploadPage() {
   const navigate = useNavigate();
