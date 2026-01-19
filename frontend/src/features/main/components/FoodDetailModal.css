@@ -1,0 +1,70 @@
+/* FoodDetailModal.css */
+
+.modal-food {
+  width: 100%;
+  max-width: 360px;
+  background-color: var(--bg-white);
+  border-radius: 16px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* risk badge */
+.risk-badge {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+.risk-safe {
+  background-color: var(--green-100);
+  color: var(--main-sub1);
+}
+
+.risk-warning {
+  background-color: var(--yellow-100);
+  color: var(--main-sub2);
+}
+
+.risk-danger {
+  background-color: var(--bg-pink);
+  color: var(--main-1);
+}
+
+/* body */
+.modal-section-title {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ingredient-item {
+  font-size: var(--font-md);
+  color: var(--gray-700);
+}
+
+/* footer */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}

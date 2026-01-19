@@ -1,0 +1,62 @@
+.home-container {
+  min-height: 100dvh;
+  justify-content: center;
+  padding-bottom: 40px;
+}
+
+.App-logo {
+  width: 120px;
+  height: 120px;
+}
+
+/* 섹션 타이틀 */
+.section-label {
+  width: 100%;
+  color: var(--gray-700);
+  font-weight: 600;
+  border-left: 4px solid var(--main-sub2);
+}
+
+/* 핵심 메뉴: 카메라/업로드 (2컬럼 Flex) */
+.core-menu {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+.core-menu .button {
+  flex: 1;
+  flex-direction: column;
+  height: 120px;
+  gap: 8px;
+  border-radius: var(--radius-lg);
+}
+
+/* 보조 메뉴: 그리드 형태 (Flex-wrap 활용) */
+.sub-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+}
+.sub-menu .button {
+  flex: 1 1 calc(50% - 5px); /* 모바일에서 2줄씩 */
+  min-height: 60px;
+  font-size: var(--font-md);
+}
+
+/* 하단 얇은 메뉴 (로그인/가입 등) */
+.footer-menu {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.footer-menu .button {
+  flex: 1;
+  min-height: 40px;
+}
+
+/* 반응형 확장 */
+@media (min-width: 768px) {
+  .core-menu { gap: 20px; }
+  .sub-menu .button { flex: 1 1 calc(33.333% - 7px); } /* 태블릿부터 3줄씩 */
+}

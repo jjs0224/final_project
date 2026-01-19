@@ -1,0 +1,42 @@
+:root {
+  /* [Palette] */
+  --bg-white: rgba(255, 255, 255, 1);
+  --bg-yellow: rgba(244, 241, 239, 1);
+  --bg-pink: rgba(244, 224, 223, 1);
+
+  /* Primary: Red Range */
+  --main-1: rgba(231, 60, 44, 1);
+  --main-2: rgba(219, 11, 66, 1);
+  --main-3: rgba(190, 24, 68, 1);
+
+  /* Sub 1: Green Range */
+  --main-sub1: rgba(60, 153, 0, 1);
+  --green-100: rgba(226, 225, 220, 1);
+  --green-300: rgba(197, 202, 184, 1);
+
+  /* Sub 2: Orange/Yellow Range */
+  --main-sub2: rgba(255, 157, 0, 1);
+  --yellow-100: rgba(239, 221, 202, 1);
+
+  /* Neutrals */
+  --gray-400: rgba(81, 79, 79, 1);
+  --gray-700: rgba(76, 74, 74, 1);
+  --gray-800: rgba(70, 65, 65, 1);
+  --gray-900: rgba(58, 55, 55, 1);
+
+  /* [Functional Colors] */
+  --color-safe: var(--main-sub1);      /* 안전: 그린 */
+  --color-warning: var(--main-sub2);   /* 주의: 오렌지 */
+  --color-danger: var(--main-1);       /* 위험: 레드 */
+  
+  /* [Border/Shadow] */
+  --border-subtle: var(--green-300);
+  --shadow-base: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  color: var(--gray-800);
+  background-color: var(--bg-yellow);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}

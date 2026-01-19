@@ -1,0 +1,75 @@
+/* 모달 컨테이너 (레이아웃 통합) */
+.modal-container {
+  width: 90%;
+  max-width: 400px;
+  background-color: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 통합 섹션 스타일 */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 성분 리스트 스타일 보강 */
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap; /* 리스트가 너무 길어지면 줄바꿈 */
+  gap: 8px;
+}
+
+.ingredient-item {
+  font-size: var(--font-xs);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-yellow);
+  border: 1px solid transparent;
+  text-transform: capitalize;
+}
+
+/* 상태별 성분 강조 */
+.ingredient-item.status-danger {
+  background-color: var(--bg-pink);
+  color: var(--main-1);
+  border-color: var(--main-1);
+  font-weight: 600;
+}
+
+.ingredient-item.status-warning {
+  background-color: var(--yellow-100);
+  color: var(--main-sub2);
+  border-color: var(--main-sub2);
+}
+
+.ingredient-item.status-safe {
+  background-color: var(--green-100);
+  color: var(--main-sub1);
+}
+
+/* AI 액션 그룹 (버튼 간격) */
+.ai-actions-group {
+  margin-top: 8px;
+}
+
+/* 결과 박스 애니메이션 (버튼 클릭 시 나타나는 효과) */
+.ai-result-box {
+  background-color: var(--bg-yellow);
+  border-left: 4px solid var(--main-sub2);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 8px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

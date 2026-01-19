@@ -1,0 +1,133 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+  z-index: 9999;
+}
+
+.modal {
+  width: min(980px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.imageWrap { position: relative; }
+
+.postImage {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.overlay {
+  position: absolute;
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+}
+
+.topLeft { top: 0; left: 0; }
+.topRight { top: 0; right: 0; }
+.bottomRight { bottom: 0; right: 0; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.08);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.likeBtn {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.92);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.likeBtn.liked {
+  border-color: rgba(255,0,0,0.25);
+}
+
+.postContent {
+  margin-top: 10px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.commentInputRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.commentList {
+  margin-top: 14px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding-top: 12px;
+}
+
+.sectionTitle {
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.commentItem {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.commentTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.commentAuthor { font-weight: 900; }
+.commentText { margin-top: 6px; white-space: pre-wrap; }
+
+/* overlay는 클릭을 허용해야 버튼이 눌립니다 */
+.modal .overlay {
+  pointer-events: auto;
+}
+
+/* 혹시 전역에서 overlay에 pointer-events:none이 걸려있다면,
+   이 파일에서 강제로 override */
+.modal .overlay {
+  pointer-events: auto !important;
+}
+
+/* likeBtn이 확실히 위로 오도록 */
+.modal .likeBtn {
+  position: relative;
+  z-index: 5;
+}
