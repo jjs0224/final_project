@@ -5,6 +5,7 @@ import FoodDetailModal from "../components/FoodDetailModal";
 import { analyzeResponseMock } from "../../../assets/mock/analyzeResponse.mock";
 import { convertPolyToScreen } from "../../../common/utils/convertPolyToScreen";
 import "./ResultPage.css";
+import Header from "../../../common/components/ui/Header";
 
 export default function ResultPage() {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export default function ResultPage() {
 
   return (
     <main className="page result-page container">
+      <Header />
       <header className="text-center" style={{ width: '100%', marginBottom: '8px' }}>
         <h2 className="font-4 font-bold">Analysis Results</h2>
         <p className="font-9" style={{ color: 'var(--gray-700)' }}>

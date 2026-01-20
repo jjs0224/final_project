@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useCamera from "../../../common/utils/useCamera";
 import { navigateToPreview } from "../../../common/utils/navigateToPreview";
 import "./CameraPage.css";
+import Header from "../../../common/components/ui/Header";
 
 export default function CameraPage() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function CameraPage() {
   if (error) {
     return (
       <main className="camera-page">
+        <Header />
         <div className="camera-error container">
           <p className="font-7 font-medium">
             {error === "DENIED"

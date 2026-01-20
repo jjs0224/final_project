@@ -14,7 +14,7 @@ def get_ocr():
         _ocr = PaddleOCR(
             lang="korean",
             use_textline_orientation=True,
-            use_doc_unwarping=False,
+            use_doc_unwarping=True,
             text_det_limit_side_len=1280,
             text_det_thresh=0.3,
             text_det_box_thresh=0.2,
@@ -133,3 +133,5 @@ def process_receipt_ocr(image_bytes: bytes) -> dict:
     #     print("receipt_to_store.json saved")
     #
     # return receipt
+
+    print(receipt)

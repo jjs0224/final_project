@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { navigateToPreview } from "../../../common/utils/navigateToPreview";
 import "./UploadPage.css";
+import Header from "../../../common/components/ui/Header";
 
 export default function UploadPage() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function UploadPage() {
 
   return (
     <main className="page upload-page container">
+      <Header />
       <div className="upload-zone">
         <h2 className="font-4 upload-title font-bold">Upload Menu Image</h2>
         <input

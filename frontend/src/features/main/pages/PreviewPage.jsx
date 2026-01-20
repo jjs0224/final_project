@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import mockPreview from "../../../assets/mock/processed_preview.jpg";
 import "./PreviewPage.css";
+import Header from "../../../common/components/ui/Header";
 
 export default function PreviewPage() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export default function PreviewPage() {
 
   return (
     <main className="page preview-page">
+      <Header />
       <header className="container" style={{ paddingTop: '20px', paddingBottom: 0 }}>
         <h2 className="font-5 font-bold text-center">Confirm Photo</h2>
         <p className="font-9 text-center" style={{ color: 'var(--gray-700)' }}>
